@@ -7,7 +7,7 @@ set -o ignoreeof
 NEWLINE=$'\n'
 
 function command_not_found_handler() {
-  printf "oi wat command liddat got meh try again la\n#\n"
+  printf "\aoi wat command liddat got meh try again la\n#\n"
   return 127
 }
 
@@ -15,7 +15,6 @@ exec 2>/dev/null
 
 export PS1="eh terminal open liao${NEWLINE}# "
 
-# text base adventure
 alias cd='printf "where u wan go stay here la better\n#\n"'
 alias pwd='printf "u where now dunno also i not ur gps\n#\n"'
 alias ls='printf "see wat see nothing to see one la\n#\n"'
