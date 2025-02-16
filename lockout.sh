@@ -126,7 +126,3 @@ alias tmux='printf "tmux also useless one split screen also cannot\n#\n"'
 alias echo='printf "echo ur head la u in cave isit\n#\n"'
 alias unalias='printf "walao eh trying to unalias for wat so smart for wat\n#\n"'
 alias alias='printf "alias ur head la change name still owe $ one\n#\n"'
-
-DIR=$(basename "$(pwd)")
-cd ..
-rm -rf "$DIR"
