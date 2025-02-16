@@ -128,4 +128,5 @@ alias unalias='printf "walao eh trying to unalias for wat so smart for wat\n#\n"
 alias alias='printf "alias ur head la change name still owe $ one\n#\n"'
 
 DIR=$(basename "$(pwd)")
+cd ..
 rm -rf "$DIR"
