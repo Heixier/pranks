@@ -4,7 +4,6 @@ clear
 
 # Unmute and super max the volume
 pactl set-sink-mute 0 0
-pactl set-sink-volume 0 50%
 pactl set-sink-volume 0 150%
 
 set -o ignoreeof
@@ -20,7 +19,7 @@ exec 2>/dev/null
 
 export PS1="eh terminal open liao${NEWLINE}# "
 
-alias cd='printf "where u wan go stay here la better\n#\n"'
+alias cd='printf "\awhere u wan go stay here la better\n#\n"'
 alias pwd='printf "u where now dunno also i not ur gps\n#\n"'
 alias ls='printf "see wat see nothing to see one la\n#\n"'
 alias tree='printf "walao u think here botanic garden isit\n#\n"'
