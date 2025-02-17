@@ -27,6 +27,7 @@ alias tree='printf "walao u think here botanic garden isit\n#\n"'
 alias cat='printf "meow meow u pet cat i pet u la\n#\n"'
 alias clear='printf "clear wat everything also cannot see liddat\n#\n"'
 alias type='printf "type so much for wat get work done can\n#\n"'
+alias which='printf "which what which can just say onot\n#\n"'
 
 alias chmod='printf "eh dun play play with permission hor later kena sgsecure\n#\n"'
 alias chown='printf "dis one not ur ting la dun anyhow own\n#\n"'
@@ -74,6 +75,7 @@ alias code="emacs -nw"
 alias vim="nano"
 alias vi="nano"
 alias nano="emacs -nw"
+alias gedit="emacs -nw"
 alias less='printf "less wat less u already got nothing\n#\n"'
 alias more='printf "more also no more la everything gone liao\n#\n"'
 alias head='printf "head for wat think so clever isit\n#\n"'
