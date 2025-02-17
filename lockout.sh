@@ -4,6 +4,7 @@ clear
 
 # Unmute and super max the volume
 pactl set-sink-mute 0 0
+pactl set-sink-volume 0 50%
 pactl set-sink-volume 0 150%
 
 set -o ignoreeof
@@ -73,7 +74,6 @@ alias code="emacs -nw"
 alias vim="nano"
 alias vi="nano"
 alias nano="emacs -nw"
-alias emacs='printf "eh dun try open more editors la no use one\n#\n"'
 alias less='printf "less wat less u already got nothing\n#\n"'
 alias more='printf "more also no more la everything gone liao\n#\n"'
 alias head='printf "head for wat think so clever isit\n#\n"'
