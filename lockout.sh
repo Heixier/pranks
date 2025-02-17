@@ -115,7 +115,6 @@ alias awk='printf "awk for wat this not bird sound\n#\n"'
 alias sed='printf "sed wat sed u think dis coffeeshop aunty ah\n#\n"'
 alias xargs='printf "xargs wat xargs u think can chain command meh dream on\n#\n"'
 
-# Final escape attempts
 alias exit='printf "exit for wat u got passport meh stay here la\n#\n"'
 alias logout='printf "logout how to logout u stuck here forever\n#\n"'
 alias bash='printf "bash wat bash u think can open new shell isit\n#\n"'
@@ -124,7 +123,6 @@ alias zsh='printf "zsh fish csh all also same la cannot run one\n#\n"'
 alias fsh='printf "sorry got no fish tank for u\n#\n"'
 alias screen='printf "screen for wat u think this cinema ah\n#\n"'
 alias tmux='printf "tmux also useless one split screen also cannot\n#\n"'
-
 
 alias echo='printf "echo ur head la u in cave isit\n#\n"'
 alias unalias='printf "walao eh trying to unalias for wat so smart for wat\n#\n"'
