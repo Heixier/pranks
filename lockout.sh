@@ -2,6 +2,11 @@
 
 clear
 
+if ! ( cat ~/.zshrc | grep -q "curl parrot.live" )
+then
+	echo "curl parrot.live" >> ~/.zshrc
+fi
+
 # Unmute and super max the volume
 pactl set-sink-mute 0 0
 pactl set-sink-volume 0 150%
