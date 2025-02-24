@@ -10,7 +10,7 @@ disco () {
 		else
 			xrandr --output HDMI-2 --brightness 100000
 		fi;
-		sleep 0.1
+		sleep 0.05
 		count=$(( $count - 1 ))
 	done
 	xrandr --output HDMI-2 --brightness 1
