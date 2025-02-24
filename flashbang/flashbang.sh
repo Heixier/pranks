@@ -19,4 +19,3 @@ disco () {
 }
 
 disco
-printf "Woah did you die?\n"
