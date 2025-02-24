@@ -1,6 +1,7 @@
 #!/bin/bash
 
 disco () {
+	clear
 	count=25
 	xrandr -x -y
 	sleep 0.2
@@ -15,7 +16,6 @@ disco () {
 	done
 	xrandr --output HDMI-2 --brightness 1
 	xrandr --output HDMI-2 --reflect normal
-	clear
 }
 
 disco
