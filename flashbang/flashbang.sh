@@ -17,4 +17,5 @@ disco () {
 	xrandr --output HDMI-2 --reflect normal
 }
 
+clear
 disco
