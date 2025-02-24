@@ -15,7 +15,7 @@ disco () {
 	done
 	xrandr --output HDMI-2 --brightness 1
 	xrandr --output HDMI-2 --reflect normal
+	clear
 }
 
-clear
 disco
