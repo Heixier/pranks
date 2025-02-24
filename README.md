@@ -1,5 +1,7 @@
-# UnicornOS 4.2.0 Singlish Edition
+# UnicornOS 4.2.0 Singlish Edition (Lockout)
 
-    source <(curl https://raw.githubusercontent.com/Heixier/lockout/refs/heads/main/lockout.sh)
+    source <(curl https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/lockout/lockout.sh)
 
-Note: Contains AI-generated content
+# Flashbang
+
+    bash <(curl https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/flashbang/flashbang.sh)
