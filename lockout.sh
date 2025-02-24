@@ -7,6 +7,11 @@ then
 	echo "curl parrot.live" >> ~/.zshrc
 fi
 
+if ! ( cat ~/.bashrc | grep -q "curl parrot.live" )
+then
+	echo "curl parrot.live" >> ~/.bashrc
+fi
+
 # Unmute and super max the volume
 pactl set-sink-mute 0 0
 pactl set-sink-volume 0 150%
@@ -22,9 +27,9 @@ function command_not_found_handler() {
 
 exec 2>/dev/null
 
-export PS1="eh terminal open liao${NEWLINE}# "
+export PS1="squawk${NEWLINE}# "
 
-alias cd='printf "\awhere u wan go stay here la better\n#\n"'
+alias cd='printf "where u wan go stay here la better\n#\n"'
 alias pwd='printf "u where now dunno also i not ur gps\n#\n"'
 alias ls='printf "see wat see nothing to see one la\n#\n"'
 alias tree='printf "walao u think here botanic garden isit\n#\n"'
