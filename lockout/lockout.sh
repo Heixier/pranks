@@ -37,6 +37,7 @@ alias cat='printf "meow meow u pet cat i pet u la\n#\n"'
 alias clear='printf "clear wat everything also cannot see liddat\n#\n"'
 alias type='printf "type so much for wat get work done can\n#\n"'
 alias which='printf "which what which can just say onot\n#\n"'
+alias where='printf "har u dunno where meh\n#\n"'
 
 alias chmod='printf "eh dun play play with permission hor later kena sgsecure\n#\n"'
 alias chown='printf "dis one not ur ting la dun anyhow own\n#\n"'
