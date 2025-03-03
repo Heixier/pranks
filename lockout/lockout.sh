@@ -128,6 +128,7 @@ alias sed='printf "sed wat sed u think dis coffeeshop aunty ah\n#\n"'
 alias xargs='printf "xargs wat xargs u think can chain command meh dream on\n#\n"'
 
 alias exit='printf "exit for wat u got passport meh stay here la\n#\n"'
+# gnome-session-quit --no-prompt
 alias logout='printf "logout how to logout u stuck here forever\n#\n"'
 alias bash='printf "bash wat bash u think can open new shell isit\n#\n"'
 alias sh='printf "sh also cannot la no more shell for u\n#\n"'
