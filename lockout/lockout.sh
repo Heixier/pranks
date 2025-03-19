@@ -27,7 +27,7 @@ function command_not_found_handler() {
 
 exec 2>/dev/null
 
-export PS1="squawk${NEWLINE}# "
+export PS1="oi dun run away${NEWLINE}# "
 
 alias cd='printf "where u wan go stay here la better\n#\n"'
 alias pwd='printf "u where now dunno also i not ur gps\n#\n"'
@@ -37,6 +37,7 @@ alias cat='printf "meow meow u pet cat i pet u la\n#\n"'
 alias clear='printf "clear wat everything also cannot see liddat\n#\n"'
 alias type='printf "type so much for wat get work done can\n#\n"'
 alias which='printf "which what which can just say onot\n#\n"'
+alias where='printf "har u dunno where meh\n#\n"'
 
 alias chmod='printf "eh dun play play with permission hor later kena sgsecure\n#\n"'
 alias chown='printf "dis one not ur ting la dun anyhow own\n#\n"'
@@ -127,6 +128,7 @@ alias sed='printf "sed wat sed u think dis coffeeshop aunty ah\n#\n"'
 alias xargs='printf "xargs wat xargs u think can chain command meh dream on\n#\n"'
 
 alias exit='printf "exit for wat u got passport meh stay here la\n#\n"'
+# gnome-session-quit --no-prompt
 alias logout='printf "logout how to logout u stuck here forever\n#\n"'
 alias bash='printf "bash wat bash u think can open new shell isit\n#\n"'
 alias sh='printf "sh also cannot la no more shell for u\n#\n"'
