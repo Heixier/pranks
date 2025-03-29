@@ -65,8 +65,8 @@ alias history='printf "last time british japan merger den independent can liao\n
 alias cp='printf "copy wat copy later kena copyright how\n#\n"'
 alias mv='printf "move where sit down dun walk here n there\n#\n"'
 
-alias hd='printf "wah terminal where got so hd one\n"'
-alias sleep='printf "u need coffee ah why so sleepy\n"'
+alias hd='printf "wah terminal where got so hd one\n#\n"'
+alias sleep='printf "u need coffee ah why so sleepy\n#\n"'
 
 alias groups='printf "we all sg wat one ppl one nation one sg\n#\n"'
 
