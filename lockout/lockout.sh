@@ -27,7 +27,7 @@ function command_not_found_handler() {
 
 exec 2>/dev/null
 
-export PS1="oi dun run away${NEWLINE}# "
+export PS1="hi im your new terminal nao${NEWLINE}# "
 
 alias cd='printf "where u wan go stay here la better\n#\n"'
 alias pwd='printf "u where now dunno also i not ur gps\n#\n"'
