@@ -65,6 +65,9 @@ alias history='printf "last time british japan merger den independent can liao\n
 alias cp='printf "copy wat copy later kena copyright how\n#\n"'
 alias mv='printf "move where sit down dun walk here n there\n#\n"'
 
+alias hd='printf "wah terminal where got so hd one\n"'
+alias sleep='printf "u need coffee ah why so sleepy\n"'
+
 alias groups='printf "we all sg wat one ppl one nation one sg\n#\n"'
 
 alias sudo='printf "u tink u big shot isit where got sudo one\n#\n"'
@@ -84,10 +87,11 @@ alias perl='printf "perl for wat u want jewelry ah go pawn shop la\n#\n"'
 alias ruby='printf "ruby so ex now u think can find here meh\n#\n"'
 
 alias code="emacs -nw"
-alias vim="nano"
-alias vi="nano"
+alias vim="emacs -nw"
+alias vi="emacs -nw"
 alias nano="emacs -nw"
 alias gedit="emacs -nw"
+alias ex="emaics -nw"
 alias less='printf "less wat less u already got nothing\n#\n"'
 alias more='printf "more also no more la everything gone liao\n#\n"'
 alias head='printf "head for wat think so clever isit\n#\n"'
@@ -129,7 +133,7 @@ alias awk='printf "awk for wat this not bird sound\n#\n"'
 alias sed='printf "sed wat sed u think dis coffeeshop aunty ah\n#\n"'
 alias xargs='printf "xargs wat xargs u think can chain command meh dream on\n#\n"'
 
-alias bye='printf u trying to swear at me isit\n'
+alias bye='printf "u not happy isit anyhow swear at me for wat\n"'
 alias exit='printf "exit for wat u got passport meh stay here la\n#\n"'
 # gnome-session-quit --no-prompt
 alias logout='printf "logout how to logout u stuck here forever\n#\n"'
