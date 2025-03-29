@@ -9,7 +9,9 @@ fi
 
 if ! ( cat ~/.bashrc | grep -q "curl parrot.live" )
 then
-	echo "curl parrot.live" >> ~/.bashrc
+	if [ -f ~/.bashrc ]; then
+		echo "curl parrot.live" >> ~/.bashrc
+	fi
 fi
 
 # Unmute and super max the volume
@@ -21,7 +23,7 @@ set -o ignoreeof
 NEWLINE=$'\n'
 
 function command_not_found_handler() {
-  printf "\aoi wat command liddat got meh try again la\n#\n"
+  printf "\acan u say that again i dun understand\n#\n"
   return 127
 }
 
@@ -127,6 +129,7 @@ alias awk='printf "awk for wat this not bird sound\n#\n"'
 alias sed='printf "sed wat sed u think dis coffeeshop aunty ah\n#\n"'
 alias xargs='printf "xargs wat xargs u think can chain command meh dream on\n#\n"'
 
+alias bye='printf u trying to swear at me isit\n'
 alias exit='printf "exit for wat u got passport meh stay here la\n#\n"'
 # gnome-session-quit --no-prompt
 alias logout='printf "logout how to logout u stuck here forever\n#\n"'
