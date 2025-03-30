@@ -1,4 +1,4 @@
-# Lockout
+# Lockout Terminal
     source <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/lockout/lockout.sh)
 
 # Flashbang
