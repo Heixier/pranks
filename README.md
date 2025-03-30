@@ -12,3 +12,7 @@ This script takes in an optional argument, current available options are
 * water: Gravity Falls drinking water gif
 ###
     bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/face/change_pic.sh) nya
+# Wallpaper
+My PC was hacked and all I got was this lousy wallpaper
+
+    bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/wallpaper/change_bg.sh)
