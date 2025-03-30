@@ -8,6 +8,7 @@ fi
 
 if ! [ -z "$1" ]; then
 	OPTION="$1"
+fi
 
 echo "$OPTION selected"
 
