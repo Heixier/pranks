@@ -12,5 +12,14 @@ fi
 
 echo "$OPTION selected"
 
+case "$OPTION" in
+	"cat")
+		echo "meow";;
+	"anime")
+		echo "nya";;
+	*)
+		echo "idk";;
+esac
+
 curl -o ~/.face https://www.icegif.com/wp-content/uploads/meme-icegif-2.gif
 
