@@ -1,9 +1,9 @@
-#!/bin/bash
+#/bin/bash
 
-DEST="/home/$USER/.local/share/backgrounds/alligot.png"
+DEST="/home/$USER/.local/share/backgrounds/prank.jpeg"
 
 if ! [ -f $DEST ]; then
-	curl -s "https://i.imgur.com/Elxs4.png" -o "$DEST"
+	curl -s "https://i.imgur.com/JBJPR.jpeg" -o "$DEST"
 fi
 
 gsettings set org.gnome.desktop.background picture-uri-dark "file://$DEST"
