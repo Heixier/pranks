@@ -6,9 +6,9 @@
     bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/flashbang/flashbang.sh)
     
 # Profile Picture
-This script takes in an argument, current available options are
-* cat: random cat gif (default)
-* anime: random anime girl (sfw)
+This script takes in an optional argument, current available options are
+* nya: random anime girl (sfw, default)
+* cat: random cat gif (may take a while)
 * water: Gravity Falls drinking water gif
-
-bash "$(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/face/chg_profile.sh)"
+###
+    bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/face/change_pic.sh) nya
