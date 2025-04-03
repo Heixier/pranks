@@ -20,3 +20,5 @@ gsettings set org.gnome.desktop.background picture-uri-dark "file://$DEST"
 
 URL="$RAW"/"$FOLDER"/"$(shuf -i 0-5 -n 1).$EXT"
 gsettings set org.gnome.desktop.background picture-uri "file://$DEST"
+
+gsettings set org.gnome.desktop.background picture-options 'wallpaper'
