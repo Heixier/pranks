@@ -13,6 +13,9 @@ This script takes in an optional argument, current available options are
 ###
     bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/face/change_pic.sh) nya
 # Wallpaper
-My PC was hacked and all I got was this lousy wallpaper
+Changes the wallpaper to something awesome
 
     bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/wallpaper/change_bg.sh)
+
+# Note
+Scripts that replace files will store the original in a .bak copy
