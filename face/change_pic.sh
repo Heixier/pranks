@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -f ~/.face ]; then
+if [ -f ~/.face ] && ! [ -f ~/.face.bak ]; then
 	mv ~/.face ~/.face.bak
 fi
 
