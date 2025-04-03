@@ -18,4 +18,4 @@ Changes the wallpaper to something awesome
     bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/wallpaper/change_bg.sh)
 
 # Note
-Scripts that replace files will store the original in a .bak copy
+Replaced files will be stored in a .bak copy
