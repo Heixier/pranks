@@ -18,3 +18,5 @@ curl -s $URL -o "$DEST"
 #printf "URL: $URL DEST: $DEST\n"
 gsettings set org.gnome.desktop.background picture-uri-dark "file://$DEST"
 
+URL="$RAW"/"$FOLDER"/"$(shuf -i 0-5 -n 1).$EXT"
+gsettings set org.gnome.desktop.background picture-uri "file://$DEST"
