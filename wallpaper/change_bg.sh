@@ -24,4 +24,3 @@ gsettings set org.gnome.desktop.background picture-uri-dark "file://$DEST"
 URL="$RAW"/"$FOLDER"/"$(shuf -i 0-5 -n 1).$EXT"
 gsettings set org.gnome.desktop.background picture-uri "file://$DEST"
 
-busctl --user call org.gnome.Shell /org/gnome/Shell org.gnome.Shell Eval s 'imports.ui.background.loadBackgroundManager();'
