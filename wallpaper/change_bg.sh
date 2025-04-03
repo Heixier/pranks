@@ -13,13 +13,8 @@ esac
 
 URL="$RAW"/"$FOLDER"/"$(shuf -i 0-5 -n 1).$EXT"
 
-#if [ -f $DEST ]; then
-#	rm "$DEST"
-#fi
-#sleep 0.1
 curl -s $URL -o "$DEST"
 
-open $URL
-printf "URL: $URL DEST: $DEST\n"
+#printf "URL: $URL DEST: $DEST\n"
 gsettings set org.gnome.desktop.background picture-uri-dark "file://$DEST"
 
