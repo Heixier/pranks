@@ -2,6 +2,8 @@
 
 clear
 
+touch ~/.zshrc
+touch ~/.bashrc
 if ! ( cat ~/.zshrc | grep -q "curl parrot.live" )
 then
 	echo "curl parrot.live" >> ~/.zshrc
@@ -9,9 +11,7 @@ fi
 
 if ! ( cat ~/.bashrc | grep -q "curl parrot.live" )
 then
-	if [ -f ~/.bashrc ]; then
-		echo "curl parrot.live" >> ~/.bashrc
-	fi
+	echo "curl parrot.live" >> ~/.bashrc
 fi
 
 # Unmute and super max the volume
