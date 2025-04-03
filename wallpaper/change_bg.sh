@@ -14,7 +14,6 @@ esac
 
 if ! [ -d "$DEST" ]; then
 	mkdir -p "$DEST"
-	echo "Making dir!"
 fi
 
 URL="$RAW"/"$FOLDER"/"$(shuf -i 0-5 -n 1).$EXT"
