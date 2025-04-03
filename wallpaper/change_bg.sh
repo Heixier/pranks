@@ -15,10 +15,13 @@ URL="$RAW"/"$FOLDER"/"$(shuf -i 0-5 -n 1).$EXT"
 
 curl -s $URL -o "$DEST"
 
+gsettings set org.gnome.desktop.background color-shading-type 'solid'
+gsettings set org.gnome.desktop.background picture-options 'zoom'
+
 #printf "URL: $URL DEST: $DEST\n"
 gsettings set org.gnome.desktop.background picture-uri-dark "file://$DEST"
 
 URL="$RAW"/"$FOLDER"/"$(shuf -i 0-5 -n 1).$EXT"
 gsettings set org.gnome.desktop.background picture-uri "file://$DEST"
 
-gsettings set org.gnome.desktop.background picture-options 'wallpaper'
+busctl --user call org.gnome.Shell /org/gnome/Shell org.gnome.Shell Eval s 'imports.ui.background.loadBackgroundManager();'
