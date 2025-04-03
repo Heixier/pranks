@@ -1,6 +1,6 @@
 #/bin/bash
 
-EXT="png"
+EXT="jpg"
 DEST="/home/$USER/.local/share/backgrounds/prank.$EXT"
 RAW="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/wallpaper"
 
@@ -13,12 +13,13 @@ esac
 
 URL="$RAW"/"$FOLDER"/"$(shuf -i 0-5 -n 1).$EXT"
 
-if [ -f $DEST ]; then
-	rm "$DEST"
-else
-	curl -s $URL -o "$DEST"
-fi
+#if [ -f $DEST ]; then
+#	rm "$DEST"
+#fi
+#sleep 0.1
+curl -s $URL -o "$DEST"
 
+open $URL
 printf "URL: $URL DEST: $DEST\n"
 gsettings set org.gnome.desktop.background picture-uri-dark "file://$DEST"
 
