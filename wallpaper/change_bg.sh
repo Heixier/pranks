@@ -24,8 +24,5 @@ gsettings set org.gnome.desktop.background picture-options 'zoom'
 
 #printf "URL: $URL DEST: $DEST\n"
 gsettings set org.gnome.desktop.background picture-uri-dark "file://$DEST/$IMAGE"
-
-URL="$RAW"/"$FOLDER"/"$(shuf -i 0-5 -n 1).$EXT"
-curl -s $URL -o "$DEST/$IMAGE"
 gsettings set org.gnome.desktop.background picture-uri "file://$DEST/$IMAGE"
 
