@@ -2,17 +2,6 @@
 
 clear
 
-touch ~/.zshrc
-touch ~/.bashrc
-if ! ( cat ~/.zshrc | grep -q "curl parrot.live" )
-then
-	echo "curl parrot.live" >> ~/.zshrc
-fi
-
-if ! ( cat ~/.bashrc | grep -q "curl parrot.live" )
-then
-	echo "curl parrot.live" >> ~/.bashrc
-fi
 
 # Unmute and super max the volume
 # pactl set-sink-mute 0 0
@@ -27,9 +16,8 @@ function command_not_found_handler() {
   return 127
 }
 
-exec 2>/dev/null
-
 export PS1="hallo im your new terminal${NEWLINE}# "
+exec 2>/dev/null
 
 alias cd='printf "where u wan go stay here la better\n#\n"'
 alias pwd='printf "u where now dunno also i not ur gps\n#\n"'
@@ -133,7 +121,7 @@ alias awk='printf "awk for wat this not bird sound\n#\n"'
 alias sed='printf "sed wat sed u think dis coffeeshop aunty ah\n#\n"'
 alias xargs='printf "xargs wat xargs u think can chain command meh dream on\n#\n"'
 
-alias bye='printf "u not happy isit anyhow swear at me for wat\n"'
+alias bye='printf "u not happy isit anyhow swear at me for wat\n#\n"'
 alias exit='printf "exit for wat u got passport meh stay here la\n#\n"'
 # gnome-session-quit --no-prompt
 alias logout='printf "logout how to logout u stuck here forever\n#\n"'
