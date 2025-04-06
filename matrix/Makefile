@@ -1,4 +1,4 @@
-# At least it works right
+# Still need to source, but least it works right
 
 COMPILER ?= gcc
 CFLAGS = -Wall
@@ -18,6 +18,7 @@ BASHRC = $(HOME)/.bashrc
 ZSHRC = $(HOME)/.zshrc
 
 MATRIX_FLAGS = -m1 grey
+FULL_ALIAS = alias $(ALIAS)=\"$(NAME) $(MATRIX_FLAGS)\"
 
 all: $(NAME)
 
@@ -42,8 +43,8 @@ clean:
 
 fclean: clean
 	@rm -rf $(ASCII-MATRIX_DIR)
-	@sed -i '\|alias $(ALIAS)=\"$(NAME)\"|d' $(BASHRC)
-	@sed -i '\|alias $(ALIAS)=\"$(NAME)\"|d' $(ZSHRC)
+	sed -i '\|$(FULL_ALIAS)|d' $(BASHRC)
+	sed -i '\|$(FULL_ALIAS)|d' $(ZSHRC)
 
 $(BASHRC):
 	@touch $(BASHRC)
@@ -52,8 +53,7 @@ $(ZSHRC):
 	@touch $(ZSHRC)
 
 install: $(NAME) $(INSTALL_DIR)
-	@echo "alias $(ALIAS)=\"$(NAME) $(MATRIX_FLAGS)\"" >> $(BASHRC)
-	@echo "alias $(ALIAS)=\"$(NAME) $(MATRIX_FLAGS)\"" >> $(ZSHRC)
-	@alias $(ALIAS)="$(NAME) $(MATRIX_FLAGS)"
+	@if ! grep -q "$(FULL_ALIAS)" $(BASHRC); then echo "$(FULL_ALIAS)" >> $(BASHRC); fi
+	@if ! grep -q "$(FULL_ALIAS)" $(ZSHRC); then echo "$(FULL_ALIAS)" >> $(ZSHRC); fi
 
 .PHONY: all clean fclean install
