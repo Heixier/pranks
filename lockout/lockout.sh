@@ -1,7 +1,6 @@
-#!/bin/bash
+# Trap terminal to be sourced with bash
 
 clear
-
 
 # Unmute and super max the volume
 # pactl set-sink-mute 0 0
@@ -11,13 +10,14 @@ set -o ignoreeof
 
 NEWLINE=$'\n'
 
+unset -f command_not_found_handle &>/dev/null
+
 function command_not_found_handler() {
   printf "\acan u say that again i dun understand\n#\n"
   return 127
 }
 
 export PS1="hallo im your new terminal${NEWLINE}# "
-exec 2>/dev/null
 
 alias cd='printf "where u wan go stay here la better\n#\n"'
 alias pwd='printf "u where now dunno also i not ur gps\n#\n"'
@@ -59,7 +59,6 @@ alias sleep='printf "u need coffee ah why so sleepy\n#\n"'
 alias groups='printf "we all sg wat one ppl one nation one sg\n#\n"'
 
 alias sudo='printf "u tink u big shot isit where got sudo one\n#\n"'
-
 alias cc='printf "u tink can compile meh where got compiler one\n#\n"'
 alias gcc='printf "gcc for wat u where got code can run one\n#\n"'
 alias clang='printf "clang ur head la even apple also cannot help u\n#\n"'
@@ -135,3 +134,4 @@ alias tmux='printf "tmux also useless one split screen also cannot\n#\n"'
 alias echo='printf "echo ur head la u in cave isit\n#\n"'
 alias unalias='printf "walao eh trying to unalias for wat so smart for wat\n#\n"'
 alias alias='printf "alias ur head la change name still owe $ one\n#\n"'
+EOF
