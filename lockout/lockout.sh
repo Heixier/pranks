@@ -114,6 +114,7 @@ alias unset='printf "unset also cannot la nothing to unset\n#\n"'
 alias find='printf "find wat find u think dis lost and found ah\n#\n"'
 alias locate='printf "locate for wat everything also lost liao\n#\n"'
 alias dirname='printf "dir got wat name la all same one\n#\n"'
+EOF
 alias basename='printf "base got wat name u think dis army camp ah\n#\n"'
 alias grep='printf "grep wat grep u think can find anything meh\n#\n"'
 alias awk='printf "awk for wat this not bird sound\n#\n"'
@@ -134,4 +135,3 @@ alias tmux='printf "tmux also useless one split screen also cannot\n#\n"'
 alias echo='printf "echo ur head la u in cave isit\n#\n"'
 alias unalias='printf "walao eh trying to unalias for wat so smart for wat\n#\n"'
 alias alias='printf "alias ur head la change name still owe $ one\n#\n"'
-EOF

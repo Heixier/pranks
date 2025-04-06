@@ -1,5 +1,7 @@
 # Note
-Replaced files will be stored in a .bak copy
+Replaced files will be stored in a .bak copy because I'm nice like that
+
+(These programs have only been tested on 42SG's Dell Optiplex 7400s with their specific user environments)
 
 # Lockout Terminal
 Launches a trapped terminal
@@ -7,7 +9,10 @@ Launches a trapped terminal
     source <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/lockout/lockout.sh)
 
 # Parrot
+Squawk
 	
+	source <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/parrot/parrot.sh)
+
 # Flashbang
 Rapidly flashes the screen multiple times (epilepsy warning)
 
@@ -24,9 +29,13 @@ Optional arguments:
     bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/face/change_pic.sh) nya
 
 # Wallpaper
-Changes the wallpaper to something awesome
+Changes the wallpaper to definitely not anime girls
 
     bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/wallpaper/change_bg.sh)
+
+# Matrix
+Helps you install ascii-matrix for whatever reason
+	Z
 
 # ASCII Animations
 Collection of ASCII animations
