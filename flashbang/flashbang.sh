@@ -2,9 +2,7 @@
 
 disco () {
 	clear
-	count=30
-	xrandr -x -y
-	sleep 0.2
+	count=100
 	while (( $count > 0 )); do
 		if (( $count % 2 )) && (( $count != 1 )); then
 			xrandr --output HDMI-2 --brightness 0
