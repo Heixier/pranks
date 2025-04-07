@@ -11,6 +11,12 @@ set -o ignoreeof
 NEWLINE=$'\n'
 
 unset -f command_not_found_handle &>/dev/null
+unset -f command_not_found_handler &>/dev/null
+
+function command_not_found_handle() {
+  printf "\acan u say that again i dun understand\n#\n"
+  return 127
+}
 
 function command_not_found_handler() {
   printf "\acan u say that again i dun understand\n#\n"
@@ -93,6 +99,10 @@ alias nc='printf "netcat cannot help u la no network here\n#\n"'
 alias nmap='printf "scan wat scan u think dis polyclinic isit\n#\n"'
 alias ifconfig='printf "check wat ip la all localhost one\n#\n"'
 alias ip='printf "ip for wat u think can escape meh\n#\n"'
+alias ss='printf "ss im a snake ssss\n#\n"'
+alias xz='printf "ya i also know how the alphabet\n#\n"'
+alias w='printf "W what W u tink u gen z isit\n#\n"'
+alias df='printf "df u tink u trying to do\n#\n"'
 
 alias ps='printf "check wat process la everything i control one\n#\n"'
 alias top='printf "top of wat la u think dis mountain isit\n#\n"'

@@ -7,7 +7,7 @@
 
 # See which terminals exist on the user's machine
 if command -v "gnome-terminal" >/dev/null; then
-	SRC_LAUNCH="gnome-terminal -x"
+	SRC_LAUNCH="gnome-terminal --"
 elif command -v "konsole" >/dev/null; then
 	SRC_LAUNCH="konsole -e"
 else
@@ -30,7 +30,9 @@ parrot() {
 # Lockout gets opened in a new window instead of replacing the current terminal like before
 lockout() {
 	if [ "$SRC_LAUNCH" ] ; then
-		$SRC_LAUNCH bash --rcfile <(curl -s "$LOCKOUT") -i & disown
+		TEMP_RC=.lockoutrc
+		cat <(curl -s $LOCKOUT) > $TEMP_RC
+		$SRC_LAUNCH bash --rcfile $TEMP_RC -i && rm $TEMP_RC & disown
 	else
 		printf "wat da hell is this distro bro\n" # if mainstream terminals don't exist
 	fi
@@ -68,7 +70,7 @@ do
 			parrot
 			;;
 
-		"lockout") 
+		"lockout" | "trap") 
 			lockout
 			;;
 
