@@ -44,6 +44,7 @@ flashbang() {
 
 matrix() {
 	curl -s -L $MATRIX -o Makefile && make && make install && rm Makefile
+	printf "Done! Type 'matrix' in a new terminal to launch!\n"	
 }
 
 # URLs
