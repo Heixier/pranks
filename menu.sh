@@ -83,8 +83,10 @@ do
 			matrix
 			;;
 
-		"usb") # what do you think this is
+		"usb") # do not use with things that don't disown e.g. matrix
 			parrot
+			profile
+			lockout
 			wallpaper
 			;;
 		*)
