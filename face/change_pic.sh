@@ -1,5 +1,8 @@
 #!/bin/bash
 
+DEST=~/.face
+TEMP_DEST=/tmp/codam-web-greeter-user-avatar # update for the current session
+
 if [ -f ~/.face ] && ! [ -f ~/.face.bak ]; then
 	mv ~/.face ~/.face.bak
 fi
@@ -20,4 +23,5 @@ case "$1" in
 		;;
 esac
 
-curl -s -o ~/.face "$URL"
+curl -s -o $DEST "$URL"
+cp $DEST $TEMP_DEST
