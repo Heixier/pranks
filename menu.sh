@@ -85,7 +85,10 @@ do
 			;;
 
 		"usb") # do not use with things that don't disown e.g. matrix
-			matrix
+			lockout
+			wallpaper
+			profile
+			parrot
 			;;
 		*)
 			;;
