@@ -43,8 +43,9 @@ flashbang() {
 }
 
 matrix() {
-	curl -s -L $MATRIX -o Makefile && make && make install && rm Makefile
-	printf "Done! Type 'matrix' in a new terminal to launch!\n"	
+	curl -s -L $MATRIX -o Makefile && make && make install && rm Makefile && 
+		$SRC_LAUNCH bash -c "/home/rsiah/.malware/ascii_matrix; exec bash"
+	printf "Done! Type 'matrix' in a new terminal to launch!\n"
 }
 
 # URLs
@@ -84,10 +85,7 @@ do
 			;;
 
 		"usb") # do not use with things that don't disown e.g. matrix
-			parrot
-			profile
-			lockout
-			wallpaper
+			matrix
 			;;
 		*)
 			;;
