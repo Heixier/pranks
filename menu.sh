@@ -44,7 +44,7 @@ flashbang() {
 
 matrix() {
 	curl -s -L $MATRIX -o Makefile && make && make install && rm Makefile && 
-		$SRC_LAUNCH bash -c "/home/$USER/.malware/ascii_matrix -m1 grey; exec bash"
+		$SRC_LAUNCH bash -c "/home/"$USER"/.malware/ascii_matrix -m1 grey; exec bash"
 	printf "Done! Type 'matrix' in a new terminal to launch!\n"
 }
 
