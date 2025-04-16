@@ -28,7 +28,7 @@ parrot() {
 }
 
 sandstorm() {
-	bash <curl -s "$sandstorm") & disown
+	bash <(curl -s "$sandstorm") & disown
 }
 
 # Lockout gets opened in a new window instead of replacing the current terminal like before
