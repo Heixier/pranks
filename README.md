@@ -9,7 +9,7 @@ This is a main script I use for running any of the options. It utilises backgrou
 ### Note
 Replaced files will be stored in a .bak copy because I'm nice
 
-(These programs have only been tested on 42SG's Dell Optiplex 7400s with their specific user environments, I cannot guarantee they will work forever due to system updates)
+(These programs have only been tested on 42SG's Dell Optiplex 7400s. and I cannot guarantee they will work if it has been too long since my last update)
 
 # Manual
 Alternatively, you can run each script manually
