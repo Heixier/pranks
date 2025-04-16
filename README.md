@@ -1,7 +1,7 @@
 # Note
-Replaced files will be stored in a .bak copy because I'm nice like that
+Replaced files will be stored in a .bak copy because I'm a nice person
 
-(These programs have only been tested on 42SG's Dell Optiplex 7400s with their specific user environments)
+(These programs have only been tested on 42SG's Dell Optiplex 7400s with their specific user environments, I cannot guarantee they will work forever due to system updates)
 
 # Lockout Terminal
 Launches a trapped terminal
