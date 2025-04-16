@@ -7,54 +7,59 @@
 
 # See which terminals exist on the user's machine
 if command -v "gnome-terminal" >/dev/null; then
-	SRC_LAUNCH="gnome-terminal --"
+	src_launch="gnome-terminal --"
 elif command -v "konsole" >/dev/null; then
-	SRC_LAUNCH="konsole -e"
+	src_launch="konsole -e"
 else
-	SRC_LAUNCH=""
+	src_launch=""
 fi;
 
 # Functions
 wallpaper() {
-	bash <(curl -s "$WALLPAPER") & disown
+	bash <(curl -s "$wallpaper") & disown
 }
 
 profile() {
-	bash <(curl -s "$PROFILE") & disown
+	bash <(curl -s "$wallpaper") & disown
 }
 
 parrot() {
-	bash <(curl -s "$PARROT") & disown
+	bash <(curl -s "$parrot") & disown
+}
+
+sandstorm() {
+	bash <curl -s "$sandstorm") & disown
 }
 
 # Lockout gets opened in a new window instead of replacing the current terminal like before
 lockout() {
-	if [ "$SRC_LAUNCH" ] ; then
-		TEMP_RC=.lockoutrc
-		cat <(curl -s $LOCKOUT) > $TEMP_RC
-		$SRC_LAUNCH bash --rcfile $TEMP_RC -i && rm $TEMP_RC & disown
+	if [ "$src_launch" ] ; then
+		local temp_rc=.lockoutrc
+		cat <(curl -s $lockout) > $temp_rc
+		$src_launch bash --rcfile $temp_rc -i && rm $temp_rc & disown
 	else
 		printf "wat da hell is this distro bro\n" # if mainstream terminals don't exist
 	fi
 }
 
 flashbang() {
-	bash <(curl -s "$FLASHBANG") & disown
+	bash <(curl -s "$flashbang") & disown
 }
 
 matrix() {
-	curl -s -L $MATRIX -o Makefile && make && make install && rm Makefile && 
-		$SRC_LAUNCH bash -c "/home/"$USER"/.malware/ascii_matrix -m1 grey; exec bash"
+	curl -s -L $matrix -o Makefile && make && make install && rm Makefile && 
+		$src_launch bash -c "/home/"$USER"/.malware/ascii_matrix -m1 grey; exec bash"
 	printf "Done! Type 'matrix' in a new terminal to launch!\n"
 }
 
 # URLs
-WALLPAPER="https://raw.githubusercontent.com/heixier/pranks/refs/heads/main/wallpaper/change_bg.sh"
-PROFILE="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/face/change_pic.sh"
-PARROT="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/parrot/parrot.sh"
-LOCKOUT="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/lockout/lockout.sh"
-FLASHBANG="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/flashbang/flashbang.sh"
-MATRIX="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/matrix/Makefile" 
+wallpaper="https://raw.githubusercontent.com/heixier/pranks/refs/heads/main/wallpaper/change_bg.sh"
+profile="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/face/change_pic.sh"
+parrot="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/parrot/parrot.sh"
+lockout="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/lockout/lockout.sh"
+flashbang="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/flashbang/flashbang.sh"
+matrix="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/matrix/Makefile"
+sandstorm="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/audio/bg_play.sh"
 
 # Get all the options and stuff then runs them detached because parallel processing wooho
 for opt in "$@"
@@ -82,6 +87,9 @@ do
 
 		"matrix" | "neo")
 			matrix
+			;;
+		"darude" | "sandstorm")
+			sandstorm
 			;;
 
 		"usb")
