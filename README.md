@@ -4,7 +4,7 @@ If you want to run multiple scripts at once using one command
 ## Menu.sh
 This is a main script I use for running any of the options. It utilises background processing to call multiple downloads simultaneously. The documentation for this script is incomplete, but most of the features should be intuitive enough.
 
-    source <(curl -s https://github.com/Heixier/pranks/blob/main/menu.sh option)
+    source <(curl -s https://github.com/Heixier/pranks/blob/main/menu.sh option option option etc.)
 
 ### Note
 Replaced files will be stored in a .bak copy because I'm nice
