@@ -92,7 +92,7 @@ matrix() {
 options+=("matrix")
 
 event() {
-	bash <(curl -s "$event") & disown
+	open <(curl -s "$event") & disown
 }
 options+=("event")
 
