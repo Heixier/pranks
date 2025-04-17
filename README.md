@@ -32,10 +32,11 @@ Note: may be out of date
 1. wallpaper
 2. profile
 3. parrot
-4. sandstorm
+4. jam
 5. lockout
 6. flashbang
 7. matrix
+8. event
 
 ## Wallpaper
 Changes the user's wallpaper to something random.
@@ -51,8 +52,8 @@ Optional arguments:
 ## Parrot
 Curls a parrot into their terminal config files (curl parrot.live is down at the time of writing).
 
-## Sandstorm
-Blasts the user with some darude. This script can be run manually with an argument to delay the time the sound plays.
+## Jam
+Blasts the user with their most desired song. This script can be run manually with an argument to delay the time the sound plays.
 #### Note
 This script will not run if the user is connected to anything other than speakers due to safety reasons. There is a commit where it forcefully changes the port to speakers, however it was removed due to pulseaudio sometimes crashing.
 

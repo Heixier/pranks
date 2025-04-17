@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# Adding safe mode to preserve sanity
+# Adding safe mode to preserve sanity (default)
 SAFE_MODE=1
 
 # Note: YouTube tends to block streams; don't use YouTube
-URL="https://soundcloud.com/darude/sandstorm-radio-edit"
+#URL="https://soundcloud.com/darude/sandstorm-radio-edit"
+URL="https://soundcloud.com/the_thoosher/fripside-only-my-railgun-original-2020-version"
 
 # Store original values to reset to later
 original_volume="$(pactl get-sink-volume @DEFAULT_SINK@ | head -1 | awk '{ print $5 }')"
