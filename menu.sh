@@ -92,7 +92,8 @@ matrix() {
 options+=("matrix")
 
 event() {
-	open <(curl -s "$event") & disown
+	dest="/tmp/eventimg"
+	curl -s -L "https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/wallpaper/anime_C/0.jpg" -o "$dest" && eog -f "$dest" & disown
 }
 options+=("event")
 
