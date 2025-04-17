@@ -26,11 +26,11 @@ fi
 
 # Sleep for X number of seconds (if provided)
 timebomb () {
-	if [[ $1 ]] && [[ "$1" =~ ^[0-9]+$ ]]; then
-		if (( $1 > 420 )); then
+	if [[ "$1" =~ ^[0-9]+$ ]]; then
+		if (( $1 <= 420 )); then
 			sleep $1
 		else
-			printf "sandstorm: cancelled sleep: risky to sleep for so long\n"
+			printf "jam: cancelled sleep: risky to sleep for so long\n"
 		fi
 	fi
 }

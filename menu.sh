@@ -65,7 +65,7 @@ parrot() {
 options+=("parrot")
 
 jam() {
-	bash <(curl -s "$sandstorm") 30 & disown
+	bash <(curl -s "$jam") 30 & disown
 }
 options+=("jam")
 
