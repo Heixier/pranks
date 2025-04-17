@@ -1,5 +1,5 @@
 # Introduction
-These are scripts that written for 42 Singapore's Dell Optiplex 7400 computers. They work at the moment, but major system updates may impact functionality in future.  
+These are scripts that written for 42 Singapore's Dell Optiplex 7400 computers. Note: major system updates may impact future functionaity
 
 These scripts are written for entertainment purposes only and are thus highly important and valuable.
 
@@ -15,11 +15,6 @@ When called without arguments, the script will launch with a short input window.
 
 The script accepts either an index or a module name as input. If an input is received, it will proceed to try and run it. It will intentionally fail silently if it cannot find the module (to confuse regular users).
 
-<details><summary>But if you really want to know...</summary>
-
-You can access the list of modules by using the `debug` argument
-</details>
-
 ## Running multiple modules
 
 This requires passing in arguments into the script, which will require editing the link.
@@ -27,9 +22,12 @@ This requires passing in arguments into the script, which will require editing t
 	source <(curl -s https://github.com/Heixier/pranks/blob/main/menu.sh option1 option2 option3 etc.)
 Entering multiple arguments during the short input window presents a high risk of accidentally running an unwanted module, hence this mode requires explicit argument input.
 
+## Manual
+Scripts can also be run manually if you want to provide arguments if supported, otherwise the default (recommended) settings will run.
+
 # Modules
 
-0. Default (whatever I feel like setting it to
+0. default (whatever I feel like setting it to
 1. wallpaper
 2. profile
 3. parrot
@@ -38,49 +36,32 @@ Entering multiple arguments during the short input window presents a high risk o
 6. flashbang
 7. matrix
 
-# Manual
-Alternatively, you can run each script manually
+## Wallpaper
+Changes the user's wallpaper to something random.
 
-## Lockout Terminal
-Launches a trapped terminal
-
-    source <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/lockout/lockout.sh)
-
-## Parrot
-Squawk
-	
-	source <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/parrot/parrot.sh)
-
-## Flashbang
-Rapidly flashes the screen multiple times (epilepsy warning)
-
-    bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/flashbang/flashbang.sh)
-
-## Profile Picture
-
+## Profile
+Changes the user's profile picture to something random. 
 Optional arguments:
 
-* nya: random anime girl (sfw, default)
-* cat: random cat gif (may take a while)
-* water: Gravity Falls drinking water gif
-###
-    bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/face/change_pic.sh)
+* `nya`: random anime girl (sfw, default)
+* `cat`: random cat gif
+* `water`: Gravity Falls drinking water gif
 
-## Wallpaper
-Changes the wallpaper to definitely not anime girls
+## Parrot
+Curls a parrot into their terminal config files (curl parrot.live is down at the time of writing).
 
-    bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/wallpaper/change_bg.sh)
+## Sandstorm
+Blasts the user with some darude. This script can be run manually with an argument to delay the time the sound plays.
+
+## Lockout
+Opens a very helpful terminal window
+
+## Flashbang
+May cause epilepsy, flashes the user's screen multiple times.
 
 ## Matrix
-Helps you install ascii-matrix for whatever reason
-
-    bash <(curl -s https://github.com/Heixier/pranks/blob/main/menu.sh matrix)
-    
-## Darude
-Sandstorm
-
-    bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/audio/bg_play.sh)
+Installs ascii-matrix for whatever reason
 
 ### Note
-Replaced files will be stored in a .bak copy because I'm nice
+Replaced files will be stored in a .bak file of the same name
 
