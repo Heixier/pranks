@@ -26,6 +26,7 @@ Entering multiple arguments during the short input window presents a high risk o
 Scripts can also be run manually if you want to provide arguments if supported, otherwise the default (recommended) settings will run.
 
 # Modules
+Note: may be out of date
 
 0. default (whatever I feel like setting it to
 1. wallpaper
