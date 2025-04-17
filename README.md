@@ -52,6 +52,8 @@ Curls a parrot into their terminal config files (curl parrot.live is down at the
 
 ## Sandstorm
 Blasts the user with some darude. This script can be run manually with an argument to delay the time the sound plays.
+#### Note
+This script will not run if the user is connected to anything other than speakers due to safety reasons. There is a commit where it forcefully changes the port to speakers, however it was removed due to pulseaudio sometimes crashing.
 
 ## Lockout
 Opens a very helpful terminal window
