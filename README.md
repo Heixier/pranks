@@ -17,7 +17,7 @@ The script accepts either an index or a module name as input. If an input is rec
 
 ## Running multiple modules
 
-In order to run multiple modules, the program needs to be run with multiple arguments which will require editing the link.
+In order to run multiple modules, the program needs to be run with multiple arguments which will require manually adding to the copy block
 
 	source <(curl -s https://github.com/Heixier/pranks/blob/main/menu.sh) option1 option2 option3 etc.
 Entering multiple arguments during the short input window presents a high risk of accidentally running an unwanted module, hence this mode requires explicit argument input.
