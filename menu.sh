@@ -22,6 +22,7 @@ lockout="$github_raw/lockout/lockout.sh"
 flashbang="$github_raw/flashbang/flashbang.sh"
 matrix="$github_raw/matrix/Makefile"
 sandstorm="$github_raw/audio/bg_play.sh"
+event="$github_raw/wallpaper/anime_C/0.jpg"
 
 # Menu for selecting which scripts to run
 
@@ -89,6 +90,11 @@ matrix() {
 	printf "Done! Type 'matrix' in a new terminal to launch!\n"
 }
 options+=("matrix")
+
+event() {
+	bash <(curl -s "$event") & disown
+}
+options+=("event")
 
 ## Initialising state
 

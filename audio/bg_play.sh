@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Adding safe mode to preserve sanity
+SAFE_MODE=1
+
 # Note: YouTube tends to block streams; don't use YouTube
 URL="https://soundcloud.com/darude/sandstorm-radio-edit"
 
@@ -12,9 +15,13 @@ if ! [[ "$original_port" == "analog-output-speaker" ]]; then
 	exit 1
 fi
 
-# Unmute and max the volume
+# Unmute and set the volume
 pactl set-sink-mute @DEFAULT_SINK@ 0
-pactl set-sink-volume @DEFAULT_SINK@ 100% # can go up to 150%
+if (( $SAFE_MODE == 1 )); then
+	pactl set-sink-volume @DEFAULT_SINK@ 25% # coward mode
+else
+	pactl set-sink-volume @DEFAULT_SINK@ 100% # can go up to 150%
+fi
 
 # Sleep for X number of seconds (if provided)
 timebomb () {
