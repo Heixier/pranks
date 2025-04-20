@@ -42,6 +42,7 @@ options=()
 default() {
 	profile
 	wallpaper
+	parrot
 }
 options+=("default")
 

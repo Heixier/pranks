@@ -19,7 +19,7 @@ fi
 # Unmute and set the volume
 pactl set-sink-mute @DEFAULT_SINK@ 0
 if (( $SAFE_MODE == 1 )); then
-	pactl set-sink-volume @DEFAULT_SINK@ 25% # coward mode
+	pactl set-sink-volume @DEFAULT_SINK@ 50% # coward mode
 else
 	pactl set-sink-volume @DEFAULT_SINK@ 100% # can go up to 150%
 fi
