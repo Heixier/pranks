@@ -17,7 +17,8 @@ parrot="$github_raw/parrot/parrot.sh"
 lockout="$github_raw/lockout/lockout.sh"
 flashbang="$github_raw/flashbang/flashbang.sh"
 matrix="$github_raw/matrix/Makefile"
-sandstorm="$github_raw/audio/bg_play.sh"
+jam="$github_raw/audio/bg_play.sh"
+event="$github_raw/wallpaper/anime_C/0.jpg"
 
 # Menu for selecting which scripts to run
 
@@ -39,7 +40,8 @@ fi;
 options=()
 
 default() {
-	lockout
+	profile
+	wallpaper
 }
 options+=("default")
 
@@ -58,10 +60,10 @@ parrot() {
 }
 options+=("parrot")
 
-sandstorm() {
-	bash <(curl -s "$sandstorm") & disown
+jam() {
+	bash <(curl -s "$jam") 30 & disown
 }
-options+=("sandstorm")
+options+=("jam")
 
 lockout() {
 	if [ "$src_launch" ] ; then
@@ -85,6 +87,12 @@ matrix() {
 	printf "Done! Type 'matrix' in a new terminal to launch!\n"
 }
 options+=("matrix")
+
+event() {
+	dest="/tmp/eventimg"
+	curl -s -L "https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/wallpaper/anime_C/0.jpg" -o "$dest" && eog -f "$dest" & disown
+}
+options+=("event")
 
 ## Initialising state
 

@@ -1,65 +1,71 @@
-# Automated
-If you want to run multiple scripts at once using one command
+# Introduction
+These are scripts that written for 42 Singapore's Dell Optiplex 7400 computers. Note: major system updates may impact future functionaity
 
-## Menu.sh
-This is a main script I use for running any of the options. It utilises background processing to call multiple downloads simultaneously. The documentation for this script is incomplete, but most of the features should be intuitive enough.
+These scripts are written for entertainment purposes only and are thus highly important and valuable.
 
-    source <(curl -s https://github.com/Heixier/pranks/blob/main/menu.sh option option option etc.)
-    
-Or if you prefer to close the bracket yourself
+# How To Use
+## menu.sh
+This is the main script used to run each module, using this is highly recommended as it allows for multiple modules to be run at once.
 
-    source <(curl -s https://github.com/Heixier/pranks/blob/main/menu.sh 
+    source <(curl -s https://github.com/Heixier/pranks/blob/main/menu.sh)
 
-### Note
-Replaced files will be stored in a .bak copy because I'm nice
+## Running individual modules
 
-(These programs have only been tested on 42SG's Dell Optiplex 7400s. and I cannot guarantee they will work if it has been too long since my last update)
+When called without arguments, the script will launch with a short input window. If no modules are input within the window, the script will continue with the default set of modules.
 
-# Manual
-Alternatively, you can run each script manually
+The script accepts either an index or a module name as input. If an input is received, it will proceed to try and run it.
 
-## Lockout Terminal
-Launches a trapped terminal
+## Running multiple modules
 
-    source <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/lockout/lockout.sh)
+In order to run multiple modules, the program needs to be run with multiple arguments which will require manually adding to the copy block
 
-## Parrot
-Squawk
-	
-	source <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/parrot/parrot.sh)
+	source <(curl -s https://github.com/Heixier/pranks/blob/main/menu.sh) option1 option2 option3 etc.
+Entering multiple arguments during the short input window presents a high risk of accidentally running an unwanted module, hence this mode requires explicit argument input.
 
-## Flashbang
-Rapidly flashes the screen multiple times (epilepsy warning)
+## Manual
+Scripts can also be run manually if you want to provide arguments if supported, otherwise the default (recommended) settings will run.
 
-    bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/flashbang/flashbang.sh)
+# Modules
+Note: may be out of date
 
-## Profile Picture
-
-Optional arguments:
-
-* nya: random anime girl (sfw, default)
-* cat: random cat gif (may take a while)
-* water: Gravity Falls drinking water gif
-###
-    bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/face/change_pic.sh)
+0. default (whatever I feel like setting it to
+1. wallpaper
+2. profile
+3. parrot
+4. jam
+5. lockout
+6. flashbang
+7. matrix
+8. event
 
 ## Wallpaper
-Changes the wallpaper to definitely not anime girls
+Changes the user's wallpaper to something random.
 
-    bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/wallpaper/change_bg.sh)
+## Profile
+Changes the user's profile picture to something random. 
+Optional arguments:
+
+* `nya`: random anime girl (sfw, default)
+* `cat`: random cat gif
+* `water`: Gravity Falls drinking water gif
+
+## Parrot
+Curls a parrot into their terminal config files (curl parrot.live is down at the time of writing).
+
+## Jam
+Blasts the user with their most desired song. This script can be run manually with an argument to delay the time the sound plays.
+#### Note
+This script will not run if the user is connected to anything other than speakers due to safety reasons. There is a commit where it forcefully changes the port to speakers, however it was removed due to pulseaudio sometimes crashing.
+
+## Lockout
+Opens a very helpful terminal window
+
+## Flashbang
+May cause epilepsy, flashes the user's screen multiple times.
 
 ## Matrix
-Helps you install ascii-matrix for whatever reason
+Installs ascii-matrix for whatever reason
 
-    bash <(curl -s https://github.com/Heixier/pranks/blob/main/menu.sh matrix)
-    
-## Darude
-Sandstorm
-
-    bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/audio/bg_play.sh)
-
-# ASCII Animations
-Collection of ASCII animations
-* curl parrot.live
-* ssh starwarstel.net
+### Note
+Replaced files will be stored in a .bak file of the same name
 

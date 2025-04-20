@@ -1,21 +1,48 @@
 #!/bin/bash
 
-# Note: YouTube tends to block streams
-URL="https://soundcloud.com/darude/sandstorm-radio-edit"
+# Adding safe mode to preserve sanity (default)
+SAFE_MODE=1
 
-# Unmute and max the volume
-pactl set-sink-mute @DEFAULT_SINK@ 0
-pactl set-sink-volume @DEFAULT_SINK@ 100% # can go up to 150% but we're civil people here
+# Note: YouTube tends to block streams; don't use YouTube
+#URL="https://soundcloud.com/darude/sandstorm-radio-edit"
+URL="https://soundcloud.com/the_thoosher/fripside-only-my-railgun-original-2020-version"
 
-# If the delay argument is provided, only start after 5 minutes. Tick tock...
-if [[ "$1" == "delay" ]]; then
-	sleep 300
+# Store original values to reset to later
+original_volume="$(pactl get-sink-volume @DEFAULT_SINK@ | head -1 | awk '{ print $5 }')"
+original_port="$(pactl list sinks | grep "Active Port" | awk '{ print $3 }')"
+
+if ! [[ "$original_port" == "analog-output-speaker" ]]; then
+	printf "connect to speakers!\n"
+	exit 1
 fi
+
+# Unmute and set the volume
+pactl set-sink-mute @DEFAULT_SINK@ 0
+if (( $SAFE_MODE == 1 )); then
+	pactl set-sink-volume @DEFAULT_SINK@ 25% # coward mode
+else
+	pactl set-sink-volume @DEFAULT_SINK@ 100% # can go up to 150%
+fi
+
+# Sleep for X number of seconds (if provided)
+timebomb () {
+	if [[ "$1" =~ ^[0-9]+$ ]]; then
+		if (( $1 <= 420 )); then
+			sleep $1
+		else
+			printf "jam: cancelled sleep: risky to sleep for so long\n"
+		fi
+	fi
+}
+
+timebomb "$@"
 
 cvlc --quiet --play-and-exit "$URL" 2>/dev/null &
 PID=$!
-sleep 7 # Hardcoded number because I have no idea how long it will take for VLC to finish downloading
+sleep 6 # Hardcoded guess at download times
 
-# Set volume back to reasonable levels
-pactl set-sink-volume @DEFAULT_SINK@ 30%
+# Bring volume back down
+pactl set-sink-volume @DEFAULT_SINK@ 25%
 wait $PID
+
+pactl set-sink-volume @DEFAULT_SINK@ "$original_volume"
