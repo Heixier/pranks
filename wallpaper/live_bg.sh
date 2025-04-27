@@ -25,10 +25,29 @@ IMG_URL="$RAW"/"$FOLDER"/"$IMAGE"
 VID_URL="$RAW"/"$FOLDER"/"$VIDEO"
 AUTOSTART_URL="$RAW"/"$FOLDER"/"$AUTOSTART_FILE"
 
+cleanup () {
+	rm -f "$IMAGE_DEST"
+	rm -f "$VIDEO_DEST"
+	rm -f "$AUTOSTART_DEST"
+	rm -f "$START_SCRIPT_DEST"
+}
+
+download () {
+	local status="$(curl -o /dev/null -sLw "%{http_code}" "$1")"
+	if [ "$status" != "200" ]; then
+		printf "Invalid URL! %s\nAborting...\n" "$1"
+		exit 1
+	else
+		curl -s "$1" -o "$2"
+	fi
+}
+
+trap cleanup EXIT
+
 if [ "$1" = "install" ]; then
-	curl -s "$IMG_URL" -o "$IMAGE_DEST"
-	curl -s "$VID_URL" -o "$VIDEO_DEST"
-	curl -s "$AUTOSTART_URL" -o "$AUTOSTART_DEST"
+	download "$IMG_URL" "$IMAGE_DEST"
+	download "$VID_URL" "$VIDEO_DEST"
+	download "$AUTOSTART_URL" "$AUTOSTART_DEST"
 
 	# Create script to start playback
 
@@ -52,6 +71,8 @@ fi
 # Start video
 
 # First checks if xwinwrap is installed, if not install it 
+
+# Then check if the rest of the installs exist
 
 # use command -v
 
