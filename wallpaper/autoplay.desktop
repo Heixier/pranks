@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=xwinwrap -fs -fdt -ni -b -nf -un -o 1.0 -- cvlc --no-video-title-show --drawable-xid WID --loop --no-audio $HOME/.local/share/backgrounds/live.mp4
+Hidden=false
+NoDisplay=true
+X-GNOME-Autostart-enabled=true
+Name[en]=autoplay
+Name=autoplay
+Comment[en]=Automatically plays live wallpaper
+Comment=Automatically plays live wallpaper
