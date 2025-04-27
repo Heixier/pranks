@@ -8,17 +8,17 @@ sleep 0.01
 xrandr --output HDMI-2 --brightness 1 2>/dev/null
 
 # Base URL
-github_raw="https://raw.githubusercontent.com/heixier/pranks/refs/heads/main"
+GITHUB_RAW="https://raw.githubusercontent.com/heixier/pranks/refs/heads/main"
 
 # Modules
-wallpaper="$github_raw/wallpaper/change_bg.sh"
-profile="$github_raw/change_pic.sh"
-parrot="$github_raw/parrot/parrot.sh"
-lockout="$github_raw/lockout/lockout.sh"
-flashbang="$github_raw/flashbang/flashbang.sh"
-matrix="$github_raw/matrix/Makefile"
-jam="$github_raw/audio/bg_play.sh"
-event="$github_raw/wallpaper/anime_C/0.jpg"
+wallpaper="$GITHUB_RAW/wallpaper/change_bg.sh"
+live_wallpaper="$GITHUB_RAW/wallpaper/live_bg.sh"
+profile="$GITHUB_RAW/change_pic.sh"
+parrot="$GITHUB_RAW/parrot/parrot.sh"
+lockout="$GITHUB_RAW/lockout/lockout.sh"
+flashbang="$GITHUB_RAW/flashbang/flashbang.sh"
+matrix="$GITHUB_RAW/matrix/Makefile"
+jam="$GITHUB_RAW/audio/bg_play.sh"
 
 # Menu for selecting which scripts to run
 
@@ -51,6 +51,13 @@ wallpaper() {
 }
 options+=("wallpaper")
 
+live_wallpaper() {
+	if [ "$src_launch" ] ; then
+		$src_launch bash <(curl -s "$live_wallpaper") install & disown
+	fi
+}
+options+=("live_wallpaper")
+
 profile() {
 	bash <(curl -s "$wallpaper") & disown
 }
@@ -62,7 +69,7 @@ parrot() {
 options+=("parrot")
 
 jam() {
-	bash <(curl -s "$jam") 30 & disown
+	bash <(curl -s "$jam") 30 & disown # Remember the timebomb, the number of seconds before it starts playing
 }
 options+=("jam")
 
@@ -88,12 +95,6 @@ matrix() {
 	printf "Done! Type 'matrix' in a new terminal to launch!\n"
 }
 options+=("matrix")
-
-event() {
-	dest="/tmp/eventimg"
-	curl -s -L "https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/wallpaper/anime_C/0.jpg" -o "$dest" && eog -f "$dest" & disown
-}
-options+=("event")
 
 ## Initialising state
 

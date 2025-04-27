@@ -115,4 +115,4 @@ XWINWRAP_FLAGS="-fs -fdt -ni -b -nf -un -o 1.0 --"
 VLC_FLAGS="--drawable-xid WID --no-video-title-show --loop --no-audio"
 
 # printf "Trying to start video from %s\n" "$VIDEO_DEST"
-$XWINWRAP $XWINWRAP_FLAGS $CVLC $VLC_FLAGS "$VIDEO_DEST"
+$XWINWRAP $XWINWRAP_FLAGS $CVLC $VLC_FLAGS "$VIDEO_DEST" & disown
