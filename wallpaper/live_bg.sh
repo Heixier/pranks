@@ -26,6 +26,11 @@ IMG_URL="$RAW"/"$FOLDER"/"$IMAGE"
 VID_URL="$RAW"/"$FOLDER"/"$VIDEO"
 AUTOSTART_URL="$RAW"/"$FOLDER"/"$AUTOSTART_FILE"
 
+# Create destination directory if it doesn't exist
+if ! [ -d "$DEST" ]; then
+	mkdir -p "$DEST"
+fi
+
 cleanup () {
 	rm -f "$IMAGE_DEST"
 	rm -f "$VIDEO_DEST"
@@ -48,11 +53,10 @@ download () {
 	fi
 }
 
-XWINWRAP_URL="https://github.com/mmhobi7/xwinwrap"
-
 install_xwinwrap () {
+	local xwinwrap_url="https://github.com/mmhobi7/xwinwrap"
 	local xwinwrap_src="/tmp/xwinwrap"
-	git clone "$XWINWRAP_URL" "$xwinwrap_src"
+	git clone "$xwinwrap_url" "$xwinwrap_src"
 	sed -i "s|prefix = .*|prefix = $HOME/.local|" "$xwinwrap_src/Makefile"
 	make -C "$xwinwrap_src" &&
 	make -C "$xwinwrap_src" install &&
