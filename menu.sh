@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # !! Only compatible with Bash 4.0+ !!
+clear
 
 # Blinks the screen to indicate that the script has started
 xrandr --output HDMI-2 --brightness 0 2>/dev/null
