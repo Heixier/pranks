@@ -81,7 +81,7 @@ if [ "$1" = "install" ]; then
 
 	gsettings set org.gnome.desktop.background picture-uri-dark "file://$IMAGE_DEST"
 	gsettings set org.gnome.desktop.background picture-uri "file://$IMAGE_DEST"
-elif [ "$1" = "clean" ]; then
+elif [ "$1" = "clean" ] || [ "$1" = "cleanup"]; then
 	cleanup
 	exit
 fi
