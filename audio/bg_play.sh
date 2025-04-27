@@ -38,7 +38,7 @@ fi
 
 
 
-cvlc --quiet --play-and-exit "$URL" 2>/dev/null &
+cvlc --quiet --play-and-exit "$URL" &
 PID=$!
 # sleep 6 # Hardcoded guess at download times before bringing the volume down
 

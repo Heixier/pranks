@@ -67,7 +67,7 @@ parrot() {
 options+=("parrot")
 
 jam() {
-	bash <(curl -s "$jam") 30 & disown # Remember the timebomb, the number of seconds before it starts playing
+	bash <(curl -s "$jam") 60 & disown # Remember the timebomb, the number of seconds before it starts playing
 }
 options+=("jam")
 
