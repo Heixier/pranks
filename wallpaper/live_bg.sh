@@ -46,9 +46,7 @@ download () {
 		exit 1
 	else
 		if ! curl -s "$1" -o "$2"; then
-			cleanup
-			printf "Failed to write to file: %s\nAborting...\n" "$2"
-			exit 1
+			printf "Failed to write to file: %s\nSkipping...\n" "$2"
 		fi
 	fi
 }
