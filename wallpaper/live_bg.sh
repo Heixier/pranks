@@ -88,7 +88,7 @@ if [ "$1" = "install" ]; then
 	download "$AUTOSTART_URL" "$AUTOSTART_DEST"
 
 	# Create script to start playback
-	rm "$START_SCRIPT_DEST" 2>/dev/null
+	rm "$START_SCRIPT_DEST" 2>/dev/null &&
 	printf "#!/bin/bash\n\nkillall -9 $VLC >/dev/null 2>&1\nkillall -9 $XWINWRAP >/dev/null 2>&1\n$XWINWRAP -fs -fdt -ni -b -nf -un -o 1.0 -- $CVLC --no-video-title-show --drawable-xid WID --loop --no-audio $VIDEO_DEST >/dev/null 2>&1 &\n" > "$START_SCRIPT_DEST"
 
 	chmod +x "$START_SCRIPT_DEST"
