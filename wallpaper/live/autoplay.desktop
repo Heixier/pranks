@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Exec=xwinwrap -fs -fdt -ni -b -nf -un -o 1.0 -- cvlc --no-video-title-show --drawable-xid WID --loop --no-audio $HOME/.local/share/backgrounds/live.mp4
+Exec=bash $HOME/.local/bin/play_bg.sh
 Hidden=false
 NoDisplay=true
 X-GNOME-Autostart-enabled=true

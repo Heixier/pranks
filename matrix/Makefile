@@ -6,7 +6,7 @@ CFLAGS = -Wall
 SRCS = $(addprefix $(ASCII-MATRIX_DIR)/, ascii-matrix.c)
 OBJS = $(SRCS:.c=.o)
 
-INSTALL_DIR = $(HOME)/.malware
+INSTALL_DIR = $(HOME)/.local/bin
 ALIAS = matrix
 
 ASCII-MATRIX_URL = "https://gitlab.com/christosangel/ascii-matrix.git"
