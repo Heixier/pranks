@@ -2,7 +2,7 @@
 
 # Run this script with "install" to install the required files, otherwise it just launches
 
-NAME="live"
+NAME="toothless"
 FOLDER="live"
 
 IMG_EXT="jpg"
@@ -44,6 +44,10 @@ if [ "$1" = "install" ]; then
 	gsettings set org.gnome.desktop.background picture-uri-dark "file://$IMAGE_DEST"
 	gsettings set org.gnome.desktop.background picture-uri "file://$IMAGE_DEST"
 fi
+
+# Perform checks
+
+
 
 # Start video
 
