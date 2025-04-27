@@ -2,6 +2,11 @@
 
 # Run this script with "install" to install the required files, otherwise it just launches
 
+# Don't mess up my custom config
+if [ "$USER" = "rsiah" ]; then
+	exit 0
+fi
+
 NAME="toothless"
 FOLDER="live"
 PREFIX="$HOME/.local"
