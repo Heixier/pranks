@@ -52,7 +52,7 @@ XWINWRAP_URL="https://github.com/mmhobi7/xwinwrap"
 
 install_xwinwrap () {
 	git clone "$XWINWRAP_URL" /tmp/xwinwrap
-	sed "s|prefix = .*|prefix = $HOME/.local|" /tmp/xwinwrap/Makefile
+	sed -i "s|prefix = .*|prefix = $HOME/.local|" /tmp/xwinwrap/Makefile
 	make && make install
 	
 	# Verify again
