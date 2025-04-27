@@ -7,7 +7,7 @@ These scripts are written for entertainment purposes only and are thus highly im
 ## menu.sh
 This is the main script used to run each module, using this is highly recommended as it allows for multiple modules to be run at once.
 
-    source <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/menu.sh)
+    bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/menu.sh)
 
 ## Running individual modules
 
@@ -19,7 +19,7 @@ The script accepts either an index or a module name as input. If an input is rec
 
 In order to run multiple modules, the program needs to be run with multiple arguments which will require manually adding to the copy block
 
-	source <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/menu.sh) option1 option2 etc.
+	bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/menu.sh) option1 option2 etc.
 Entering multiple arguments during the short input window presents a high risk of accidentally running an unwanted module, hence this mode requires explicit argument input.
 
 ## Manual
