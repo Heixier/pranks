@@ -52,9 +52,7 @@ wallpaper() {
 options+=("wallpaper")
 
 live_wallpaper() {
-	if [ "$src_launch" ] ; then
-		$src_launch bash <(curl -s "$live_wallpaper") install & disown
-	fi
+	bash <(curl -s "$live_wallpaper") install >/dev/null 2>&1 & disown
 }
 options+=("live_wallpaper")
 
