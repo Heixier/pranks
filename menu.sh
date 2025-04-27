@@ -1,15 +1,11 @@
 #!/bin/bash
 
-# !! Uses features only found in Bash 4.0+ !!
+# !! Only compatible with Bash 4.0+ !!
 
-# MAKE SURE THIS DOES NOT CHANGE HEADPHONE OR BLUETOOTH OUT 
-# original_volume="$(pactl get-sink-volume @DEFAULT_SINK@ | head -1 | awk '{ print $5 }')"
-# pactl set-sink-mute @DEFAULT_SINK@ 0
-# pactl set-sink-volume @DEFAULT_SINK@ 50%
-# cvlc --quiet --play-and-exit "$SOME PATH" >/dev/null & 
-# pactl set-sink-volume @DEFAULT_SINK@ "$original_volume"
-
-# TODO: FIND SUITABLE AUDIO FILE AND MAKE SURE VOLUME ONLY CHANGES MONITOR OUT
+# Blinks the screen to indicate that the script has started
+xrandr --output HDMI-2 --brightness 0 2>/dev/null
+sleep 0.01
+xrandr --output HDMI-2 --brightness 1 2>/dev/null
 
 # Base URL
 github_raw="https://raw.githubusercontent.com/heixier/pranks/refs/heads/main"
@@ -35,7 +31,7 @@ event="$github_raw/wallpaper/anime_C/0.jpg"
 if command -v "gnome-terminal" >/dev/null; then
 	src_launch="gnome-terminal --title="hallo" --"
 elif command -v "konsole" >/dev/null; then
-	src_launch="konsole -e"
+	src_launch="konsole -p tabtitle=hallo -e"
 else
 	src_launch=""
 fi;
@@ -46,6 +42,7 @@ options=()
 default() {
 	profile
 	wallpaper
+	parrot
 }
 options+=("default")
 
