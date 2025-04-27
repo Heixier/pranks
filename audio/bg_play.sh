@@ -5,7 +5,7 @@ SAFE_MODE=1
 
 # Note: YouTube tends to block streams; don't use YouTube
 #URL="https://soundcloud.com/darude/sandstorm-radio-edit"
-URL="https://soundcloud.com/the_thoosher/fripside-only-my-railgun-original-2020-version"
+URL="https://soundcloud.com/user-884601403/only-my-railgun"
 
 # Store original values to reset to later
 original_volume="$(pactl get-sink-volume @DEFAULT_SINK@ | head -1 | awk '{ print $5 }')"
@@ -39,7 +39,7 @@ timebomb "$@"
 
 cvlc --quiet --play-and-exit "$URL" 2>/dev/null &
 PID=$!
-sleep 6 # Hardcoded guess at download times
+sleep 6 # Hardcoded guess at download times before bringing the volume down
 
 # Bring volume back down
 pactl set-sink-volume @DEFAULT_SINK@ 25%
