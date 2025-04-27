@@ -116,4 +116,5 @@ VLC_FLAGS="--drawable-xid WID --no-video-title-show --loop --no-audio"
 
 # Stop all other running vlc instances
 killall -9 $XWINWRAP
+killall -9 /usr/bin/vlc
 $XWINWRAP $XWINWRAP_FLAGS $CVLC $VLC_FLAGS "$VIDEO_DEST" & disown
