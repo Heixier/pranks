@@ -25,15 +25,15 @@ IMG_URL="$RAW"/"$FOLDER"/"$IMAGE"
 VID_URL="$RAW"/"$FOLDER"/"$VIDEO"
 AUTOSTART_URL="$RAW"/"$FOLDER"/"$AUTOSTART_FILE"
 
-if [[ "$1" == "install" ]]; then
+if [ "$1" = "install" ]; then
 	curl -s "$IMG_URL" -o "$IMAGE_DEST"
 	curl -s "$VID_URL" -o "$VIDEO_DEST"
 	curl -s "$AUTOSTART_URL" -o "$AUTOSTART_DEST"
 
 	# Create script to start playback
 
-	echo "$HOME/.local/bin/xwinwrap -fs -fdt -ni -b -nf -un -o 1.0 -- /usr/bin/cvlc --no-video-title-show --drawable-xid WID --loop --no-audio $VIDEO_DEST" > "$START_SCRIPT_DEST"
-	
+	echo "#!/bin/bash\n\n$HOME/.local/bin/xwinwrap -fs -fdt -ni -b -nf -un -o 1.0 -- /usr/bin/cvlc --no-video-title-show --drawable-xid WID --loop --no-audio $VIDEO_DEST" > "$START_SCRIPT_DEST"
+
 	chmod +x "$AUTOSTART_DEST"
 	chmod +x "$START_SCRIPT_DEST"
 
