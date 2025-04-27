@@ -75,7 +75,7 @@ if [ "$1" = "install" ]; then
 
 	# Create script to start playback
 
-	echo "#!/bin/bash\n\n$PREFIX/bin/xwinwrap -fs -fdt -ni -b -nf -un -o 1.0 -- /usr/bin/cvlc --no-video-title-show --drawable-xid WID --loop --no-audio $VIDEO_DEST" > "$START_SCRIPT_DEST"
+	printf "#!/bin/bash\n\n$PREFIX/bin/xwinwrap -fs -fdt -ni -b -nf -un -o 1.0 -- /usr/bin/cvlc --no-video-title-show --drawable-xid WID --loop --no-audio $VIDEO_DEST\n" > "$START_SCRIPT_DEST"
 
 	chmod +x "$AUTOSTART_DEST"
 	chmod +x "$START_SCRIPT_DEST"
