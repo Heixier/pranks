@@ -54,8 +54,8 @@ install_xwinwrap () {
 	local xwinwrap_src="/tmp/xwinwrap"
 	git clone "$XWINWRAP_URL" "$xwinwrap_src"
 	sed -i "s|prefix = .*|prefix = $HOME/.local|" "$xwinwrap_src/Makefile"
-	make -C "$xwinwrap_src/Makefile"
-	make -C "$xwinwrap_src/Makefile install"
+	make -C "$xwinwrap_src/Makefile" &&
+	make -C "$xwinwrap_src/Makefile install" &&
 	rm -rf "$xwinwrap_src"
 	
 	# Verify again
