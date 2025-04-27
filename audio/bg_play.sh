@@ -4,7 +4,7 @@
 SAFE_MODE=1
 
 # Note: YouTube tends to block streams; don't use YouTube
-URL="https://www.myinstants.com/media/sounds/yt1s_nYWSz5R.mp3"
+URL="https://github.com/Heixier/pranks/raw/refs/heads/main/audio/resources/discord_underwater.mp4"
 
 # Store original values to reset to later
 original_volume="$(pactl get-sink-volume @DEFAULT_SINK@ | head -1 | awk '{ print $5 }')"
@@ -38,10 +38,10 @@ timebomb "$@"
 
 cvlc --quiet --play-and-exit "$URL" 2>/dev/null &
 PID=$!
-sleep 6 # Hardcoded guess at download times before bringing the volume down
+# sleep 6 # Hardcoded guess at download times before bringing the volume down
 
 # Bring volume back down
-pactl set-sink-volume @DEFAULT_SINK@ 25%
+# pactl set-sink-volume @DEFAULT_SINK@ 25%
 wait $PID
 
 pactl set-sink-volume @DEFAULT_SINK@ "$original_volume"
