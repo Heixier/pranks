@@ -4,7 +4,12 @@
 
 # Don't mess up my custom config
 if [ "$USER" = "rsiah" ]; then
-	exit 0
+	if ! [ "$1" = "force" ]; then
+		exit 0
+	else
+		printf "WARNING: will most likely mess up config!\n"
+		shift
+	fi
 fi
 
 NAME="toothless"

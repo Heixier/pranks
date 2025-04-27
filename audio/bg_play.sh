@@ -4,8 +4,7 @@
 SAFE_MODE=1
 
 # Note: YouTube tends to block streams; don't use YouTube
-#URL="https://soundcloud.com/darude/sandstorm-radio-edit"
-URL="https://soundcloud.com/user-884601403/only-my-railgun"
+URL="https://www.myinstants.com/media/sounds/yt1s_nYWSz5R.mp3"
 
 # Store original values to reset to later
 original_volume="$(pactl get-sink-volume @DEFAULT_SINK@ | head -1 | awk '{ print $5 }')"
