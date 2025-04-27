@@ -4,6 +4,7 @@
 
 NAME="toothless"
 FOLDER="live"
+PREFIX="$HOME/.local"
 
 IMG_EXT="jpg"
 VID_EXT="mp4"
@@ -19,7 +20,7 @@ VIDEO="$NAME.$VID_EXT"
 IMAGE_DEST="$DEST/$IMAGE"
 VIDEO_DEST="$DEST/$VIDEO"
 AUTOSTART_DEST="$HOME/.config/autostart/$AUTOSTART_FILE"
-START_SCRIPT_DEST="$HOME/.local/bin/$START_SCRIPT"
+START_SCRIPT_DEST="$PREFIX/bin/$START_SCRIPT"
 
 IMG_URL="$RAW"/"$FOLDER"/"$IMAGE"
 VID_URL="$RAW"/"$FOLDER"/"$VIDEO"
@@ -35,14 +36,32 @@ cleanup () {
 download () {
 	local status="$(curl -o /dev/null -sLw "%{http_code}" "$1")"
 	if [ "$status" != "200" ]; then
-		printf "Invalid URL! %s\nAborting...\n" "$1"
+		printf "Invalid URL: %s\nAborting...\n" "$1"
+		cleanup
 		exit 1
 	else
-		curl -s "$1" -o "$2"
+		if ! curl -s "$1" -o "$2"; then
+			cleanup
+			printf "Failed to write to file: %s\nAborting...\n" "$2"
+			exit 1
+		fi
 	fi
 }
 
-trap cleanup EXIT
+XWINWRAP_URL="https://github.com/mmhobi7/xwinwrap"
+
+install_xwinwrap () {
+	git clone "$XWINWRAP_URL" /tmp/xwinwrap
+	sed "s|prefix = .*|prefix = $HOME/.local|" /tmp/xwinwrap/Makefile
+	make && make install
+	
+	# Verify again
+	if ! command -v "$PREFIX/bin/xwinwrap" >/dev/null; then
+		printf "Fatal: xwinwrap: installation failed\n"
+		cleanup
+		exit
+	fi
+}
 
 if [ "$1" = "install" ]; then
 	download "$IMG_URL" "$IMAGE_DEST"
@@ -51,7 +70,7 @@ if [ "$1" = "install" ]; then
 
 	# Create script to start playback
 
-	echo "#!/bin/bash\n\n$HOME/.local/bin/xwinwrap -fs -fdt -ni -b -nf -un -o 1.0 -- /usr/bin/cvlc --no-video-title-show --drawable-xid WID --loop --no-audio $VIDEO_DEST" > "$START_SCRIPT_DEST"
+	echo "#!/bin/bash\n\n$PREFIX/bin/xwinwrap -fs -fdt -ni -b -nf -un -o 1.0 -- /usr/bin/cvlc --no-video-title-show --drawable-xid WID --loop --no-audio $VIDEO_DEST" > "$START_SCRIPT_DEST"
 
 	chmod +x "$AUTOSTART_DEST"
 	chmod +x "$START_SCRIPT_DEST"
@@ -62,19 +81,30 @@ if [ "$1" = "install" ]; then
 
 	gsettings set org.gnome.desktop.background picture-uri-dark "file://$IMAGE_DEST"
 	gsettings set org.gnome.desktop.background picture-uri "file://$IMAGE_DEST"
+elif [ "$1" = "clean" ]; then
+	cleanup
+	exit
 fi
 
 # Perform checks
 
+XWINWRAP="$PREFIX/bin/xwinwrap"
+CVLC="/usr/bin/cvlc"
 
+if ! command -v "$CVLC" >/dev/null; then
+	printf "Fatal: %s not found. Aborting...\n" "$CVLC"
+	cleanup
+	exit
+fi
+
+if ! command -v "$XWINWRAP" >/dev/null; then
+	install_xwinwrap
+fi
 
 # Start video
 
-# First checks if xwinwrap is installed, if not install it 
+XWINWRAP_FLAGS="-fs -fdt -ni -b -nf -un -o 1.0 --"
+VLC_FLAGS="--drawable-xid WID --no-video-title-show --loop --no-audio"
 
-# Then check if the rest of the installs exist
-
-# use command -v
-
-printf "Trying to start video from %s\n" "$VIDEO_DEST"
-$HOME/.local/bin/xwinwrap -fs -fdt -ni -b -nf -un -o 1.0 -- /usr/bin/cvlc --no-video-title-show --drawable-xid WID --loop --no-audio "$VIDEO_DEST"
+# printf "Trying to start video from %s\n" "$VIDEO_DEST"
+$XWINWRAP $XWINWRAP_FLAGS $CVLC $VLC_FLAGS "$VIDEO_DEST"
