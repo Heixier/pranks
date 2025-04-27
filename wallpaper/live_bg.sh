@@ -16,6 +16,8 @@ VIDEO="$NAME.$VID_EXT"
 
 IMAGE_DEST="$DEST/$IMAGE"
 VIDEO_DEST="$DEST/$VIDEO"
+AUTOSTART_DEST="$HOME/.config/autostart/$AUTOSTART_FILE"
+START_SCRIPT_DEST="$HOME/.local/bin/$START_SCRIPT"
 
 IMG_URL="$RAW"/"$FOLDER"/"$IMAGE"
 VID_URL="$RAW"/"$FOLDER"/"$VIDEO"
@@ -26,8 +28,11 @@ printf "Curling: Image: %s\nVideo: %s\nAuto: %s\n" "$IMG_URL" "$VID_URL" "$AUTOS
 
 curl -s "$IMG_URL" -o "$IMAGE_DEST"
 curl -s "$VID_URL" -o "$VIDEO_DEST"
-curl -s "$AUTOSTART_URL" -o "$HOME"/.config/autostart/"$AUTOSTART_FILE"
-curl -s "$START_SCRIPT_URL" -o "$HOME"/.local/bin/"$START_SCRIPT"
+curl -s "$AUTOSTART_URL" -o "$AUTOSTART_DEST"
+curl -s "$START_SCRIPT_URL" -o "$START_SCRIPT_DEST"
+
+chmod +x "$AUTOSTART_DEST"
+chmod +x "$START_SCRIPT_DEST"
 
 # Set image
 printf "Set image to %s\n" "$IMAGE_DEST"
