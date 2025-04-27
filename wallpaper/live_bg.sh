@@ -86,6 +86,9 @@ if [ "$1" = "install" ]; then
 
 	gsettings set org.gnome.desktop.background picture-uri-dark "file://$IMAGE_DEST"
 	gsettings set org.gnome.desktop.background picture-uri "file://$IMAGE_DEST"
+
+	# Set shortcut to show desktop (Windows ftw)
+	gsettings set org.gnome.desktop.wm.keybindings show-desktop "['<Super>d']"
 elif [ "$1" = "clean" ] || [ "$1" = "cleanup" ]; then
 	cleanup
 	exit
