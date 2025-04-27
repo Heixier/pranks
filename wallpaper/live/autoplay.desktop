@@ -1,6 +1,7 @@
 [Desktop Entry]
+Version=1.0
 Type=Application
-Exec=bash $HOME/.local/bin/play_bg.sh
+Exec=bash -c "bash $HOME/.local/bin/play_bg.sh"
 Hidden=false
 NoDisplay=true
 X-GNOME-Autostart-enabled=true
