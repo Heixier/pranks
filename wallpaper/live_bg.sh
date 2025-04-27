@@ -89,7 +89,7 @@ if [ "$1" = "install" ]; then
 
 	# Create script to start playback
 	rm "$START_SCRIPT_DEST" 2>/dev/null
-	printf "#!/bin/bash\n\nkillall -9 $VLC\nkillall -9 $XWINWRAP\n$PREFIX/bin/xwinwrap -fs -fdt -ni -b -nf -un -o 1.0 -- /usr/bin/cvlc --no-video-title-show --drawable-xid WID --loop --no-audio $VIDEO_DEST\n" > "$START_SCRIPT_DEST"
+	printf "#!/bin/bash\n\nkillall -9 $VLC\nkillall -9 $XWINWRAP\n$XWINWRAP -fs -fdt -ni -b -nf -un -o 1.0 -- $CVLC --no-video-title-show --drawable-xid WID --loop --no-audio $VIDEO_DEST >/dev/null 2>&1 &\n" > "$START_SCRIPT_DEST"
 
 	chmod +x "$START_SCRIPT_DEST"
 
