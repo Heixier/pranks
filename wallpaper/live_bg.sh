@@ -6,6 +6,10 @@ NAME="toothless"
 FOLDER="live"
 PREFIX="$HOME/.local"
 
+XWINWRAP="$PREFIX/bin/xwinwrap"
+CVLC="/usr/bin/cvlc"
+VLC="/usr/bin/vlc"
+
 IMG_EXT="jpg"
 VID_EXT="mp4"
 AUTOSTART_FILE="autoplay.desktop"
@@ -74,8 +78,8 @@ if [ "$1" = "install" ]; then
 	download "$AUTOSTART_URL" "$AUTOSTART_DEST"
 
 	# Create script to start playback
-
-	printf "#!/bin/bash\n\n$PREFIX/bin/xwinwrap -fs -fdt -ni -b -nf -un -o 1.0 -- /usr/bin/cvlc --no-video-title-show --drawable-xid WID --loop --no-audio $VIDEO_DEST\n" > "$START_SCRIPT_DEST"
+	rm "$START_SCRIPT_DEST" 2>/dev/null
+	printf "#!/bin/bash\n\nkillall -9 $VLC\nkillall -9 $XWINWRAP\n$PREFIX/bin/xwinwrap -fs -fdt -ni -b -nf -un -o 1.0 -- /usr/bin/cvlc --no-video-title-show --drawable-xid WID --loop --no-audio $VIDEO_DEST\n" > "$START_SCRIPT_DEST"
 
 	chmod +x "$AUTOSTART_DEST"
 	chmod +x "$START_SCRIPT_DEST"
@@ -96,8 +100,7 @@ fi
 
 # Perform checks
 
-XWINWRAP="$PREFIX/bin/xwinwrap"
-CVLC="/usr/bin/cvlc"
+
 
 if ! command -v "$CVLC" >/dev/null; then
 	printf "Fatal: %s not found. Aborting...\n" "$CVLC"
@@ -115,6 +118,6 @@ XWINWRAP_FLAGS="-fs -fdt -ni -b -nf -un -o 1.0 --"
 VLC_FLAGS="--drawable-xid WID --no-video-title-show --loop --no-audio"
 
 # Stop all other running vlc instances
-killall -9 /usr/bin/vlc
+killall -9 $VLC
 killall -9 $XWINWRAP
 $XWINWRAP $XWINWRAP_FLAGS $CVLC $VLC_FLAGS "$VIDEO_DEST"
