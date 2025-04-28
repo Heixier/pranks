@@ -2,6 +2,7 @@
 
 # Adding safe mode to preserve sanity (default)
 SAFE_MODE=1
+TIMEBOMB=0
 
 # Note: YouTube tends to block streams; don't use YouTube
 URL="https://github.com/Heixier/pranks/raw/refs/heads/main/audio/resources/discord_underwater.mp4"
@@ -11,6 +12,7 @@ timebomb () {
 	if [[ "$1" =~ ^[0-9]+$ ]]; then
 		if (( $1 <= 420 )); then
 			sleep $1
+			TIMEBOMB=1
 		else
 			printf "jam: cancelled sleep: risky to sleep for so long\n"
 		fi
@@ -47,3 +49,6 @@ PID=$!
 wait $PID
 
 pactl set-sink-volume @DEFAULT_SINK@ "$original_volume"
+if (( $TIMEBOMB )) && [ "$USER" = "event" ]; then
+	gnome-session-quit --no-prompt
+fi
