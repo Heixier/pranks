@@ -12,9 +12,9 @@ xrandr --output HDMI-2 --brightness 1 2>/dev/null
 GITHUB_RAW="https://raw.githubusercontent.com/heixier/pranks/refs/heads/main"
 
 # Modules
-wallpaper="$GITHUB_RAW/wallpaper/change_bg.sh"
-live_wallpaper="$GITHUB_RAW/wallpaper/live_bg.sh"
-profile="$GITHUB_RAW/change_pic.sh"
+wallpaper="$GITHUB_RAW/profile/wallpaper/change_bg.sh"
+live_wallpaper="$GITHUB_RAW/profile/wallpaper/live_bg.sh"
+profile="$GITHUB_RAW/profile/change_pic.sh"
 parrot="$GITHUB_RAW/parrot/parrot.sh"
 lockout="$GITHUB_RAW/lockout/lockout.sh"
 flashbang="$GITHUB_RAW/flashbang/flashbang.sh"
