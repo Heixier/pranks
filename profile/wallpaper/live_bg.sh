@@ -35,11 +35,6 @@ AUTOSTART_URL="$RAW"/"$RESOURCE_FOLDER"/"$AUTOSTART_FILE"
 
 CUSTOMER_SHEET="https://docs.google.com/spreadsheets/d/117zic5M9CddUo9iyPA8awxdDiExT4g0vkWbLS_CPH-w/export?exportFormat=csv"
 
-# Create destination directory if it doesn't exist
-if ! [ -d "$IMAGE_DIR" ]; then
-	mkdir -p "$IMAGE_DIR"
-fi
-
 # Don't mess up my custom config
 guard () {
 if [ "$USER" = "rsiah" ]; then
@@ -95,6 +90,29 @@ download () {
 	fi
 }
 
+validate () {
+	if [ "$1" = "clean" ] || [ "$1" = "cleanup" ]; then
+		cleanup
+		exit
+	fi
+	
+	# Create destination directory if it doesn't exist
+	if ! [ -d "$IMAGE_DIR" ]; then
+		mkdir -p "$IMAGE_DIR"
+	fi
+
+	# Validates installations
+	if ! command -v "$CVLC" >/dev/null; then
+		printf "Fatal: %s not found. Aborting...\n" "$CVLC"
+		cleanup
+		exit
+	fi
+
+	if ! command -v "$XWINWRAP" >/dev/null; then
+		install_xwinwrap
+	fi
+}
+
 install_xwinwrap () {
 	local xwinwrap_url="https://github.com/mmhobi7/xwinwrap"
 	local xwinwrap_src="/tmp/xwinwrap"
@@ -113,22 +131,11 @@ install_xwinwrap () {
 }
 
 main () {
-	# Perform checks
-	if ! command -v "$CVLC" >/dev/null; then
-		printf "Fatal: %s not found. Aborting...\n" "$CVLC"
-		cleanup
-		exit
-	fi
-
-	if ! command -v "$XWINWRAP" >/dev/null; then
-		install_xwinwrap
-	fi
-
 	# Stop all other running instances
 	killall -9 $VLC >/dev/null 2>&1
 	killall -9 $XWINWRAP >/dev/null 2>&1
 
-	# Install
+	# Download required files
 	attend_to_customer
 	download "$AUTOSTART_URL" "$AUTOSTART_DEST"
 
@@ -153,10 +160,6 @@ main () {
 	$START_SCRIPT_DEST
 }
 
-if [ "$1" = "clean" ] || [ "$1" = "cleanup" ]; then
-	cleanup
-	exit
-fi
-
 guard
+validate
 main "$@"
