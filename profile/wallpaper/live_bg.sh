@@ -21,10 +21,10 @@ CVLC="/usr/bin/cvlc"
 VLC="/usr/bin/vlc"
 
 XWINWRAP_FLAGS="-fs -fdt -ni -b -nf -un -o 1.0 --"
-VLC_FLAGS="--drawable-xid WID --no-video-title-show --loop --no-audio"
+VLC_FLAGS="--drawable-xid WID --no-video-title-show --loop --no-audio --crop=16:9"
 
 IMG_EXT="jpg"
-# VID_EXT="mp4"
+VID_EXT="mp4"
 AUTOSTART_FILE="autoplay.desktop"
 START_SCRIPT="play_bg.sh"
 
@@ -32,7 +32,8 @@ DEST="$HOME/.local/share/backgrounds"
 RAW="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/profile/wallpaper"
 
 IMAGE="$NAME.$IMG_EXT"
-# VIDEO="$NAME.$VID_EXT"
+VIDEO="$NAME.$VID_EXT"
+VID_HEADER=()
 
 IMAGE_DEST="$DEST/$IMAGE"
 # VIDEO_DEST="$DEST/$VIDEO" # Deprecated, now streams instead of downloading
@@ -42,7 +43,6 @@ START_SCRIPT_DEST="$PREFIX/bin/$START_SCRIPT"
 
 # IMG_URL="$RAW"/"$FOLDER"/"$IMAGE" # Deprecated, now takes a screenshot with vlc instead
 VID_URL="$RAW"/"$FOLDER"/"$VIDEO"
-VID_HEADERS=()
 
 AUTOSTART_URL="$RAW"/"$FOLDER"/"$AUTOSTART_FILE"
 
@@ -71,12 +71,12 @@ attend_to_customer () {
 	fi
 
 	if [[ "$vid_url" == *"moewalls.com"* ]]; then
-		VID_HEADERS+=("-H 'Referer: https:moewalls.com'")
+		VID_HEADER+=("-H" "'Referer: https://moewalls.com'")
 	fi
 
-	status="$(curl -o /dev/null -sLw "%{http_code}" "$vid_url" "${headers[*]}")"
+	status="$(curl -o /dev/null -sLw "%{http_code}" "$vid_url" "${VID_HEADER[@]}")"
 	if [ "$status" != "200" ]; then
-		printf "Invalid URL: %s\nAborting...\n" "$1"
+		printf "Invalid URL: %s\nAborting... %s\n" "$vid_url" "$status"
 		cleanup
 		exit 1
 	else
@@ -146,7 +146,7 @@ download "$AUTOSTART_URL" "$AUTOSTART_DEST"
 # Create script to start playback
 rm "$START_SCRIPT_DEST" 2>/dev/null
 sleep 0.1 # For some reason && did not work
-printf "#!/bin/bash\n\nkillall -9 $VLC >/dev/null 2>&1\nkillall -9 $XWINWRAP >/dev/null 2>&1\n$XWINWRAP $XWINWRAP_FLAGS $CVLC $VLC_FLAGS <(curl -sL $VID_URL "${VID_HEADERS[*]}") >/dev/null 2>&1 &\n" > "$START_SCRIPT_DEST"
+printf "#!/bin/bash\n\nkillall -9 $VLC >/dev/null 2>&1\nkillall -9 $XWINWRAP >/dev/null 2>&1\n$XWINWRAP $XWINWRAP_FLAGS $CVLC $VLC_FLAGS <(curl -sL \"$VID_URL\" ${VID_HEADER[*]}) >/dev/null 2>&1 &\n" > "$START_SCRIPT_DEST"
 
 chmod +x "$START_SCRIPT_DEST"
 
