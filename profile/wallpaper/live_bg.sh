@@ -19,7 +19,7 @@ START_SCRIPT="play_bg.sh"
 # IMAGE
 IMAGE="toothless.jpg"
 IMAGE_DIR="$HOME/.local/share/backgrounds"
-IMAGE_DEST="$IMAGE_DIR/$IMAGE"
+IMAGE_DEST="$IMAGE_DIR/.heix.jpg"
 
 # VIDEO
 VIDEO="toothless.mp4"
@@ -39,6 +39,7 @@ CUSTOMER_SHEET="https://docs.google.com/spreadsheets/d/117zic5M9CddUo9iyPA8awxdD
 guard () {
 if [ "$USER" = "rsiah" ]; then
 	if ! [ "$1" = "force" ]; then
+		printf "oops\n"
 		exit 0
 	else
 		printf "WARNING: will most likely mess up config!\n"
@@ -52,6 +53,46 @@ cleanup () {
 	rm -f "$VID_DEST"
 	rm -f "$AUTOSTART_DEST"
 	rm -f "$START_SCRIPT_DEST"
+}
+
+install_xwinwrap () {
+	local xwinwrap_url="https://github.com/mmhobi7/xwinwrap"
+	local xwinwrap_src="/tmp/xwinwrap"
+	git clone "$xwinwrap_url" "$xwinwrap_src"
+	sed -i "s|prefix = .*|prefix = $HOME/.local|" "$xwinwrap_src/Makefile"
+	make -C "$xwinwrap_src" &&
+	make -C "$xwinwrap_src" install &&
+	rm -rf "$xwinwrap_src"
+	
+	# Verify again
+	if ! command -v "$PREFIX/bin/xwinwrap" >/dev/null; then
+		printf "Fatal: xwinwrap: installation failed\n"
+		cleanup
+		exit
+	fi
+}
+
+validate () {
+	if [ "$1" = "clean" ] || [ "$1" = "cleanup" ]; then
+		cleanup
+		exit
+	fi
+	
+	# Create destination directory if it doesn't exist
+	if ! [ -d "$IMAGE_DIR" ]; then
+		mkdir -p "$IMAGE_DIR"
+	fi
+
+	# Validates installations
+	if ! command -v "$CVLC" >/dev/null; then
+		printf "Fatal: %s not found. Aborting...\n" "$CVLC"
+		cleanup
+		exit
+	fi
+
+	if ! command -v "$XWINWRAP" >/dev/null; then
+		install_xwinwrap
+	fi
 }
 
 # Helps customers install their custom video file instead of the default
@@ -85,49 +126,32 @@ download () {
 		exit 1
 	else
 		if ! curl -sL "$1" -o "$2"; then
-			printf "Failed to write to file: %s\nSkipping...\n" "$2"
+			printf "Warning: failed to write to file: %s\nSkipping...\n" "$2"
 		fi
 	fi
 }
 
-validate () {
-	if [ "$1" = "clean" ] || [ "$1" = "cleanup" ]; then
-		cleanup
-		exit
-	fi
-	
-	# Create destination directory if it doesn't exist
-	if ! [ -d "$IMAGE_DIR" ]; then
-		mkdir -p "$IMAGE_DIR"
-	fi
+# Get the first frame from the video and save it as the background image
+create_image () {
+	local prefix="heix"
+	local fileno="00001"
+	local format="png"
+	local new_image="$IMAGE_DIR"/"$prefix""$fileno"."$format"
 
-	# Validates installations
-	if ! command -v "$CVLC" >/dev/null; then
-		printf "Fatal: %s not found. Aborting...\n" "$CVLC"
+	cvlc "$VID_DEST" --rate=1 --video-filter=scene --vout=dummy --start-time=0 --stop-time=1 --scene-format="$format" --scene-ratio=1337 --scene-prefix="$prefix" --scene-path="$IMAGE_DIR" vlc://quit >/dev/null 2>&1
+	if ! [[ -f "$new_image" ]]; then
+		printf "Warning: failed to create background image\n"
 		cleanup
-		exit
+		exit 1
 	fi
+	mv "$new_image" "$IMAGE_DEST"
 
-	if ! command -v "$XWINWRAP" >/dev/null; then
-		install_xwinwrap
-	fi
-}
+	# Set image as wallpaper
+	gsettings set org.gnome.desktop.background color-shading-type 'solid'
+	gsettings set org.gnome.desktop.background picture-options 'zoom'
 
-install_xwinwrap () {
-	local xwinwrap_url="https://github.com/mmhobi7/xwinwrap"
-	local xwinwrap_src="/tmp/xwinwrap"
-	git clone "$xwinwrap_url" "$xwinwrap_src"
-	sed -i "s|prefix = .*|prefix = $HOME/.local|" "$xwinwrap_src/Makefile"
-	make -C "$xwinwrap_src" &&
-	make -C "$xwinwrap_src" install &&
-	rm -rf "$xwinwrap_src"
-	
-	# Verify again
-	if ! command -v "$PREFIX/bin/xwinwrap" >/dev/null; then
-		printf "Fatal: xwinwrap: installation failed\n"
-		cleanup
-		exit
-	fi
+	gsettings set org.gnome.desktop.background picture-uri-dark "file://$IMAGE_DEST"
+	gsettings set org.gnome.desktop.background picture-uri "file://$IMAGE_DEST"
 }
 
 main () {
@@ -137,6 +161,7 @@ main () {
 
 	# Download required files
 	attend_to_customer
+	create_image
 	download "$AUTOSTART_URL" "$AUTOSTART_DEST"
 
 	# Create script to start playback
@@ -146,13 +171,6 @@ main () {
 
 	chmod +x "$START_SCRIPT_DEST"
 
-	# Set image
-	gsettings set org.gnome.desktop.background color-shading-type 'solid'
-	gsettings set org.gnome.desktop.background picture-options 'zoom'
-
-	gsettings set org.gnome.desktop.background picture-uri-dark "file://$IMAGE_DEST"
-	gsettings set org.gnome.desktop.background picture-uri "file://$IMAGE_DEST"
-
 	# Set shortcut to show desktop (Windows ftw)
 	gsettings set org.gnome.desktop.wm.keybindings show-desktop "['<Super>d', '<Control><Alt>d', '<Control><Super>d']"
 
@@ -160,6 +178,6 @@ main () {
 	$START_SCRIPT_DEST
 }
 
-guard
-validate
+guard "$@"
+validate "$@"
 main "$@"
