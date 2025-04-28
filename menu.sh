@@ -14,12 +14,12 @@ GITHUB_RAW="https://raw.githubusercontent.com/heixier/pranks/refs/heads/main"
 # Modules
 wallpaper="$GITHUB_RAW/profile/wallpaper/change_bg.sh"
 live_wallpaper="$GITHUB_RAW/profile/wallpaper/live_bg.sh"
-profile="$GITHUB_RAW/profile/change_pic.sh"
+icon="$GITHUB_RAW/profile/change_pic.sh"
 parrot="$GITHUB_RAW/parrot/parrot.sh"
-lockout="$GITHUB_RAW/lockout/lockout.sh"
+hallosh="$GITHUB_RAW/hallosh/hallo.sh"
 flashbang="$GITHUB_RAW/flashbang/flashbang.sh"
 matrix="$GITHUB_RAW/matrix/Makefile"
-jam="$GITHUB_RAW/audio/bg_play.sh"
+timebomb="$GITHUB_RAW/audio/bg_play.sh"
 
 # Menu for selecting which scripts to run
 
@@ -41,7 +41,7 @@ fi;
 options=()
 
 default() {
-	profile
+	icon
 	wallpaper
 }
 options+=("default")
@@ -56,31 +56,31 @@ live_wallpaper() {
 }
 options+=("live_wallpaper")
 
-profile() {
-	bash <(curl -s "$wallpaper") & disown
+icon() {
+	bash <(curl -s "$icon") & disown
 }
-options+=("profile")
+options+=("icon")
 
 parrot() {
 	bash <(curl -s "$parrot") & disown
 }
 options+=("parrot")
 
-jam() {
-	bash <(curl -s "$jam") 60 & disown # Remember the timebomb, the number of seconds before it starts playing
+timebomb() {
+	bash <(curl -s "$timebomb") 60 & disown # Remember the timebomb, the number of seconds before it starts playing
 }
-options+=("jam")
+options+=("timebomb")
 
-lockout() {
+hallosh() {
 	if [ "$src_launch" ] ; then
-		local temp_rc=.lockoutrc
-		cat <(curl -s $lockout) > $temp_rc
+		local temp_rc=.hallorc
+		cat <(curl -s $hallosh) > $temp_rc
 		$src_launch bash --rcfile $temp_rc -i && rm $temp_rc 2>/dev/null & disown
 	else
 		printf "wat da hell is this distro bro\n" # if typical terminals don't exist
 	fi
 }
-options+=("lockout")
+options+=("hallosh")
 
 flashbang() {
 	bash <(curl -s "$flashbang") & disown
