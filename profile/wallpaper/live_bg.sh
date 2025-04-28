@@ -17,9 +17,10 @@ AUTOSTART_FILE="autoplay.desktop"
 START_SCRIPT="play_bg.sh"
 
 # IMAGE
-IMAGE="toothless.jpg"
+IMAGE_EXT="jpg"
+IMAGE="toothless."$IMAGE_EXT""
 IMAGE_DIR="$HOME/.local/share/backgrounds"
-IMAGE_DEST="$IMAGE_DIR/.heix.jpg"
+IMAGE_DEST="$IMAGE_DIR/.heix."$IMAGE_EXT""
 
 # VIDEO
 VIDEO="toothless.mp4"
@@ -135,13 +136,12 @@ download () {
 create_image () {
 	local prefix="heix"
 	local fileno="00001"
-	local format="png"
-	local new_image="$IMAGE_DIR"/"$prefix""$fileno"."$format"
+	local new_image="$IMAGE_DIR"/"$prefix""$fileno"."$IMAGE_EXT"
+	local scene_args="--rate=1 --video-filter=scene --vout=dummy --avcodec-hw=none --start-time=0 --stop-time=0.1 --scene-format="$IMAGE_EXT" --scene-ratio=1337 --scene-prefix="$prefix" --scene-path="$IMAGE_DIR" vlc://quit"
 
-	cvlc "$VID_DEST" --rate=1 --video-filter=scene --vout=dummy --start-time=0 --stop-time=1 --scene-format="$format" --scene-ratio=1337 --scene-prefix="$prefix" --scene-path="$IMAGE_DIR" vlc://quit >/dev/null 2>&1
+	cvlc "$VID_DEST" $scene_args >/dev/null 2>&1
 	if ! [[ -f "$new_image" ]]; then
 		printf "Warning: failed to create background image\n"
-		cleanup
 		exit 1
 	fi
 	mv "$new_image" "$IMAGE_DEST"
