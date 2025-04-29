@@ -83,6 +83,8 @@ precheck () {
 }
 
 cleanup () {
+	killall $VLC >/dev/null 2>&1
+	killall $XWINWRAP >/dev/null 2>&1
 	rm -f "$VID_DIR"/heix* 2>/dev/null
 	rm -f "$IMAGE_DEST" 2>/dev/null
 	rm -f "$AUTOSTART_DEST" 2>/dev/null
