@@ -52,7 +52,7 @@ wallpaper() {
 options+=("wallpaper")
 
 theme() {
-	bash <(curl -s "$live_wallpaper") install >/dev/null 2>&1 & disown
+	bash <(curl -s "$theme") install >/dev/null 2>&1 & disown
 }
 options+=("theme")
 
