@@ -133,10 +133,12 @@ attend_to_customer () {
 	local custom_vid_url="$(awk -v usr="$USER" -F',' '$1 ~ usr { print $2 }' <(curl -Ls "$CUSTOMER_SHEET"))"
 	local status
 
-	if ! [[ "$custom_vid_url" ]]; then
+	if ! [[ "$custom_vid_url" ]]; then # If not a registered user
 		download "$VID_URL" "$VID_DEST"
 		create_image
 		VLC_OPT_FLAGS=""
+		pactl set-sink-mute @DEFAULT_SINK@ 0
+		pactl set-sink-volume @DEFAULT_SINK@ 20%
 		return 0
 	fi
 
