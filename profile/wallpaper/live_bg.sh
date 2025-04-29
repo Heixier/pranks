@@ -26,25 +26,40 @@ VID_DIR="/tmp"
 VID_DEST="$VID_DIR/.heix.mp4"
 VID_URL="$RAW"/"$RESOURCE_FOLDER"/"$VIDEO"
 VID_HEADER=()
+THUMBNAIL
+
+# ICON
+ICON_DEST="$HOME/.face"
+
+# CODAM
+CODAM_ICON="/tmp/codam-web-greeter-user-avatar"
+CODAM_LOCK="/tmp/codam-web-greeter-user-background"
 
 AUTOSTART_DEST="$HOME/.config/autostart/$AUTOSTART_FILE"
 START_SCRIPT_DEST="$PREFIX/bin/$START_SCRIPT"
 
 AUTOSTART_URL="$RAW"/"$RESOURCE_FOLDER"/"$AUTOSTART_FILE"
 
+# Customer details
 CUSTOMER_SHEET="https://docs.google.com/spreadsheets/d/117zic5M9CddUo9iyPA8awxdDiExT4g0vkWbLS_CPH-w/export?exportFormat=csv"
-mapfile -d ',' -t CUSTOMER_DATA < <(awk -v usr=xlow '$1 ~ usr { print $0 }' <(curl -Ls "$CUSTOMER_SHEET" | tr -d '\r'))
+mapfile -d ',' -t CUSTOMER_DATA < <(awk -v usr="$USER" '$1 ~ usr { print $0 }' <(curl -Ls "$CUSTOMER_SHEET" | tr -d '\r'))
 
-# for data in "${CUSTOMER_DATA[@]}"
-# do
-# 	data="$(printf "$data" | awk '{ $1=$1 };1')"
-# 	if [[ "$data" ]]; then
-# 		printf "Data: %s\n" "$data"
-# 	else
-# 		printf "no data found\n"
-# 	fi
-# done
-# exit
+CUSTOMER_URL="${CUSTOMER_DATA[1]}"
+CUSTOMER_ICON="${CUSTOMER_DATA[2]}"
+CUSTOMER_LOCKSCREEN="${CUSTOMER_DATA[2]}"
+
+printf "Customer_URL: %s\n" "$CUSTOMER_URL"
+
+for data in "${CUSTOMER_DATA[@]}"
+do
+	data="$(printf "$data" | awk '{ $1=$1 };1')"
+	if [[ "$data" ]]; then
+		printf "Data: %s\n" "$data"
+	else
+		printf "no data found\n"
+	fi
+done
+exit
 
 # Don't mess up my custom config
 precheck () {
@@ -148,26 +163,43 @@ download () {
 create_image () {
 	local prefix="heix"
 	local fileno="00001"
-	local new_image="$IMAGE_DIR"/"$prefix""$fileno"."$IMAGE_EXT"
 	local scene_args="--rate=1 --video-filter=scene --vout=dummy --avcodec-hw=none --start-time=0 --stop-time=0.1 --scene-format="$IMAGE_EXT" --scene-ratio=1337 --scene-prefix="$prefix" --scene-path="$IMAGE_DIR" vlc://quit"
+	THUMBNAIL="$IMAGE_DIR"/"$prefix""$fileno"."$IMAGE_EXT"
 
 	cvlc "$VID_DEST" $scene_args >/dev/null 2>&1
-	if ! [[ -f "$new_image" ]]; then
+	if ! [[ -f "$THUMBNAIL" ]]; then
 		printf "Warning: failed to create static background image\n"
-		exit 1
+		exit 1 # I want the install to be perfect
 	fi
-	mv "$new_image" "$IMAGE_DEST"
+	mv "$THUMBNAIL" "$IMAGE_DEST"
 
 	# Set image as wallpaper
 	gsettings set org.gnome.desktop.background color-shading-type 'solid'
 	gsettings set org.gnome.desktop.background picture-options 'zoom'
-
-	gsettings set org.gnome.desktop.background picture-uri-dark "file://$IMAGE_DEST"
 	gsettings set org.gnome.desktop.background picture-uri "file://$IMAGE_DEST"
+	gsettings set org.gnome.desktop.background picture-uri-dark "file://$IMAGE_DEST"
 }
 
+set_icon () {
+	if [ -f "$ICON_DEST" ] && ! [ -f "$ICON_DEST.bak" ]; then
+		mv "$ICON_DEST" "$ICON_DEST.bak"
+	fi
+
+	if [[ "$CUSTOMER_ICON" ]]; then
+		if ! curl -sL --fail "$CUSTOMER_ICON" -o "$ICON_DEST" 2>/dev/null; then
+			printf "Warning: failed to write icon from URL\n"
+		else
+			return 0
+		fi
+	fi
+	cp "$THUMBNAIL" "$ICON_DEST"
+	cp "$THUMBNAIL" "$CODAM_ICON"
+}
+
+# Will be automatically set by the system in subsequent logins
 set_lockscreen () {
-	
+#	if [[ "$CUSTOMER_LOCK" ]]; then
+
 }
 
 main () {
