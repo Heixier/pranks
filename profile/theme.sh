@@ -13,7 +13,8 @@ CVLC="/usr/bin/cvlc"
 VLC="/usr/bin/vlc"
 
 XWINWRAP_FLAGS="-fs -fdt -ni -b -nf -un -o 1.0 --"
-VLC_FLAGS="--drawable-xid WID --no-video-title-show --loop --no-audio --crop=16:9"
+VLC_FLAGS="--drawable-xid WID --no-video-title-show --loop --crop=16:9"
+VLC_OPT_FLAGS="--no-audio"
 
 AUTOSTART_FILE="autoplay.desktop"
 START_SCRIPT="play_bg.sh"
@@ -135,6 +136,7 @@ attend_to_customer () {
 	if ! [[ "$custom_vid_url" ]]; then
 		download "$VID_URL" "$VID_DEST"
 		create_image
+		VLC_OPT_FLAGS=""
 		return 0
 	fi
 
@@ -251,7 +253,7 @@ start_video () {
 	killall $XWINWRAP >/dev/null 2>&1
 
 	# Start video
-	$XWINWRAP $XWINWRAP_FLAGS $CVLC $VLC_FLAGS $VID_DEST >/dev/null 2>&1 &
+	$XWINWRAP $XWINWRAP_FLAGS $CVLC $VLC_OPT_FLAGS $VLC_FLAGS $VID_DEST >/dev/null 2>&1 &
 }
 
 main () {
