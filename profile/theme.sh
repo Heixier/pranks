@@ -55,7 +55,7 @@ CUSTOMER_URL="$(printf "%s\n" "${CUSTOMER_DATA[1]}" | awk '{ $1=$1 };1')"
 CUSTOMER_ICON="$(printf "%s\n" "${CUSTOMER_DATA[2]}" | awk '{ $1=$1 };1')"
 CUSTOMER_LOCKSCREEN="$(printf "%s\n" "${CUSTOMER_DATA[3]}" | awk '{ $1=$1 };1')"
 
-CUSTOMER_OPT_OUT_FLAG="NULL"
+CUSTOMER_OPT_OUT_FLAG="SKIP"
 
 # Don't mess up my custom config
 precheck () {
@@ -169,7 +169,8 @@ download () {
 	fi
 }
 
-# Get the first frame from the video and save it as the background image
+# Capture the first frame from the video and save it as the background image
+# Note --avcodec-hw=none is required when using --vout=dummy
 create_image () {
 	local prefix="heix"
 	local fileno="00001"
