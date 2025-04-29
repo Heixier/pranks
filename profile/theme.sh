@@ -1,8 +1,9 @@
 #!/bin/bash
 
+# Run in normal mode by default
 SCRIPT_MODE=0
 
-NAME="theme.sh" # I don't trust $0
+NAME="theme.sh"
 RAW="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main"
 SCRIPT_URL="$RAW"/profile/"$NAME"
 RESOURCE_FOLDER="profile/wallpaper/live"
@@ -238,7 +239,7 @@ create_start_script () {
 	sleep 0.1
 
 	# Call this parent script in script mode
-	if ! printf "#!/bin/bash\n\nbash <(curl -s $SCRIPT_URL) script\n" > "$START_SCRIPT_DEST"; then
+	if ! printf "#!/bin/bash\n\nbash <(curl -sL $SCRIPT_URL) script\n" > "$START_SCRIPT_DEST"; then
 		printf "Warning: failed to create autostart script\n"
 		return 1
 	fi
