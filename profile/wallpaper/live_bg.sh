@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Run this script with "install" to install the required files, otherwise it just launches
-
 RAW="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main"
 RESOURCE_FOLDER="profile/wallpaper/live"
 PREFIX="$HOME/.local"
@@ -35,18 +33,36 @@ START_SCRIPT_DEST="$PREFIX/bin/$START_SCRIPT"
 AUTOSTART_URL="$RAW"/"$RESOURCE_FOLDER"/"$AUTOSTART_FILE"
 
 CUSTOMER_SHEET="https://docs.google.com/spreadsheets/d/117zic5M9CddUo9iyPA8awxdDiExT4g0vkWbLS_CPH-w/export?exportFormat=csv"
+mapfile -d ',' -t CUSTOMER_DATA < <(awk -v usr=xlow '$1 ~ usr { print $0 }' <(curl -Ls "$CUSTOMER_SHEET" | tr -d '\r'))
+
+# for data in "${CUSTOMER_DATA[@]}"
+# do
+# 	data="$(printf "$data" | awk '{ $1=$1 };1')"
+# 	if [[ "$data" ]]; then
+# 		printf "Data: %s\n" "$data"
+# 	else
+# 		printf "no data found\n"
+# 	fi
+# done
+# exit
 
 # Don't mess up my custom config
-guard () {
-if [ "$USER" = "rsiah" ]; then
-	if ! [ "$1" = "force" ]; then
-		printf "oops\n"
-		exit 0
-	else
-		printf "WARNING: will most likely mess up config!\n"
-		shift
+precheck () {
+	if [ "$USER" = "rsiah" ]; then
+		if ! [ "$1" = "force" ]; then
+			printf "oops\n"
+			exit 0
+		else
+			printf "Overriding! May mess up configs!\n"
+			shift
+		fi
 	fi
-fi
+
+	# trigger cleanup instead of running the script
+	if [ "$1" = "clean" ] || [ "$1" = "cleanup" ]; then
+		cleanup
+		exit
+	fi
 }
 
 cleanup () {
@@ -74,10 +90,6 @@ install_xwinwrap () {
 }
 
 validate () {
-	if [ "$1" = "clean" ] || [ "$1" = "cleanup" ]; then
-		cleanup
-		exit
-	fi
 	
 	# Create destination directory if it doesn't exist
 	if ! [ -d "$IMAGE_DIR" ]; then
@@ -141,7 +153,7 @@ create_image () {
 
 	cvlc "$VID_DEST" $scene_args >/dev/null 2>&1
 	if ! [[ -f "$new_image" ]]; then
-		printf "Warning: failed to create background image\n"
+		printf "Warning: failed to create static background image\n"
 		exit 1
 	fi
 	mv "$new_image" "$IMAGE_DEST"
@@ -152,6 +164,10 @@ create_image () {
 
 	gsettings set org.gnome.desktop.background picture-uri-dark "file://$IMAGE_DEST"
 	gsettings set org.gnome.desktop.background picture-uri "file://$IMAGE_DEST"
+}
+
+set_lockscreen () {
+	
 }
 
 main () {
@@ -178,6 +194,6 @@ main () {
 	$START_SCRIPT_DEST
 }
 
-guard "$@"
+precheck "$@"
 validate "$@"
 main "$@"
