@@ -32,7 +32,7 @@ Note: may be out of date
 
 0. `default` (whatever I last set it to)
 1. `wallpaper`
-2. `live_wallpaper`
+2. `theme`
 3. `icon`
 4. `parrot`
 5. `timebomb`
@@ -46,11 +46,11 @@ These scripts are related to changing the user's environment and profile]
 ## Wallpaper
 Sets the user's wallpaper to something random.
 
-## Live Wallpaper
+## Theme
 ![toothless_demo](https://github.com/user-attachments/assets/e97ca49c-8675-4fb3-99cd-e369192e8f83)  
 Example of an animated wallpaper
 
-Seamlessly installs an animated wallpaper. Custom wallpapers can be requested via the [Wallpaper Sheet](https://docs.google.com/spreadsheets/d/117zic5M9CddUo9iyPA8awxdDiExT4g0vkWbLS_CPH-w). 
+Seamlessly installs an animated wallpaper, lockscreen (optional), and profile picture (optional). Custom media files can be requested via the [Wallpaper Sheet](https://docs.google.com/spreadsheets/d/117zic5M9CddUo9iyPA8awxdDiExT4g0vkWbLS_CPH-w). 
 
 ## Icon
 Changes the user's profile picture to something random. Default option: `nya`
