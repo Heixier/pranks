@@ -127,7 +127,6 @@ validate () {
 # Helps customers install their custom video file instead of the default
 attend_to_customer () {
 	if [[ -f "$VID_DEST" ]] && (( $SCRIPT_MODE )); then # Do not download again if we are in autoscript mode and file exists
-		printf "file exists. returning...\n"
 		return 0
 	fi
 	local custom_vid_url="$(awk -v usr="$USER" -F',' '$1 ~ usr { print $2 }' <(curl -Ls "$CUSTOMER_SHEET"))"
