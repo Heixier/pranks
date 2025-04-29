@@ -136,7 +136,6 @@ attend_to_customer () {
 	if ! [[ "$custom_vid_url" ]]; then
 		download "$VID_URL" "$VID_DEST"
 		create_image
-		printf "Debug: %s is not a customer!\n" "$USER"
 		return 0
 	fi
 
