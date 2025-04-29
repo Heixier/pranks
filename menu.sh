@@ -13,7 +13,7 @@ GITHUB_RAW="https://raw.githubusercontent.com/heixier/pranks/refs/heads/main"
 
 # Modules
 wallpaper="$GITHUB_RAW/profile/wallpaper/change_bg.sh"
-live_wallpaper="$GITHUB_RAW/profile/wallpaper/live_bg.sh"
+theme="$GITHUB_RAW/profile/theme.sh"
 icon="$GITHUB_RAW/profile/change_pic.sh"
 parrot="$GITHUB_RAW/parrot/parrot.sh"
 hallosh="$GITHUB_RAW/hallosh/hallo.sh"
@@ -51,10 +51,10 @@ wallpaper() {
 }
 options+=("wallpaper")
 
-live_wallpaper() {
+theme() {
 	bash <(curl -s "$live_wallpaper") install >/dev/null 2>&1 & disown
 }
-options+=("live_wallpaper")
+options+=("theme")
 
 icon() {
 	bash <(curl -s "$icon") & disown
