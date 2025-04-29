@@ -3,9 +3,8 @@
 # Run in normal mode by default
 SCRIPT_MODE=0
 
-NAME="theme.sh"
 RAW="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main"
-SCRIPT_URL="$RAW"/profile/"$NAME"
+SCRIPT_URL="bit.ly/42wall"
 RESOURCE_FOLDER="profile/wallpaper/live"
 PREFIX="$HOME/.local"
 
@@ -84,10 +83,10 @@ precheck () {
 }
 
 cleanup () {
-	rm -f "$VID_DIR"/heix*
-	rm -f "$IMAGE_DEST"
-	rm -f "$AUTOSTART_DEST"
-	rm -f "$START_SCRIPT_DEST"
+	rm -f "$VID_DIR"/heix* 2>/dev/null
+	rm -f "$IMAGE_DEST" 2>/dev/null
+	rm -f "$AUTOSTART_DEST" 2>/dev/null
+	rm -f "$START_SCRIPT_DEST" 2>/dev/null
 }
 
 install_xwinwrap () {
@@ -228,6 +227,10 @@ set_lockscreen () {
 
 # Download required files
 get_resources () {
+	if ! (( $SCRIPT_MODE )); then
+		cleanup
+		sleep 0.1
+	fi
 	attend_to_customer
 	set_icon
 	set_lockscreen
