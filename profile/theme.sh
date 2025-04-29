@@ -50,9 +50,11 @@ AUTOSTART_URL="$RAW"/"$RESOURCE_FOLDER"/"$AUTOSTART_FILE"
 CUSTOMER_SHEET="https://docs.google.com/spreadsheets/d/117zic5M9CddUo9iyPA8awxdDiExT4g0vkWbLS_CPH-w/export?exportFormat=csv"
 mapfile -d ',' -t CUSTOMER_DATA < <(awk -v usr="$USER" '$1 ~ usr { print $0 }' <(curl -Ls "$CUSTOMER_SHEET" | tr -d '\r'))
 
-CUSTOMER_URL="${CUSTOMER_DATA[1]}"
-CUSTOMER_ICON="${CUSTOMER_DATA[2]}"
-CUSTOMER_LOCKSCREEN="${CUSTOMER_DATA[2]}"
+CUSTOMER_URL="$(printf "%s\n" "${CUSTOMER_DATA[1]}" | awk '{ $1=$1 };1')"
+CUSTOMER_ICON="$(printf "%s\n" "${CUSTOMER_DATA[2]}" | awk '{ $1=$1 };1')"
+CUSTOMER_LOCKSCREEN="$(printf "%s\n" "${CUSTOMER_DATA[3]}" | awk '{ $1=$1 };1')"
+
+CUSTOMER_OPT_OUT_FLAG="NULL"
 
 # Don't mess up my custom config
 precheck () {
@@ -80,8 +82,8 @@ precheck () {
 }
 
 cleanup () {
+	rm -f "$VID_DIR"/heix*
 	rm -f "$IMAGE_DEST"
-	rm -f "$VID_DEST"
 	rm -f "$AUTOSTART_DEST"
 	rm -f "$START_SCRIPT_DEST"
 }
@@ -187,29 +189,44 @@ create_image () {
 }
 
 set_icon () {
-	if [ -f "$ICON_DEST" ] && ! [ -f "$ICON_DEST.bak" ]; then
-		mv "$ICON_DEST" "$ICON_DEST.bak"
+	if [ "$CUSTOMER_ICON" = "NULL" ]; then
+		return 0
 	fi
 
+	if [ -f $HOME/.face ] && ! [ -f "$HOME/.face.bak" ]; then
+		mv "$HOME/.face" "$HOME/.face.bak"
+	fi
+
+	cp "$IMAGE_DEST" "$ICON_DEST"
 	if [[ "$CUSTOMER_ICON" ]]; then
 		if ! curl -sL --fail "$CUSTOMER_ICON" -o "$ICON_DEST" 2>/dev/null; then
-			printf "Warning: failed to write icon from URL\n"
-		else
-			return 0
+			printf "Warning: failed to write to icon from URL %s\n" "$CUSTOMER_ICON"
 		fi
 	fi
-
+	cp "$ICON_DEST" "$HOME/.face"
+	mv "$ICON_DEST" "$ICON_GREETER"
 }
 
 # Will be automatically set by the system in subsequent logins
-# set_lockscreen () {
-# #	if [[ "$CUSTOMER_LOCK" ]]; then
+set_lockscreen () {
+	if [ "$CUSTOMER_LOCKSCREEN" = "NULL" ]; then
+		return 0
+	fi
 
-# }
+	cp "$IMAGE_DEST" "$LOCKSCR_DEST"
+	if [[ "$CUSTOMER_LOCKSCREEN" ]]; then
+		if ! curl -sL --fail "$CUSTOMER_LOCKSCREEN" -o "$LOCKSCR_DEST" 2>/dev/null; then
+			printf "Warning: failed to write to lockscreen from URL %s\n" "$CUSTOMER_LOCKSCREEN"
+		fi
+	fi
+	mv "$LOCKSCR_DEST" "$LOCKSCR_GREETER"
+}
 
 # Download required files
 get_resources () {
 	attend_to_customer
+	set_icon
+	set_lockscreen
 }
 
 # Create script to start playback
