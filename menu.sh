@@ -41,8 +41,7 @@ fi;
 options=()
 
 default() {
-	icon
-	wallpaper
+	theme
 }
 options+=("default")
 
