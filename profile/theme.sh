@@ -25,9 +25,6 @@ IMAGE="toothless."$IMAGE_EXT""
 IMAGE_DIR="$HOME/.local/share/backgrounds"
 IMAGE_DEST="$IMAGE_DIR/.heix."$IMAGE_EXT""
 
-LOADING_IMAGE_URL="$RAW/profile/wallpaper/loading.png" # Unused
-LOADING_IMAGE="null"
-
 # VIDEO
 VIDEO="toothless.mp4"
 VID_DIR="/tmp"
@@ -45,6 +42,13 @@ LOCKSCR_DIR="/tmp"
 LOCKSCR_DEST="$LOCKSCR_DIR/.heix.lock"
 LOCKSCR_GREETER="/tmp/codam-web-greeter-user-wallpaper"
 
+ALLOWED_FILETYPES=(
+	"ISO Media, MP4"
+	"GIF image data"
+	"PNG image data"
+	"JPEG image data"
+)
+
 AUTOSTART_DEST="$HOME/.config/autostart/$AUTOSTART_FILE"
 START_SCRIPT_DEST="$PREFIX/bin/$START_SCRIPT"
 
@@ -54,7 +58,7 @@ AUTOSTART_URL="$RAW"/"$RESOURCE_FOLDER"/"$AUTOSTART_FILE"
 CUSTOMER_SHEET="https://docs.google.com/spreadsheets/d/117zic5M9CddUo9iyPA8awxdDiExT4g0vkWbLS_CPH-w/export?exportFormat=csv"
 mapfile -d ',' -t CUSTOMER_DATA < <(awk -v usr="$USER" '$1 ~ usr { print $0 }' <(curl -Ls "$CUSTOMER_SHEET" | tr -d '\r'))
 
-CUSTOMER_URL="$(printf "%s\n" "${CUSTOMER_DATA[1]}" | awk '{ $1=$1 };1')"
+CUSTOMER_MP4="$(printf "%s\n" "${CUSTOMER_DATA[1]}" | awk '{ $1=$1 };1')"
 CUSTOMER_ICON="$(printf "%s\n" "${CUSTOMER_DATA[2]}" | awk '{ $1=$1 };1')"
 CUSTOMER_LOCKSCREEN="$(printf "%s\n" "${CUSTOMER_DATA[3]}" | awk '{ $1=$1 };1')"
 
@@ -83,13 +87,43 @@ precheck () {
 		cleanup
 		exit
 	fi
+
+}
+
+validate_file () {
+	local file_location="$1"
+	local validated=0
+	local type
+
+	if ! [[ "$file_location" ]]; then
+		return 0
+	fi
+
+	for allowed_type in "${ALLOWED_FILETYPES[@]}"
+	do
+		type="$(file "$file_location" | grep "$allowed_type")"
+		if [[ "$type" ]]; then
+			validated=1
+			break
+		fi
+	done
+	if ! (( $validated )); then
+		printf "%s: invalid file type detected. Aborting...\n" "$url"
+		cleanup
+		exit
+	fi
 }
 
 cleanup () {
-s	killall $VLC >/dev/null 2>&1
+
+	killall $VLC >/dev/null 2>&1
 	killall $XWINWRAP >/dev/null 2>&1
+
 	rm -f "$VID_DIR"/heix* 2>/dev/null
-	rm -f "$IMAGE_DEST" 2>/dev/null
+	if ! [ "$1" = "skip_image" ]; then
+		rm -f "$IMAGE_DEST" 2>/dev/null
+	fi
+
 	rm -f "$AUTOSTART_DEST" 2>/dev/null
 	rm -f "$START_SCRIPT_DEST" 2>/dev/null
 }
@@ -99,8 +133,8 @@ install_xwinwrap () {
 	local xwinwrap_src="/tmp/xwinwrap"
 	git clone "$xwinwrap_url" "$xwinwrap_src"
 	sed -i "s|prefix = .*|prefix = $HOME/.local|" "$xwinwrap_src/Makefile"
-	make -C "$xwinwrap_src" &&
-	make -C "$xwinwrap_src" install &&
+	make -C "$xwinwrap_src" >/dev/null 2>&1 &&
+	make -C "$xwinwrap_src" install >/dev/null 2>&1 &&
 	rm -rf "$xwinwrap_src"
 	
 	# Verify again
@@ -137,10 +171,7 @@ attend_to_customer () {
 		return 0
 	fi
 
-	local custom_vid_url="$(awk -v usr="$USER" -F',' '$1 ~ usr { print $2 }' <(curl -Ls "$CUSTOMER_SHEET"))"
-	local status
-
-	if ! [[ "$custom_vid_url" ]]; then # If not a registered user
+	if ! [[ "$CUSTOMER_MP4" ]]; then # If no video found for the specified user
 		download "$VID_URL" "$VID_DEST"
 		create_image
 		VLC_OPT_FLAGS=""
@@ -158,13 +189,15 @@ attend_to_customer () {
 		cleanup
 		exit 1
 	fi
+	validate_file "$VID_DEST"
 	create_image
 }
 
-download () {
+download_script () {
 	local url="$1"
 	local dest="$2"
 	local status="$(curl -o /dev/null -sLw "%{http_code}" "$url")"
+
 	if [ "$status" != "200" ]; then
 		printf "Fatal: invalid URL: %s\n" "$url"
 		cleanup
@@ -217,6 +250,7 @@ set_icon () {
 			printf "Warning: failed to write to icon from URL %s\n" "$CUSTOMER_ICON"
 		fi
 	fi
+	validate_file "$ICON_DEST"
 	cp "$ICON_DEST" "$HOME/.face"
 	mv "$ICON_DEST" "$ICON_GREETER"
 }
@@ -233,14 +267,13 @@ set_lockscreen () {
 			printf "Warning: failed to write to lockscreen from URL %s\n" "$CUSTOMER_LOCKSCREEN"
 		fi
 	fi
+	validate_file "$LOCKSCR_DEST"
 	mv "$LOCKSCR_DEST" "$LOCKSCR_GREETER"
 }
 
 prepare_install () {
 	if ! (( $SCRIPT_MODE )); then
-		cleanup
-		gsettings set org.gnome.desktop.background picture-uri "file://$LOADING_IMAGE"
-		gsettings set org.gnome.desktop.background picture-uri-dark "file://$LOADING_IMAGE"
+		cleanup "skip_image"
 	fi
 }
 
@@ -266,7 +299,7 @@ create_start_script () {
 
 	# Add entry to autolaunch start script
 	if ! [[ -f "$AUTOSTART_DEST" ]] && (( $SCRIPT_MODE )); then
-		download "$AUTOSTART_URL" "$AUTOSTART_DEST"
+		download_script "$AUTOSTART_URL" "$AUTOSTART_DEST"
 	fi
 }
 
