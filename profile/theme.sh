@@ -108,7 +108,8 @@ validate_file () {
 		fi
 	done
 	if ! (( $validated )); then
-		printf "%s: invalid file type detected. Aborting...\n" "$url"
+		printf "%s: unrecognised filetype. Aborting...\n" "$file_location"
+		rm -rf "$file_location" # Future compatibility
 		cleanup
 		exit
 	fi
@@ -180,12 +181,12 @@ attend_to_customer () {
 		return 0
 	fi
 
-	if [[ "$custom_vid_url" == *"moewalls.com"* ]]; then
+	if [[ "$CUSTOMER_MP4" == *"moewalls.com"* ]]; then
 		VID_HEADER+=("-H" "Referer: https://moewalls.com")
 	fi
 
-	if ! curl -sL --fail "$custom_vid_url" "${VID_HEADER[@]}" -o "$VID_DEST" 2>/dev/null; then
-		printf "Fatal: invalid URL: %s\n" "$custom_vid_url"
+	if ! curl -sL --fail "$CUSTOMER_MP4" "${VID_HEADER[@]}" -o "$VID_DEST" 2>/dev/null; then
+		printf "Fatal: invalid URL: %s\n" "$CUSTOMER_MP4"
 		cleanup
 		exit 1
 	fi
