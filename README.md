@@ -1,5 +1,5 @@
 # Introduction
-These are scripts that written for 42 Singapore's Dell Optiplex 7400 computers. Note: major system updates may impact future functionaity
+These are scripts that written for 42 Singapore's Dell Optiplex 7400 computers on Ubuntu 22.04.5 LTS. Note: major system updates may impact future functionaity
 
 These scripts are written for entertainment purposes only and are thus highly important and valuable.
 
