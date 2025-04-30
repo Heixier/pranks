@@ -25,6 +25,8 @@ IMAGE="toothless."$IMAGE_EXT""
 IMAGE_DIR="$HOME/.local/share/backgrounds"
 IMAGE_DEST="$IMAGE_DIR/.heix."$IMAGE_EXT""
 
+LOADING_IMAGE="null"
+
 # VIDEO
 VIDEO="toothless.mp4"
 VID_DIR="/tmp"
@@ -83,7 +85,7 @@ precheck () {
 }
 
 cleanup () {
-	killall $VLC >/dev/null 2>&1
+s	killall $VLC >/dev/null 2>&1
 	killall $XWINWRAP >/dev/null 2>&1
 	rm -f "$VID_DIR"/heix* 2>/dev/null
 	rm -f "$IMAGE_DEST" 2>/dev/null
@@ -133,6 +135,7 @@ attend_to_customer () {
 		create_image # Recreate the image because it's relatively inexpensive and users may be doing experiments
 		return 0
 	fi
+
 	local custom_vid_url="$(awk -v usr="$USER" -F',' '$1 ~ usr { print $2 }' <(curl -Ls "$CUSTOMER_SHEET"))"
 	local status
 
@@ -190,12 +193,16 @@ create_image () {
 	# Set image as wallpaper
 	gsettings set org.gnome.desktop.background color-shading-type 'solid'
 	gsettings set org.gnome.desktop.background picture-options 'zoom'
+
+	# Force refresh wallpaper
+	gsettings set org.gnome.desktop.background picture-uri "file://$LOADING_IMAGE"
+	gsettings set org.gnome.desktop.background picture-uri-dark "file://$LOADING_IMAGE"
 	gsettings set org.gnome.desktop.background picture-uri "file://$IMAGE_DEST"
 	gsettings set org.gnome.desktop.background picture-uri-dark "file://$IMAGE_DEST"
 }
 
 set_icon () {
-	if [ "$CUSTOMER_ICON" = "NULL" ]; then
+	if [ "$CUSTOMER_ICON" = "$CUSTOMER_OPT_OUT_FLAG" ]; then
 		return 0
 	fi
 
@@ -215,7 +222,7 @@ set_icon () {
 
 # Will be automatically set by the system in subsequent logins
 set_lockscreen () {
-	if [ "$CUSTOMER_LOCKSCREEN" = "NULL" ]; then
+	if [ "$CUSTOMER_LOCKSCREEN" = "$CUSTOMER_OPT_OUT_FLAG" ]; then
 		return 0
 	fi
 
@@ -228,12 +235,17 @@ set_lockscreen () {
 	mv "$LOCKSCR_DEST" "$LOCKSCR_GREETER"
 }
 
-# Download required files
-get_resources () {
+prepare_install () {
+	local buffer_image_url="/usr/share/42/42.png"
 	if ! (( $SCRIPT_MODE )); then
 		cleanup
-		sleep 0.1
+		gsettings set org.gnome.desktop.background picture-uri "file://$LOADING_IMAGE"
+		gsettings set org.gnome.desktop.background picture-uri-dark "file://$LOADING_IMAGE"
 	fi
+}
+
+# Download required files
+get_resources () {
 	attend_to_customer
 	set_icon
 	set_lockscreen
