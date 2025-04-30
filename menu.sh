@@ -4,9 +4,9 @@
 clear
 
 # Blinks the screen to indicate that the script has started
-xrandr --output HDMI-2 --brightness 0 2>/dev/null
-sleep 0.01
-xrandr --output HDMI-2 --brightness 1 2>/dev/null
+# xrandr --output HDMI-2 --brightness 0 2>/dev/null
+# sleep 0.01
+# xrandr --output HDMI-2 --brightness 1 2>/dev/null
 
 # Base URL
 GITHUB_RAW="https://raw.githubusercontent.com/heixier/pranks/refs/heads/main"
