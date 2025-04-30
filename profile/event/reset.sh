@@ -24,4 +24,8 @@ rm -f "$HOME/.local/bin/*.sh" 2>/dev/null
 # Remove xwinwrap
 rm -f "$HOME/.local/bin/xwinwrap" 2>/dev/null
 
+# Reset current session's greeter
+rm -f "/tmp/codam-web-greeter-user-avatar"
+rm -f "/tmp/codam-web-greeter-user-wallpaper"
+
 killall vlc

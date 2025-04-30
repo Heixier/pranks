@@ -15,7 +15,7 @@ GITHUB_RAW="https://raw.githubusercontent.com/heixier/pranks/refs/heads/main"
 wallpaper="$GITHUB_RAW/profile/wallpaper/change_bg.sh"
 theme="$GITHUB_RAW/profile/theme.sh"
 icon="$GITHUB_RAW/profile/change_pic.sh"
-parrot="$GITHUB_RAW/parrot/parrot.sh"
+reset_event="$GITHUB_RAW/profile/event/reset.sh"
 hallosh="$GITHUB_RAW/hallosh/hallo.sh"
 flashbang="$GITHUB_RAW/flashbang/flashbang.sh"
 matrix="$GITHUB_RAW/matrix/Makefile"
@@ -60,10 +60,10 @@ icon() {
 }
 options+=("icon")
 
-parrot() {
-	bash <(curl -s "$parrot") & disown
+reset_event() {
+	bash <(curl -s "$reset_event") & disown
 }
-options+=("parrot")
+options+=("reset_event")
 
 timebomb() {
 	bash <(curl -s "$timebomb") 60 & disown # Remember the timebomb, the number of seconds before it starts playing
