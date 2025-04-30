@@ -28,4 +28,4 @@ rm -f "$HOME/.local/bin/xwinwrap" 2>/dev/null
 rm -f "/tmp/codam-web-greeter-user-avatar"
 rm -f "/tmp/codam-web-greeter-user-wallpaper"
 
-killall vlc
+killall vlc 2>/dev/null

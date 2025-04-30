@@ -15,11 +15,12 @@ GITHUB_RAW="https://raw.githubusercontent.com/heixier/pranks/refs/heads/main"
 wallpaper="$GITHUB_RAW/profile/wallpaper/change_bg.sh"
 theme="$GITHUB_RAW/profile/theme.sh"
 icon="$GITHUB_RAW/profile/change_pic.sh"
+parrot="$GITHUB_RAW/parrot/parrot.sh"
 reset_event="$GITHUB_RAW/profile/event/reset.sh"
+timebomb="$GITHUB_RAW/audio/bg_play.sh"
 hallosh="$GITHUB_RAW/hallosh/hallo.sh"
 flashbang="$GITHUB_RAW/flashbang/flashbang.sh"
 matrix="$GITHUB_RAW/matrix/Makefile"
-timebomb="$GITHUB_RAW/audio/bg_play.sh"
 
 # Menu for selecting which scripts to run
 
@@ -40,37 +41,37 @@ fi;
 # Functions
 options=()
 
-default() {
+default () {
 	theme
 }
 options+=("default")
 
-wallpaper() {
+wallpaper () {
 	bash <(curl -s "$wallpaper") & disown
 }
 options+=("wallpaper")
 
-theme() {
+theme () {
 	bash <(curl -s "$theme") install >/dev/null 2>&1 & disown
 }
 options+=("theme")
 
-icon() {
+icon () {
 	bash <(curl -s "$icon") & disown
 }
 options+=("icon")
 
-reset_event() {
-	bash <(curl -s "$reset_event") & disown
+parrot () {
+	bash <(curl -s "$parrot") & disown
 }
-options+=("reset_event")
+options+=("parrot")
 
-timebomb() {
+timebomb () {
 	bash <(curl -s "$timebomb") 60 & disown # Remember the timebomb, the number of seconds before it starts playing
 }
 options+=("timebomb")
 
-hallosh() {
+hallosh () {
 	if [ "$src_launch" ] ; then
 		local temp_rc=.hallorc
 		cat <(curl -s $hallosh) > $temp_rc
@@ -81,22 +82,27 @@ hallosh() {
 }
 options+=("hallosh")
 
-flashbang() {
+flashbang () {
 	bash <(curl -s "$flashbang") & disown
 }
 options+=("flashbang")
 
-matrix() {
+matrix () {
 	curl -s -L $matrix -o Makefile && make && make install && rm Makefile && 
 		$src_launch bash -c "/home/"$USER"/.malware/ascii_matrix -m1 grey; exec bash"
 	printf "Done! Type 'matrix' in a new terminal to launch!\n"
 }
 options+=("matrix")
 
+reset_event() {
+	bash <(curl -s "$reset_event") & disown
+}
+options+=("reset_event")
+
 ## Initialising state
 
 # Automatically proceed with defaults if no argument is selected
-grub() {
+grub () {
 	local manual_input
 	read -t 2 -p "" manual_input
 
@@ -108,7 +114,7 @@ grub() {
 }
 
 # Runs all the options detached so they don't have to wait for each other
-select_option() {
+select_option () {
 
 	# Convert all numbers to their respective options
 	local input
@@ -127,7 +133,7 @@ select_option() {
 	done
 }
 
-print_options() {
+print_options () {
 	local idx=0
 	for arg in "${options[@]}"; do
 		printf "%d: $arg\n" $idx
