@@ -11,6 +11,8 @@ BACKGROUND_DIR="$HOME/.local/share/backgrounds"
 FACE="$HOME/.face"
 
 # Reset the desktop image to the default image
+gsettings set org.gnome.desktop.background color-shading-type 'solid'
+gsettings set org.gnome.desktop.background picture-options 'zoom'
 gsettings set org.gnome.desktop.background picture-uri "file://$DEFAULT_IMAGE"
 gsettings set org.gnome.desktop.background picture-uri-dark "file://$DEFAULT_IMAGE"
 
