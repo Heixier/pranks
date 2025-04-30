@@ -25,6 +25,7 @@ IMAGE="toothless."$IMAGE_EXT""
 IMAGE_DIR="$HOME/.local/share/backgrounds"
 IMAGE_DEST="$IMAGE_DIR/.heix."$IMAGE_EXT""
 
+LOADING_IMAGE_URL="$RAW/profile/wallpaper/loading.png" # Unused
 LOADING_IMAGE="null"
 
 # VIDEO
@@ -236,7 +237,6 @@ set_lockscreen () {
 }
 
 prepare_install () {
-	local buffer_image_url="/usr/share/42/42.png"
 	if ! (( $SCRIPT_MODE )); then
 		cleanup
 		gsettings set org.gnome.desktop.background picture-uri "file://$LOADING_IMAGE"
@@ -246,6 +246,7 @@ prepare_install () {
 
 # Download required files
 get_resources () {
+	prepare_install
 	attend_to_customer
 	set_icon
 	set_lockscreen
