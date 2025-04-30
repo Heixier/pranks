@@ -34,7 +34,7 @@ Note: may be out of date
 1. `wallpaper`
 2. `theme`
 3. `icon`
-4. `parrot`
+4. `reset_event`
 5. `timebomb`
 6. `hallosh`
 7. `flashbang`
@@ -63,8 +63,8 @@ Changes the user's profile picture to something random. Default option: `nya`
 # Misc.
 Currently uncategorised scripts
 
-## Parrot
-Curls a parrot into their terminal config files (curl parrot.live is down at the time of writing).
+## Reset event
+Since the colourful parrot is dead, this spot has now been replaced with a script that will reset the event user's environment
 
 ## Timebomb
 Plays an audio track after a certain time (reconfigurable). If the event user is logged in, immediately log out after playing the track.
