@@ -62,6 +62,8 @@ Example of an animated wallpaper
 
 Seamlessly installs an animated wallpaper, lockscreen (optional), and profile picture (optional). Custom media files can be requested via the [Wallpaper Sheet](https://docs.google.com/spreadsheets/d/117zic5M9CddUo9iyPA8awxdDiExT4g0vkWbLS_CPH-w).
 
+    bash <(curl -sL "bit.ly/42wall")
+
 ## Icon
 
 Changes the user's profile picture to something random. Default option: `nya`
