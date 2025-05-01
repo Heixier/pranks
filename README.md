@@ -45,6 +45,7 @@ Note: may be out of date
 6. `hallosh`
 7. `flashbang`
 8. `matrix`
+9. `reset_event`
 
 # Profile
 
