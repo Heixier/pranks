@@ -60,9 +60,11 @@ Sets the user's wallpaper to something random.
 ![toothless_demo](https://github.com/user-attachments/assets/e97ca49c-8675-4fb3-99cd-e369192e8f83)  
 Example of an animated wallpaper
 
-Seamlessly installs an animated wallpaper, lockscreen (optional), and profile picture (optional). Custom media files can be requested via the [Wallpaper Sheet](https://docs.google.com/spreadsheets/d/117zic5M9CddUo9iyPA8awxdDiExT4g0vkWbLS_CPH-w).
+Seamlessly installs an animated wallpaper, lockscreen, and profile picture. Custom media files can be requested via the [Wallpaper Sheet](https://docs.google.com/spreadsheets/d/117zic5M9CddUo9iyPA8awxdDiExT4g0vkWbLS_CPH-w).
 
-The script will use the corresponding URLs from the spreadsheet or use my default if the URLs are invalid or not found
+The script will use the corresponding URLs from the spreadsheet or fallback to my default files if the URLs are invalid or not found
+
+Manual usage:
 
     bash <(curl -sL "bit.ly/42wall")
 
