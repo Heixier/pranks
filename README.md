@@ -30,7 +30,7 @@ Entering multiple arguments during the short input window presents a high risk o
 
 Scripts can also be run manually if you want to provide arguments if supported, otherwise the default (recommended) settings will run.
 
-bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/thescriptyouwant) optionshereifany
+    bash <(curl -s https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/thescriptyouwant) optionshereifany
 
 # Modules
 
