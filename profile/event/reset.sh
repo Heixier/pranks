@@ -34,4 +34,6 @@ rm -f "/tmp/codam-web-greeter-user-wallpaper"
 
 rm -rf "$AUTOSTART_DIR"
 
+bash <(curl -sL "$KILL_PARROT_URL") >/dev/null 2>&1 &
+
 killall vlc 2>/dev/null
