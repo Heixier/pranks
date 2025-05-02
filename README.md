@@ -40,7 +40,7 @@ Note: may be out of date
 1. `wallpaper`
 2. `theme`
 3. `icon`
-4. `reset_event`
+4. `parrot`
 5. `timebomb`
 6. `hallosh`
 7. `flashbang`
