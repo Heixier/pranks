@@ -10,6 +10,7 @@ DEFAULT_IMAGE="/usr/share/42/42.png"
 BACKGROUND_DIR="$HOME/.local/share/backgrounds"
 FACE="$HOME/.face"
 AUTOSTART_DIR="$HOME/.config/autostart"
+KILL_PARROT_URL="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main/antidotes/kill_parrots.sh"
 
 # Reset the desktop image to the default image
 gsettings set org.gnome.desktop.background color-shading-type 'solid'
