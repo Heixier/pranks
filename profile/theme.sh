@@ -198,16 +198,11 @@ attend_to_customer () {
 download_script () {
 	local url="$1"
 	local dest="$2"
-	local status="$(curl -o /dev/null -sLw "%{http_code}" "$url")"
 
-	if [ "$status" != "200" ]; then
-		printf "Fatal: invalid URL (%s): %s\n" "$status" "$url" 
+	if ! curl -sL --fail "$url" -o "$dest" 2>/dev/null; then
+		printf "Fatal: failed to create %s\n" "$dest"
 		cleanup
 		exit 1
-	else
-		if ! curl -sL "$url" -o "$dest"; then
-			printf "Warning: failed to write to file: %s\nSkipping...\n" "$dest"
-		fi
 	fi
 }
 
