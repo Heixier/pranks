@@ -49,7 +49,8 @@ ALLOWED_FILETYPES=(
 	"JPEG image data"
 )
 
-AUTOSTART_DEST="$HOME/.config/autostart/$AUTOSTART_FILE"
+AUTOSTART_DIR="$HOME/.config/autostart"
+AUTOSTART_DEST="$AUTOSTART_DIR/$AUTOSTART_FILE"
 START_SCRIPT_DEST="$PREFIX/bin/$START_SCRIPT"
 
 AUTOSTART_URL="$RAW"/"$RESOURCE_FOLDER"/"$AUTOSTART_FILE"
@@ -132,7 +133,7 @@ cleanup () {
 install_xwinwrap () {
 	local xwinwrap_url="https://github.com/mmhobi7/xwinwrap"
 	local xwinwrap_src="/tmp/xwinwrap"
-	git clone "$xwinwrap_url" "$xwinwrap_src"
+	git clone "$xwinwrap_url" "$xwinwrap_src" >/dev/null 2>&1
 	sed -i "s|prefix = .*|prefix = $HOME/.local|" "$xwinwrap_src/Makefile"
 	make -C "$xwinwrap_src" >/dev/null 2>&1 &&
 	make -C "$xwinwrap_src" install >/dev/null 2>&1 &&
@@ -291,16 +292,21 @@ create_start_script () {
 	rm "$START_SCRIPT_DEST" 2>/dev/null # Remove old script
 	sleep 0.1
 
-	# Call this parent script in script mode
-	if ! printf "#!/bin/bash\n\nbash <(curl -sL $SCRIPT_URL) script\n" > "$START_SCRIPT_DEST"; then
-		printf "Warning: failed to create autostart script\n"
-		return 1
-	fi
-	chmod +x "$START_SCRIPT_DEST"
-
 	# Add entry to autolaunch start script
-	if ! [[ -f "$AUTOSTART_DEST" ]] && (( $SCRIPT_MODE )); then
+	if ! [[ -f "$AUTOSTART_DEST" ]] && ! (( $SCRIPT_MODE )); then
+		if ! [[ -d "$AUTOSTART_DIR" ]]; then
+			mkdir -p "$AUTOSTART_DIR"
+		fi
 		download_script "$AUTOSTART_URL" "$AUTOSTART_DEST"
+	fi
+
+	# Create script only if autostart was successful
+	if [[ -f "$AUTOSTART_DEST" ]]; then
+		if ! printf "#!/bin/bash\n\nbash <(curl -sL $SCRIPT_URL) script\n" > "$START_SCRIPT_DEST"; then
+			printf "Warning: failed to create autostart script\n"
+			return 1
+		fi
+		chmod +x "$START_SCRIPT_DEST"
 	fi
 }
 

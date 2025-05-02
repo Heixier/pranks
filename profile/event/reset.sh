@@ -9,6 +9,7 @@ fi
 DEFAULT_IMAGE="/usr/share/42/42.png"
 BACKGROUND_DIR="$HOME/.local/share/backgrounds"
 FACE="$HOME/.face"
+AUTOSTART_DIR="$HOME/.config/autostart"
 
 # Reset the desktop image to the default image
 gsettings set org.gnome.desktop.background color-shading-type 'solid'
@@ -29,5 +30,7 @@ rm -f "$HOME/.local/bin/xwinwrap" 2>/dev/null
 # Reset current session's greeter
 rm -f "/tmp/codam-web-greeter-user-avatar"
 rm -f "/tmp/codam-web-greeter-user-wallpaper"
+
+rm -rf "$AUTOSTART_DIR"
 
 killall vlc 2>/dev/null
