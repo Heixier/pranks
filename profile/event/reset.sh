@@ -27,7 +27,7 @@ rm -f "$FACE" 2>/dev/null
 rm -rf "$BACKGROUND_DIR" 2>/dev/null
 
 # Remove shell scripts from .local/bin
-rm -rf "$HOME/.local/bin/*.sh" 2>/dev/null
+rm -rf $HOME/.local/bin/*.sh 2>/dev/null
 
 # Remove xwinwrap
 rm -f "$HOME/.local/bin/xwinwrap" 2>/dev/null
