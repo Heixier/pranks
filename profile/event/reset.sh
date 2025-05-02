@@ -2,7 +2,7 @@
 
 # Attempts to reset the event user environment back to default
 
-if ! [ "$USER" = "event" ] || ! [ "$HOME" = "/home/event"]; then
+if ! [[] "$USER" == "event" ] || ! [ "$HOME" = "/home/event" ]; then
 	exit 0
 fi
 

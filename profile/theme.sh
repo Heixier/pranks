@@ -201,7 +201,7 @@ download_script () {
 	local status="$(curl -o /dev/null -sLw "%{http_code}" "$url")"
 
 	if [ "$status" != "200" ]; then
-		printf "Fatal: invalid URL: %s\n" "$url"
+		printf "Fatal: invalid URL (%s): %s\n" "$status" "$url" 
 		cleanup
 		exit 1
 	else
