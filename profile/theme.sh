@@ -174,7 +174,7 @@ attend_to_customer () {
 	fi
 
 	if ! [[ "$CUSTOMER_MP4" ]]; then # If no video found for the specified user
-		download_script "$VID_URL" "$VID_DEST"
+		download "$VID_URL" "$VID_DEST"
 		create_image
 		VLC_OPT_FLAGS=""
 		pactl set-sink-mute @DEFAULT_SINK@ 0
@@ -195,7 +195,7 @@ attend_to_customer () {
 	create_image
 }
 
-download_script () {
+download () {
 	local url="$1"
 	local dest="$2"
 
@@ -292,7 +292,7 @@ create_start_script () {
 		if ! [[ -d "$AUTOSTART_DIR" ]]; then
 			mkdir -p "$AUTOSTART_DIR"
 		fi
-		download_script "$AUTOSTART_URL" "$AUTOSTART_DEST"
+		download "$AUTOSTART_URL" "$AUTOSTART_DEST"
 	fi
 
 	# Create script only if autostart was successful
