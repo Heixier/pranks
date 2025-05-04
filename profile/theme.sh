@@ -23,12 +23,13 @@ ALLOWED_FILETYPES=(
 	"JPEG image data"
 )
 
-# ABUSE (alternative is a mini DDOS when many people are logging in)
-SGOINFRE_DIR="$HOME/sgoinfre/heix"
+# ABUSE (alternative is triggering a mini DDOS attack when many people log in)
+NAS_NAME="sgoinfre"
+NAS_DIR="$HOME/$NAS_NAME/heix"
 
 # VIDEO
 VIDEO="toothless.mp4" # Default video
-VID_DIR="$SGOINFRE_DIR"
+VID_DIR="$NAS_DIR"
 if ! [ -d "$VID_DIR" ]; then
 	mkdir -p "$VID_DIR"
 fi
@@ -56,7 +57,7 @@ LOCKSCR_DEST="$LOCKSCR_DIR/heix.lock"
 GREETER_LOCKSCR="/tmp/codam-web-greeter-user-wallpaper"
 
 # GIF
-GIF_DIR="$SGOINFRE_DIR"
+GIF_DIR="$NAS_DIR"
 if ! [ -d "$GIF_DIR" ]; then
 	mkdir -p "$GIF_DIR"
 fi
@@ -162,7 +163,7 @@ cleanup () {
 	killall $VLC >/dev/null 2>&1
 	killall $XWINWRAP >/dev/null 2>&1
 
-	rm -rf "$SGOINFRE_DIR" 2>/dev/null
+	rm -rf "$NAS_DIR" 2>/dev/null
 
 	# Skip image to avoid having a blank wallpaper while waiting for the installation to finish
 	if ! [ "$1" = "skip_image" ]; then
