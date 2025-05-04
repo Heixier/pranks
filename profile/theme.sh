@@ -142,6 +142,8 @@ validate_file () {
 
 cleanup () {
 
+	tput cnorm
+
 	killall $VLC >/dev/null 2>&1
 	killall $XWINWRAP >/dev/null 2>&1
 
@@ -225,12 +227,17 @@ attend_to_customer () {
 	if [[ "$CUSTOMER_MP4" == *"moewalls.com"* ]]; then
 		VID_HEADER+=("-H" "Referer: https://moewalls.com")
 	fi
-
+	
+	printf "Downloading...\r"
+	tput civis
 	if ! curl -sL --fail "$CUSTOMER_MP4" "${VID_HEADER[@]}" -o "$VID_DEST" 2>/dev/null; then
 		printf "Fatal: invalid URL: %s\n" "$CUSTOMER_MP4"
 		cleanup
 		exit 1
 	fi
+	tput el
+	tput cnorm
+
 	validate_file "$VID_DEST"
 	create_image
 	create_greeter_gif "$VID_DEST"
@@ -288,11 +295,16 @@ create_greeter_gif () {
 	chmod +x "$FFMPEG_DEST"
 
 	# Create the .gif; Might take some time!
+	printf "Rendering...\r"
+	tput civis
 	if ! "$FFMPEG_DEST" -i "$video" $gif_args "$GIF_DEST" >/dev/null 2>&1; then
 		printf "Fatal: %s failed to create %s\n" "$FFMPEG_DEST" "$GIF_DEST"
 		cleanup
 		exit 1
 	fi
+	tput el
+	tput cnorm
+
 	rm -f "$FFMPEG_DEST" 2>/dev/null
 }
 
