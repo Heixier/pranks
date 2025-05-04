@@ -23,16 +23,25 @@ ALLOWED_FILETYPES=(
 	"JPEG image data"
 )
 
-# ABUSE (alternative is triggering a mini DDOS attack when many people log in)
-NAS_NAME="sgoinfre"
-NAS_DIR="$HOME/$NAS_NAME/heix"
+# MAIN DIRECTORY
+NAS_MOUNT="$HOME/sgoinfre"
+NAS_DIR="$NAS_MOUNT/heix"
+BACKUP_DIR="$HOME/.local/share/heix" # if no sgoinfre, use local storage // compatibility for home users
+
+if [ -d "$NAS_MOUNT" ]; then
+	MAIN_DIR="$NAS_DIR"
+else
+	printf "Warning: %s not found. Falling back to %s (will consume more space)\n" "$NAS_MOUNT" "$BACKUP_DIR"
+	MAIN_DIR="$BACKUP_DIR"
+fi
+
+if ! [ -d "$MAIN_DIR" ]; then
+	mkdir -p "$MAIN_DIR"
+fi
 
 # VIDEO
 VIDEO="toothless.mp4" # Default video
-VID_DIR="$NAS_DIR"
-if ! [ -d "$VID_DIR" ]; then
-	mkdir -p "$VID_DIR"
-fi
+VID_DIR="$MAIN_DIR"
 VID_DEST="$VID_DIR/heix.mp4"
 VID_URL="$RAW"/profile/wallpaper/live/"$VIDEO"
 VID_HEADER=()
@@ -57,10 +66,7 @@ LOCKSCR_DEST="$LOCKSCR_DIR/heix.lock"
 GREETER_LOCKSCR="/tmp/codam-web-greeter-user-wallpaper"
 
 # GIF
-GIF_DIR="$NAS_DIR"
-if ! [ -d "$GIF_DIR" ]; then
-	mkdir -p "$GIF_DIR"
-fi
+GIF_DIR="$MAIN_DIR"
 GIF_DEST="$GIF_DIR/heix.gif"
 
 # FFMPEG
@@ -163,7 +169,7 @@ cleanup () {
 	killall $VLC >/dev/null 2>&1
 	killall $XWINWRAP >/dev/null 2>&1
 
-	rm -rf "$NAS_DIR" 2>/dev/null
+	rm -rf "$MAIN_DIR" 2>/dev/null
 
 	# Skip image to avoid having a blank wallpaper while waiting for the installation to finish
 	if ! [ "$1" = "skip_image" ]; then
