@@ -25,8 +25,8 @@ ALLOWED_FILETYPES=(
 
 # VIDEO
 VIDEO="toothless.mp4" # Default video
-VID_DIR="/tmp"
-VID_DEST="$VID_DIR/.heix_$USER.mp4"
+VID_DIR="/$HOME/sgoinfre/heix"
+VID_DEST="$VID_DIR/.heix.mp4"
 VID_URL="$RAW"/profile/wallpaper/live/"$VIDEO"
 VID_HEADER=()
 
@@ -47,7 +47,7 @@ LOCKSCR_DEST="$LOCKSCR_DIR/.heix.lock"
 GREETER_LOCKSCR="/tmp/codam-web-greeter-user-wallpaper"
 
 # GIF
-GIF_DIR="$HOME/.local/share/backgrounds"
+GIF_DIR="$HOME/sgoinfre/heix"
 GIF_DEST="$GIF_DIR/.heix.gif"
 
 # FFMPEG
@@ -194,7 +194,6 @@ validate () {
 		install_xwinwrap
 	fi
 }
-
 
 download () {
 	local url="$1"
