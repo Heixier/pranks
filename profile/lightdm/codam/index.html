@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<!-- optional: you can use the following setup to load required css without building greeter.css -->
+		<!-- <link rel="stylesheet" href="css/dark.css" /> -->
+		<!-- <link rel="stylesheet" href="css/styles.css" /> -->
+		<!-- <link rel="stylesheet" href="css/boxed.css" /> -->
+		<link rel="stylesheet" href="greeter.css" onerror="console.error('Styles are missing: did you use the Makefile to build static/greeter.css?');" />
+		<title>Codam Theme for nody-greeter</title>
+	</head>
+	<body>
+		<div id="blur-filter" style="display: none;"></div>
+
+		<!-- Header for general info -->
+		<header>
+			<div class="horibar-left">
+				<span id="info-hostname">hostname.codam.nl</span>
+			</div>
+			<div class="horibar-right">
+				<span id="info-network-icon">&#128423;</span>
+				<span id="info-date">0 Jan</span>
+				<span id="info-clock">00:00:00</span>
+			</div>
+		</header>
+
+		<!-- Logo (base64 string is an empty image) -->
+		<div id="logo-wrapper" class="logo-top-center" style="display: none;">
+			<img id="logo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" />
+		</div>
+
+		<!-- Login box -->
+		<main>
+			<!-- Login form -->
+			<form action="POST" id="login-form" spellcheck="false" autocomplete="off" autocapitalize="off" style="display: none;">
+				<input type="text" name="login" id="login" placeholder="Enter your login" maxlength="32" />
+				<input type="password" name="password" id="password" placeholder="Enter your password" maxlength="128" />
+				<button type="submit" id="login-button" disabled title="Log in">&#10149;</button>
+			</form>
+
+			<!-- Lock screen form (used when one or more sessions are active) -->
+			<form action="POST" id="lock-form" spellcheck="false" autocomplete="off" autocapitalize="off" style="display: none;">
+				<img id="active-user-session-avatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" />
+				<h3 id="active-user-session-display-name">Display Name</h3>
+				<h4 id="active-user-session-login-name">username</h4>
+				<input type="password" name="active-user-session-password" id="active-user-session-password" placeholder="Enter your password" maxlength="128" />
+				<button type="submit" id="unlock-button" disabled title="Unlock">&#10149;</button>
+				<p class="extra-text"><span id="active-user-session-locked-ago"></span></p>
+			</form>
+
+			<!-- Exam mode form -->
+			<form action="POST" id="exam-form" spellcheck="false" autocomplete="off" autocapitalize="off" style="display: none;">
+				<h3>This computer is reserved for an exam between <span id="exam-mode-start">...</span> and <span id="exam-mode-end">...</span>.</h3>
+				<p><span id="exam-mode-projects"></span></p>
+				<br>
+				<input type="text" name="login" id="exam-login" placeholder="Enter the login" maxlength="32" />
+				<input type="password" name="password" id="exam-password" placeholder="Enter the password" maxlength="128" />
+				<p>Click the arrow below to start your exam.</p>
+				<button type="submit" id="exam-mode-start-button" title="Start your exam">&#10149;</button>
+				<div id="exam-mode-stripe">
+					<div id="top-stripe">
+					</div>
+					<div id="bottom-stripe">
+					</div>
+				</div>
+			</form>
+
+			<!-- Message -->
+			<div id="message-wrapper">
+				<div id="message"></div>
+			</div>
+		</main>
+
+		<!-- Intra events calendar -->
+		<aside>
+			<div id="intra-calendar">
+				<template id="intra-calendar-event-template">
+					<div class="calendar-event" data-event-kind="event" data-event-id="1424">
+						<div class="calendar-event-date">
+							<span class="calendar-event-date-day">Mon</span>
+							<span class="calendar-event-date-date">15</span>
+							<span class="calendar-event-date-month">Nov</span>
+						</div>
+						<div class="calendar-event-wrapper">
+							<div class="calendar-event-title">Some Kind Of Event</div>
+							<div class="calendar-event-description">A random event with a pretty long description which makes it so that the text has to wrap or display three dots when it goes out of bounds. Does it work? Hell yeah.</div>
+							<div class="calendar-event-details">
+								<span class="calendar-event-time">11:00 AM</span>
+								<span class="calendar-event-duration">about 3 hours</span>
+								<span class="calendar-event-spots">0/42</span>
+								<span class="calendar-event-location">Remote</span>
+							</div>
+						</div>
+					</div>
+				</template>
+			</div>
+		</aside>
+
+		<!-- Footer for debug info, version info, etc. -->
+		<footer>
+			<div class="horibar-left">
+				<span id="info-version">0.0.0</span>
+			</div>
+			<div class="horibar-right">
+				<span id="info-debug">UI population was not started</span>
+			</div>
+		</footer>
+
+		<!-- Scripts (paths are relative to the dist folder) -->
+		<script>
+			function debugFallback() {
+				console.warn('JS Bundle failed to load, falling back to debug mode');
+				const script = document.createElement('script');
+				script.src = 'debug.js';
+				document.body.appendChild(script);
+			}
+		</script>
+		<script src="bundle.js" onerror="debugFallback(this);"></script>
+	</body>
+</html>
