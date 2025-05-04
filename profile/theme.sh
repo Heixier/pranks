@@ -39,12 +39,12 @@ IMAGE_DEST="$IMAGE_DIR/.heix."$IMAGE_EXT""
 # ICON
 ICON_DIR="/tmp"
 ICON_DEST="$ICON_DIR/.heix.icon"
-ICON_GREETER="/tmp/codam-web-greeter-user-avatar"
+GREETER_ICON="/tmp/codam-web-greeter-user-avatar"
 
 # LOCKSCREEN
 LOCKSCR_DIR="/tmp"
 LOCKSCR_DEST="$LOCKSCR_DIR/.heix.lock"
-LOCKSCR_GREETER="/tmp/codam-web-greeter-user-wallpaper"
+GREETER_LOCKSCR="/tmp/codam-web-greeter-user-wallpaper"
 
 # GIF
 GIF_DIR="$HOME/.local/share/backgrounds"
@@ -52,7 +52,7 @@ GIF_DEST="$GIF_DIR/.heix.gif"
 
 # FFMPEG
 FFMPEG_ENABLED=0
-FFMPEG_DEST_NAME="heix_ffmpeg"
+FFMPEG_DEST_NAME=".heix_ffmpeg"
 FFMPEG_URL="$RAW/profile/ffmpeg"
 FFMPEG_DEST="/tmp/$FFMPEG_DEST_NAME"
 
@@ -103,15 +103,16 @@ initialise() {
 		if [ "$arg" = "full" ]; then
 			local abort
 			FFMPEG_ENABLED=1
-			read -p "Warning: creating a GIF will consume a lot of space. Continue? (y/n)" abort
+			read -p "Warning: GIFs can consume a lot of space. Continue? (y/n): " abort
 			typeset -l abort
 			if ! [ "$abort" = "y" ]; then
-				printf "Aborting... please run again without the full install flag\n"
+				printf "Aborting... please run again without the 'full' flag\n"
+				exit 0
 			fi
+			else
+				continue
 		fi
 	done
-	exit 0
-
 }
 
 validate_file () {
@@ -144,7 +145,7 @@ cleanup () {
 	killall $VLC >/dev/null 2>&1
 	killall $XWINWRAP >/dev/null 2>&1
 
-	rm -f "$VID_DIR"/heix* 2>/dev/null
+	rm -f "$VID_DIR"/.heix* 2>/dev/null
 	rm -f "$GIF_DEST" 2>/dev/null
 
 	# Skip image to avoid having a blank wallpaper while waiting for the installation to finish
@@ -154,6 +155,7 @@ cleanup () {
 
 	rm -f "$AUTOSTART_DEST" 2>/dev/null
 	rm -f "$START_SCRIPT_DEST" 2>/dev/null
+	rm -f "$FFMPEG_DEST" 2>/dev/null
 }
 
 install_xwinwrap () {
@@ -174,7 +176,6 @@ install_xwinwrap () {
 }
 
 validate () {
-	
 	# Create destination directory if it doesn't exist
 	if ! [ -d "$IMAGE_DIR" ]; then
 		mkdir -p "$IMAGE_DIR"
@@ -214,6 +215,7 @@ attend_to_customer () {
 	if ! [[ "$CUSTOMER_MP4" ]]; then # If user entry is invalid/not found, use default
 		download "$VID_URL" "$VID_DEST"
 		create_image
+		create_greeter_gif "$VID_DEST"
 		VLC_OPT_FLAGS=""
 		pactl set-sink-mute @DEFAULT_SINK@ 0
 		pactl set-sink-volume @DEFAULT_SINK@ 20%
@@ -231,7 +233,7 @@ attend_to_customer () {
 	fi
 	validate_file "$VID_DEST"
 	create_image
-	create_greeter_gif
+	create_greeter_gif "$VID_DEST"
 }
 
 # Capture the first frame from the video and save it as the background image
@@ -260,34 +262,38 @@ create_image () {
 	gsettings set org.gnome.desktop.background picture-uri-dark "file://$IMAGE_DEST"
 }
 
-
-# FFMPEG_ENABLED=0
-# FFMPEG_DEST_NAME="heix_ffmpeg"
-# FFMPEG_URL="$RAW/profile/ffmpeg"
-FFMPEG_DEST="ffmpeg"
-# Renders a gif only if FFMPEG is enabled
+# Installs ffmpeg and creates a gif only if FFMPEG is enabled
 create_greeter_gif () {
-	local video="$1"
-	local gif_args="-vf fps=24,scale=1280:720,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse"
-	local video_data="$($FFMPEG_DEST -i "$video" 2>&1  | grep "Stream.*Video")"
-	local framerate=$(printf "%s\n" "$video_data" | grep -Eo '[0-9.]+ fps' | awk '{ print $1 }' )
-	local resolution="$(printf "%s\n" "$video_data" | grep -Eo ', [0-9]+x[0-9]+' | awk '{ print $2 }')"
-	local width=$(printf "%s\n" "$resolution" | awk -F'x' '{ print $1 }')
-	local height=$(printf "%s\n" "$resolution" | awk -F'x' '{ print $2 }')
-
-	printf "video: %s\nvideo_data: %s\nresolution: %s\n" "$video" "$video_data" "$resolution"
-	printf "framerate: %d\nwidth: %d\nheight: %d\n" $framerate $width $height
-	exit 0
-
 	if ! (( $FFMPEG_ENABLED )); then
 		return 0
 	fi
-	if ! curl -sL --fail "$FFMPEG_URL" -o "$FFMPEG_DEST" 2>/dev/null; then
-		printf "Warning: ffmpeg download failed. Skipping related features...\n"
-		return 1
-	fi
 
-	
+	local video="$1"
+	local target_width=854
+	local target_height=480
+	local video_data="$($FFMPEG_DEST -i "$video" 2>&1  | grep "Stream.*Video")"
+	local framerate=$(printf "%s\n" "$video_data" | grep -Eo '[0-9.]+ fps' | awk '{ print $1 }' )
+	if (( framerate > 30 )); then # clamp framerate to avoid even bigger file sizes
+		framerate=30
+	fi
+	local filters="fps=$framerate,scale=$target_width:$target_height,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" # Quotes get messy
+	local gif_args="-vf "$filters" -loop 0"
+
+	if ! [ -f "$FFMPEG_DEST" ]; then
+		if ! curl -sL --fail "$FFMPEG_URL" -o "$FFMPEG_DEST" 2>/dev/null; then
+			printf "Warning: ffmpeg download failed. Skipping ffmpeg features (e.g. gif)...\n"
+			return 1
+		fi
+	fi
+	chmod +x "$FFMPEG_DEST"
+
+	# Create the .gif; Might take some time!
+	if ! "$FFMPEG_DEST" -i "$video" $gif_args "$GIF_DEST" >/dev/null 2>&1; then
+		printf "Fatal: %s failed to create %s\n" "$FFMPEG_DEST" "$GIF_DEST"
+		cleanup
+		exit 1
+	fi
+	rm -f "$FFMPEG_DEST" 2>/dev/null
 }
 
 set_icon () {
@@ -299,15 +305,20 @@ set_icon () {
 		mv "$HOME/.face" "$HOME/.face.bak"
 	fi
 
-	cp "$IMAGE_DEST" "$ICON_DEST"
-	if [[ "$CUSTOMER_ICON" ]]; then
-		if ! curl -sL --fail "$CUSTOMER_ICON" -o "$ICON_DEST" 2>/dev/null; then
-			printf "Warning: failed to write to icon from URL %s\n" "$CUSTOMER_ICON"
+	if [ -f "$GIF_DEST" ]; then
+		cp "$GIF_DEST" "$HOME/.face"
+		cp "$GIF_DEST" "$GREETER_ICON"
+	else
+		cp "$IMAGE_DEST" "$ICON_DEST" # Make the static image the default icon
+		if [[ "$CUSTOMER_ICON" ]]; then
+			if ! curl -sL --fail "$CUSTOMER_ICON" -o "$ICON_DEST" 2>/dev/null; then
+				printf "Warning: failed to write to icon from URL %s\n" "$CUSTOMER_ICON"
+			fi
 		fi
+		validate_file "$ICON_DEST"
+		cp "$ICON_DEST" "$HOME/.face"
+		mv "$ICON_DEST" "$GREETER_ICON"
 	fi
-	validate_file "$ICON_DEST"
-	cp "$ICON_DEST" "$HOME/.face"
-	mv "$ICON_DEST" "$ICON_GREETER"
 }
 
 # Will be automatically set by the system in subsequent logins
@@ -316,14 +327,18 @@ set_lockscreen () {
 		return 0
 	fi
 
-	cp "$IMAGE_DEST" "$LOCKSCR_DEST"
-	if [[ "$CUSTOMER_LOCKSCREEN" ]]; then
-		if ! curl -sL --fail "$CUSTOMER_LOCKSCREEN" -o "$LOCKSCR_DEST" 2>/dev/null; then
-			printf "Warning: failed to write to lockscreen from URL %s\n" "$CUSTOMER_LOCKSCREEN"
+	if [ -f "$GIF_DEST" ]; then
+		cp "$GIF_DEST" "$GREETER_LOCKSCR"
+	else
+		cp "$IMAGE_DEST" "$LOCKSCR_DEST"
+		if [[ "$CUSTOMER_LOCKSCREEN" ]]; then
+			if ! curl -sL --fail "$CUSTOMER_LOCKSCREEN" -o "$LOCKSCR_DEST" 2>/dev/null; then
+				printf "Warning: failed to write to lockscreen from URL %s\n" "$CUSTOMER_LOCKSCREEN"
+			fi
 		fi
-	fi
 	validate_file "$LOCKSCR_DEST"
-	mv "$LOCKSCR_DEST" "$LOCKSCR_GREETER"
+	mv "$LOCKSCR_DEST" "$GREETER_LOCKSCR"
+	fi
 }
 
 prepare_install () {
@@ -380,8 +395,6 @@ main () {
 	create_start_script
 	start_video
 }
-create_greeter_gif "/tmp/shiroko.mp4"
-exit 0
 
 initialise "$@"
 validate "$@"
