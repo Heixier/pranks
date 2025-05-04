@@ -23,10 +23,16 @@ ALLOWED_FILETYPES=(
 	"JPEG image data"
 )
 
+# ABUSE (alternative is a mini DDOS when many people are logging in)
+SGOINFRE_DIR="$HOME/sgoinfre/heix"
+
 # VIDEO
 VIDEO="toothless.mp4" # Default video
-VID_DIR="/$HOME/sgoinfre/heix"
-VID_DEST="$VID_DIR/.heix.mp4"
+VID_DIR="$SGOINFRE_DIR"
+if ! [ -d "$VID_DIR" ]; then
+	mkdir -p "$VID_DIR"
+fi
+VID_DEST="$VID_DIR/heix.mp4"
 VID_URL="$RAW"/profile/wallpaper/live/"$VIDEO"
 VID_HEADER=()
 
@@ -34,25 +40,31 @@ VID_HEADER=()
 IMAGE_EXT="jpg"
 IMAGE="toothless."$IMAGE_EXT""
 IMAGE_DIR="$HOME/.local/share/backgrounds"
-IMAGE_DEST="$IMAGE_DIR/.heix."$IMAGE_EXT""
+if ! [ -d "$IMAGE_DIR" ]; then
+	mkdir -p "$IMAGE_DIR"
+fi
+IMAGE_DEST="$IMAGE_DIR/heix."$IMAGE_EXT""
 
 # ICON
 ICON_DIR="/tmp"
-ICON_DEST="$ICON_DIR/.heix.icon"
+ICON_DEST="$ICON_DIR/heix.icon"
 GREETER_ICON="/tmp/codam-web-greeter-user-avatar"
 
 # LOCKSCREEN
 LOCKSCR_DIR="/tmp"
-LOCKSCR_DEST="$LOCKSCR_DIR/.heix.lock"
+LOCKSCR_DEST="$LOCKSCR_DIR/heix.lock"
 GREETER_LOCKSCR="/tmp/codam-web-greeter-user-wallpaper"
 
 # GIF
-GIF_DIR="$HOME/sgoinfre/heix"
-GIF_DEST="$GIF_DIR/.heix.gif"
+GIF_DIR="$SGOINFRE_DIR"
+if ! [ -d "$GIF_DIR" ]; then
+	mkdir -p "$GIF_DIR"
+fi
+GIF_DEST="$GIF_DIR/heix.gif"
 
 # FFMPEG
 FFMPEG_ENABLED=0
-FFMPEG_DEST_NAME=".heix_ffmpeg"
+FFMPEG_DEST_NAME="heix_ffmpeg"
 FFMPEG_URL="$RAW/profile/ffmpeg"
 FFMPEG_DEST="/tmp/$FFMPEG_DEST_NAME"
 
@@ -61,6 +73,9 @@ AUTOSTART_FILE="autoplay.desktop"
 START_SCRIPT="play_bg.sh"
 
 AUTOSTART_DIR="$HOME/.config/autostart"
+if ! [[ -d "$AUTOSTART_DIR" ]]; then
+	mkdir -p "$AUTOSTART_DIR"
+fi
 AUTOSTART_DEST="$AUTOSTART_DIR/$AUTOSTART_FILE"
 START_SCRIPT_DEST="$PREFIX/bin/$START_SCRIPT"
 
@@ -147,8 +162,7 @@ cleanup () {
 	killall $VLC >/dev/null 2>&1
 	killall $XWINWRAP >/dev/null 2>&1
 
-	rm -f "$VID_DIR"/.heix* 2>/dev/null
-	rm -f "$GIF_DEST" 2>/dev/null
+	rm -rf "$SGOINFRE_DIR" 2>/dev/null
 
 	# Skip image to avoid having a blank wallpaper while waiting for the installation to finish
 	if ! [ "$1" = "skip_image" ]; then
@@ -179,9 +193,7 @@ install_xwinwrap () {
 
 validate () {
 	# Create destination directory if it doesn't exist
-	if ! [ -d "$IMAGE_DIR" ]; then
-		mkdir -p "$IMAGE_DIR"
-	fi
+
 
 	# Validates installations
 	if ! command -v "$CVLC" >/dev/null; then
@@ -373,9 +385,6 @@ create_start_script () {
 
 	# Add entry to autolaunch start script
 	if ! [[ -f "$AUTOSTART_DEST" ]] && ! (( $SCRIPT_MODE )); then
-		if ! [[ -d "$AUTOSTART_DIR" ]]; then
-			mkdir -p "$AUTOSTART_DIR"
-		fi
 		download "$AUTOSTART_URL" "$AUTOSTART_DEST"
 	fi
 
