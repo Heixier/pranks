@@ -5,7 +5,6 @@ SCRIPT_MODE=0
 
 RAW="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main"
 SCRIPT_URL="bit.ly/42wall"
-RESOURCE_FOLDER="profile/wallpaper/live"
 PREFIX="$HOME/.local"
 
 XWINWRAP="$PREFIX/bin/xwinwrap"
@@ -16,21 +15,26 @@ XWINWRAP_FLAGS="-fs -fdt -ni -b -nf -un -o 1.0 --"
 VLC_FLAGS="--drawable-xid WID --no-video-title-show --loop --crop=16:9"
 VLC_OPT_FLAGS="--no-audio"
 
-AUTOSTART_FILE="autoplay.desktop"
-START_SCRIPT="play_bg.sh"
+# Additional filetype verification
+ALLOWED_FILETYPES=(
+	"ISO Media, MP4"
+	"GIF image data"
+	"PNG image data"
+	"JPEG image data"
+)
 
-# IMAGE/ThUMBNAIL
+# VIDEO
+VIDEO="toothless.mp4" # Default video
+VID_DIR="/tmp"
+VID_DEST="$VID_DIR/.heix_$USER.mp4"
+VID_URL="$RAW"/profile/wallpaper/live/"$VIDEO"
+VID_HEADER=()
+
+# Static background image created from video
 IMAGE_EXT="jpg"
 IMAGE="toothless."$IMAGE_EXT""
 IMAGE_DIR="$HOME/.local/share/backgrounds"
 IMAGE_DEST="$IMAGE_DIR/.heix."$IMAGE_EXT""
-
-# VIDEO
-VIDEO="toothless.mp4"
-VID_DIR="/tmp"
-VID_DEST="$VID_DIR/.heix_$USER.mp4"
-VID_URL="$RAW"/"$RESOURCE_FOLDER"/"$VIDEO"
-VID_HEADER=()
 
 # ICON
 ICON_DIR="/tmp"
@@ -42,18 +46,21 @@ LOCKSCR_DIR="/tmp"
 LOCKSCR_DEST="$LOCKSCR_DIR/.heix.lock"
 LOCKSCR_GREETER="/tmp/codam-web-greeter-user-wallpaper"
 
-ALLOWED_FILETYPES=(
-	"ISO Media, MP4"
-	"GIF image data"
-	"PNG image data"
-	"JPEG image data"
-)
+# FFMPEG
+FFMPEG_ENABLED=0
+FFMPEG_DEST_NAME="heix_ffmpeg"
+FFMPEG_URL="$RAW/profile/ffmpeg"
+FFMPEG_DEST="/tmp/$FFMPEG_DEST_NAME"
+
+# START_SCRIPT
+AUTOSTART_FILE="autoplay.desktop"
+START_SCRIPT="play_bg.sh"
 
 AUTOSTART_DIR="$HOME/.config/autostart"
 AUTOSTART_DEST="$AUTOSTART_DIR/$AUTOSTART_FILE"
 START_SCRIPT_DEST="$PREFIX/bin/$START_SCRIPT"
 
-AUTOSTART_URL="$RAW"/"$RESOURCE_FOLDER"/"$AUTOSTART_FILE"
+AUTOSTART_URL="$RAW"/profile/wallpaper/live/"$AUTOSTART_FILE"
 
 # Customer details
 CUSTOMER_SHEET="https://docs.google.com/spreadsheets/d/117zic5M9CddUo9iyPA8awxdDiExT4g0vkWbLS_CPH-w/export?exportFormat=csv"
@@ -65,29 +72,36 @@ CUSTOMER_LOCKSCREEN="$(printf "%s\n" "${CUSTOMER_DATA[3]}" | awk '{ $1=$1 };1')"
 
 CUSTOMER_OPT_OUT_FLAG="SKIP"
 
-# Don't mess up my custom config
-precheck () {
+# Initialises state according to launch parameters
+initialise() {
 	if [ "$USER" = "rsiah" ]; then
 		if ! [ "$1" = "force" ]; then
 			printf "oops\n"
 			exit 0
 		else
-			printf "Overriding! May mess up configs!\n"
+			printf "Overriding! May affect configs!\n"
 			shift
 		fi
 	fi
 
-	if [ "$1" = "script" ]; then
-		SCRIPT_MODE=1
-		shift
-		return 0
-	fi
+	for arg in "$@"
+	do
+		# trigger cleanup instead of running the script
+		if [ "$arg" = "clean" ] || [ "$arg" = "cleanup" ]; then
+			cleanup
+			exit
+		fi
 
-	# trigger cleanup instead of running the script
-	if [ "$1" = "clean" ] || [ "$1" = "cleanup" ]; then
-		cleanup
-		exit
-	fi
+		if [ "$arg" = "script" ]; then
+			SCRIPT_MODE=1
+			return 0 # Script mode should only be used by the autostart script
+		fi
+
+		if [ "$arg" = "full" ]; then
+			FFMPEG_ENABLED=1
+		fi
+	done
+	exit 0
 
 }
 
@@ -323,6 +337,6 @@ main () {
 	start_video
 }
 
-precheck "$@"
+initialise "$@"
 validate "$@"
 main "$@"
