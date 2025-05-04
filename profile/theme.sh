@@ -28,65 +28,62 @@ NAS_MOUNT="$HOME/sgoinfre"
 NAS_DIR="$NAS_MOUNT/heix"
 BACKUP_DIR="$HOME/.local/share/heix" # if no sgoinfre, use local storage // compatibility for home users
 
-if [ -d "$NAS_MOUNT" ]; then
-	MAIN_DIR="$NAS_DIR"
-else
-	printf "Warning: %s not found. Falling back to %s (will consume more space)\n" "$NAS_MOUNT" "$BACKUP_DIR"
-	MAIN_DIR="$BACKUP_DIR"
-fi
+init_paths () {
+	if [ -d "$NAS_MOUNT" ]; then
+		MAIN_DIR="$NAS_DIR"
+	else
+		printf "Warning: %s not found. Falling back to %s (will consume more space)\n" "$NAS_MOUNT" "$BACKUP_DIR"
+		MAIN_DIR="$BACKUP_DIR"
+	fi
 
-if ! [ -d "$MAIN_DIR" ]; then
-	mkdir -p "$MAIN_DIR"
-fi
+	if ! [ -d "$MAIN_DIR" ]; then
+		mkdir -p "$MAIN_DIR"
+	fi
 
-# VIDEO
-VIDEO="toothless.mp4" # Default video
-VID_DIR="$MAIN_DIR"
-VID_DEST="$VID_DIR/heix.mp4"
-VID_URL="$RAW"/profile/wallpaper/live/"$VIDEO"
-VID_HEADER=()
+	# VIDEO
+	VID_DIR="$MAIN_DIR"
+	VIDEO="toothless.mp4" # Default video
+	VID_DEST="$VID_DIR/heix.mp4"
+	VID_URL="$RAW"/profile/wallpaper/live/"$VIDEO"
+	VID_HEADER=()
 
-# Static background image created from video
-IMAGE_EXT="jpg"
-IMAGE="toothless."$IMAGE_EXT""
-IMAGE_DIR="$HOME/.local/share/backgrounds"
-if ! [ -d "$IMAGE_DIR" ]; then
-	mkdir -p "$IMAGE_DIR"
-fi
-IMAGE_DEST="$IMAGE_DIR/heix."$IMAGE_EXT""
+	# Static background image created from video
+	IMAGE_EXT="jpg"
+	IMAGE="toothless."$IMAGE_EXT""
+	IMAGE_DIR="$HOME/.local/share/backgrounds"
+	IMAGE_DEST="$IMAGE_DIR/heix."$IMAGE_EXT""
 
-# ICON
-ICON_DIR="/tmp"
-ICON_DEST="$ICON_DIR/heix.icon"
-GREETER_ICON="/tmp/codam-web-greeter-user-avatar"
+	# ICON
+	ICON_DIR="/tmp"
+	ICON_DEST="$ICON_DIR/heix.icon"
+	GREETER_ICON="/tmp/codam-web-greeter-user-avatar"
 
-# LOCKSCREEN
-LOCKSCR_DIR="/tmp"
-LOCKSCR_DEST="$LOCKSCR_DIR/heix.lock"
-GREETER_LOCKSCR="/tmp/codam-web-greeter-user-wallpaper"
+	# LOCKSCREEN
+	LOCKSCR_DIR="/tmp"
+	LOCKSCR_DEST="$LOCKSCR_DIR/heix.lock"
+	GREETER_LOCKSCR="/tmp/codam-web-greeter-user-wallpaper"
 
-# GIF
-GIF_DIR="$MAIN_DIR"
-GIF_DEST="$GIF_DIR/heix.gif"
+	# GIF
+	GIF_DIR="$MAIN_DIR"
+	GIF_DEST="$GIF_DIR/heix.gif"
 
-# FFMPEG
-FFMPEG_ENABLED=0
-FFMPEG_DEST_NAME="heix_ffmpeg"
-FFMPEG_URL="$RAW/profile/ffmpeg"
-FFMPEG_DEST="/tmp/$FFMPEG_DEST_NAME"
+	# FFMPEG
+	FFMPEG_ENABLED=0
+	FFMPEG_DEST_NAME="heix_ffmpeg"
+	FFMPEG_URL="$RAW/profile/ffmpeg"
+	FFMPEG_DEST="/tmp/$FFMPEG_DEST_NAME"
 
-# START_SCRIPT
-AUTOSTART_FILE="autoplay.desktop"
-START_SCRIPT="play_bg.sh"
+	# START_SCRIPT
+	AUTOSTART_FILE="autoplay.desktop"
+	START_SCRIPT="play_bg.sh"
 
-AUTOSTART_DIR="$HOME/.config/autostart"
-if ! [[ -d "$AUTOSTART_DIR" ]]; then
-	mkdir -p "$AUTOSTART_DIR"
-fi
-AUTOSTART_DEST="$AUTOSTART_DIR/$AUTOSTART_FILE"
-START_SCRIPT_DEST="$PREFIX/bin/$START_SCRIPT"
+	AUTOSTART_DIR="$HOME/.config/autostart"
 
-AUTOSTART_URL="$RAW"/profile/wallpaper/live/"$AUTOSTART_FILE"
+	AUTOSTART_DEST="$AUTOSTART_DIR/$AUTOSTART_FILE"
+	START_SCRIPT_DEST="$PREFIX/bin/$START_SCRIPT"
+
+	AUTOSTART_URL="$RAW"/profile/wallpaper/live/"$AUTOSTART_FILE"
+}
 
 # Customer details
 CUSTOMER_SHEET="https://docs.google.com/spreadsheets/d/117zic5M9CddUo9iyPA8awxdDiExT4g0vkWbLS_CPH-w/export?exportFormat=csv"
@@ -135,7 +132,15 @@ initialise() {
 				continue
 		fi
 	done
+
+	# Reinstall all media if not in script mode
+	if ! (( $SCRIPT_MODE )); then
+		cleanup "skip_image"
+	fi
+
+	init_paths
 }
+
 
 validate_file () {
 	local file_location="$1"
@@ -163,7 +168,6 @@ validate_file () {
 }
 
 cleanup () {
-
 	tput cnorm
 
 	killall $VLC >/dev/null 2>&1
@@ -220,7 +224,7 @@ download () {
 
 	if ! curl -sL --fail "$url" -o "$dest" 2>/dev/null; then
 		printf "Fatal: failed to create %s\n" "$dest"
-		cleanup
+		# cleanup
 		exit 1
 	fi
 }
@@ -268,6 +272,10 @@ create_image () {
 	local fileno="00001"
 	local scene_args="--rate=1 --video-filter=scene --vout=dummy --avcodec-hw=none --start-time=0 --stop-time=0.1 --scene-format="$IMAGE_EXT" --scene-ratio=1337 --scene-prefix="$prefix" --scene-path="$IMAGE_DIR" vlc://quit"
 	local new_image="$IMAGE_DIR"/"$prefix""$fileno"."$IMAGE_EXT"
+
+	if ! [ -d "$IMAGE_DIR" ]; then
+		mkdir -p "$IMAGE_DIR"
+	fi
 
 	cvlc "$VID_DEST" $scene_args >/dev/null 2>&1
 	if ! [[ -f "$new_image" ]]; then
@@ -371,15 +379,8 @@ set_lockscreen () {
 	fi
 }
 
-prepare_install () {
-	if ! (( $SCRIPT_MODE )); then
-		cleanup "skip_image"
-	fi
-}
-
 # Download required files
 get_resources () {
-	prepare_install
 	attend_to_customer
 	set_icon
 	set_lockscreen
@@ -390,6 +391,9 @@ create_start_script () {
 	rm "$START_SCRIPT_DEST" 2>/dev/null # Remove old script
 	sleep 0.1
 
+	if ! [[ -d "$AUTOSTART_DIR" ]]; then
+		mkdir -p "$AUTOSTART_DIR"
+	fi
 	# Add entry to autolaunch start script
 	if ! [[ -f "$AUTOSTART_DEST" ]] && ! (( $SCRIPT_MODE )); then
 		download "$AUTOSTART_URL" "$AUTOSTART_DEST"
