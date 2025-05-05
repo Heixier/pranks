@@ -411,8 +411,9 @@ create_start_script () {
 	
 	killall $VLC >/dev/null 2>&1
 	killall $XWINWRAP >/dev/null 2>&1
+}
 
-	# Start video
+start_video () {
 	$XWINWRAP $XWINWRAP_FLAGS $CVLC $VLC_OPT_FLAGS $VLC_FLAGS $VID_DEST >/dev/null 2>&1 &
 }
 
