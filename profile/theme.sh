@@ -36,7 +36,7 @@ init_paths () {
 		MAIN_DIR="$EVENT_DIR"
 		rm -rf "$NAS_DIR" 2>/dev/null
 		rm -rf "$BACKUP_DIR" 2>/dev/null
-	else if [ -d "$NAS_MOUNT" ]; then
+	elif [ -d "$NAS_MOUNT" ]; then
 		MAIN_DIR="$NAS_DIR"
 		rm -rf "$BACKUP_DIR" 2>/dev/null
 	else
@@ -432,6 +432,8 @@ main () {
 	create_start_script
 	start_video
 }
+
+trap cleanup SIGINT
 
 initialise "$@"
 validate "$@"
