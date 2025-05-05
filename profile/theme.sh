@@ -33,6 +33,7 @@ BACKUP_DIR="$HOME/.local/share/heix" # if no sgoinfre, use local storage // comp
 init_paths () {
 	if [ -d "$NAS_MOUNT" ]; then
 		MAIN_DIR="$NAS_DIR"
+		rm -rf "$BACKUP_DIR" 2>/dev/null
 	else
 		printf "Warning: %s not found. Falling back to %s (will consume more space)\n" "$NAS_MOUNT" "$BACKUP_DIR"
 		MAIN_DIR="$BACKUP_DIR"
