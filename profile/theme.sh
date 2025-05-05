@@ -29,9 +29,14 @@ ALLOWED_FILETYPES=(
 NAS_MOUNT="$HOME/sgoinfre"
 NAS_DIR="$NAS_MOUNT/heix"
 BACKUP_DIR="$HOME/.local/share/heix" # if no sgoinfre, use local storage // compatibility for home users
+EVENT_DIR="/tmp/heix"
 
 init_paths () {
-	if [ -d "$NAS_MOUNT" ]; then
+	if [ "$USER" == "event" ] && [ "$HOME" = "/home/event" ]; then
+		MAIN_DIR="$EVENT_DIR"
+		rm -rf "$NAS_DIR" 2>/dev/null
+		rm -rf "$BACKUP_DIR" 2>/dev/null
+	else if [ -d "$NAS_MOUNT" ]; then
 		MAIN_DIR="$NAS_DIR"
 		rm -rf "$BACKUP_DIR" 2>/dev/null
 	else
@@ -175,7 +180,8 @@ cleanup () {
 	killall $VLC >/dev/null 2>&1
 	killall $XWINWRAP >/dev/null 2>&1
 
-	rm -rf "$MAIN_DIR" 2>/dev/null
+	rm -rf "$NAS_DIR" 2>/dev/null
+	rm -rf "$BACKUP_DIR" 2>/dev/null
 
 	# Skip image to avoid having a blank wallpaper while waiting for the installation to finish
 	if ! [ "$1" = "skip_image" ]; then
