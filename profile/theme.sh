@@ -2,6 +2,8 @@
 
 # Run in normal mode by default
 SCRIPT_MODE=0
+FFMPEG_ENABLED=0
+
 
 RAW="https://raw.githubusercontent.com/Heixier/pranks/refs/heads/main"
 SCRIPT_URL="bit.ly/42wall"
@@ -68,7 +70,6 @@ init_paths () {
 	GIF_DEST="$GIF_DIR/heix.gif"
 
 	# FFMPEG
-	FFMPEG_ENABLED=0
 	FFMPEG_DEST_NAME="heix_ffmpeg"
 	FFMPEG_URL="$RAW/profile/ffmpeg"
 	FFMPEG_DEST="/tmp/$FFMPEG_DEST_NAME"
@@ -407,10 +408,7 @@ create_start_script () {
 		fi
 		chmod +x "$START_SCRIPT_DEST"
 	fi
-}
-
-start_video () {
-	# Stop all other running instances
+}﻿
 	killall $VLC >/dev/null 2>&1
 	killall $XWINWRAP >/dev/null 2>&1
 
