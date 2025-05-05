@@ -408,7 +408,7 @@ create_start_script () {
 		fi
 		chmod +x "$START_SCRIPT_DEST"
 	fi
-}﻿
+	
 	killall $VLC >/dev/null 2>&1
 	killall $XWINWRAP >/dev/null 2>&1
 
